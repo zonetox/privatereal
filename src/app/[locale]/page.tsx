@@ -142,7 +142,8 @@ export default function Home({ params: { locale } }: { params: { locale: string 
               ].map((lang) => (
                 <Link
                   key={lang.code}
-                  href={`/${lang.code}`}
+                  href="/"
+                  locale={lang.code as 'en' | 'vi' | 'zh'}
                   className={`text-[10px] uppercase tracking-widest font-bold transition-colors ${locale === lang.code ? 'text-yellow-600' : 'text-slate-500 hover:text-slate-300'
                     }`}
                 >

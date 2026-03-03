@@ -125,8 +125,7 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
                                 <button
                                     key={l}
                                     onClick={() => {
-                                        const newPathname = pathname.replace(/^\/[^\/]+/, `/${l}`);
-                                        router.push(newPathname);
+                                        router.push(pathname, { locale: l as 'en' | 'vi' | 'zh' });
                                     }}
                                     className={cn(
                                         "px-2 py-1 text-[10px] font-bold uppercase tracking-tighter rounded transition-all",
