@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { Link, usePathname, useRouter } from '@/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { locales } from '@/navigation';
 import {
     LayoutDashboard,
     Users,
@@ -51,6 +52,7 @@ const navItems = [
 export default function DashboardLayout({ children, user }: DashboardLayoutProps) {
     const t = useTranslations('Dashboard');
     const pathname = usePathname();
+    const currentLocale = useLocale();
     const router = useRouter();
 
     const handleLogout = async () => {
@@ -121,15 +123,17 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
                     <div className="flex items-center gap-6">
                         {/* Language Switcher */}
                         <div className="flex items-center gap-2 border-r border-border pr-6">
-                            {['vi', 'en', 'zh'].map((l) => (
+                            {locales.map((l) => (
                                 <button
                                     key={l}
                                     onClick={() => {
+                                        // next-intl's router.push with locale option handles prefixing.
+                                        // We ensure we pass the base pathname.
                                         router.push(pathname, { locale: l as 'en' | 'vi' | 'zh' });
                                     }}
                                     className={cn(
                                         "px-2 py-1 text-[10px] font-bold uppercase tracking-tighter rounded transition-all",
-                                        pathname.startsWith(`/${l}`)
+                                        currentLocale === l
                                             ? "bg-primary text-primary-foreground"
                                             : "text-muted-foreground hover:text-foreground hover:bg-muted"
                                     )}
