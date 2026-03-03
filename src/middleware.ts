@@ -25,21 +25,22 @@ export default async function middleware(request: NextRequest) {
 
     // Step 3: Protected Route Logic
     const { pathname } = request.nextUrl
+    const locale = pathname.split('/')[1] || 'vi'
 
     // Define protected paths (localized)
-    const isDashboardRoute = locales.some(locale =>
-        pathname === `/${locale}/dashboard` || pathname.startsWith(`/${locale}/dashboard/`)
+    const isDashboardRoute = locales.some(l =>
+        pathname === `/${l}/dashboard` || pathname.startsWith(`/${l}/dashboard/`)
     )
 
     if (isDashboardRoute) {
         // 1. No valid session
         if (!user) {
-            return NextResponse.redirect(new URL(`/${request.nextUrl.pathname.split('/')[1] || 'vi'}/login`, request.url))
+            return NextResponse.redirect(new URL(`/${locale}/login`, request.url))
         }
 
         // 2. No profile or invalid role (pending/null)
         if (!profile || profile.role === 'pending') {
-            return NextResponse.redirect(new URL(`/${request.nextUrl.pathname.split('/')[1] || 'vi'}/login`, request.url))
+            return NextResponse.redirect(new URL(`/${locale}/login`, request.url))
         }
     }
 
