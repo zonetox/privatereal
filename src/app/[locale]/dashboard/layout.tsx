@@ -24,7 +24,7 @@ export default async function DashboardLayoutWrapper({
     .eq('id', user.id)
     .single();
 
-  if (!profile) {
+  if (!profile || (profile.role !== 'admin' && profile.role !== 'client')) {
     redirect(`/${locale}/login`);
   }
 
