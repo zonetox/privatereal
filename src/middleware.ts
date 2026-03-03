@@ -7,7 +7,7 @@ import { validateEnv } from './lib/env'
 
 const intlMiddleware = createMiddleware({
     locales,
-    defaultLocale: 'en',
+    defaultLocale: 'vi',
     localePrefix
 })
 

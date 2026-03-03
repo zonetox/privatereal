@@ -133,7 +133,23 @@ export default function Home({ params: { locale } }: { params: { locale: string 
           >
             Request Private Briefing
           </Link>
-          <div className="pt-24 opacity-30">
+          <div className="pt-24 space-y-8 opacity-40">
+            <div className="flex justify-center gap-4">
+              {[
+                { code: 'vi', label: 'Tiếng Việt' },
+                { code: 'en', label: 'English' },
+                { code: 'zh', label: '中文' }
+              ].map((lang) => (
+                <Link
+                  key={lang.code}
+                  href={`/${lang.code}`}
+                  className={`text-[10px] uppercase tracking-widest font-bold transition-colors ${locale === lang.code ? 'text-yellow-600' : 'text-slate-500 hover:text-slate-300'
+                    }`}
+                >
+                  {lang.label}
+                </Link>
+              ))}
+            </div>
             <p className="text-[10px] uppercase tracking-[0.2em] font-medium">
               {t('footer.copyright')}
             </p>

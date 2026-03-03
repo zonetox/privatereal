@@ -118,13 +118,36 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
                         {/* Breadcrumbs or Page Title could go here */}
                     </div>
 
-                    <div className="flex items-center gap-4">
-                        <div className="hidden sm:flex flex-col items-end">
-                            <span className="text-xs text-muted-foreground font-medium uppercase tracking-widest">{user?.role}</span>
-                            <span className="text-sm font-semibold">{user?.email || 'investor@preio.vn'}</span>
+                    <div className="flex items-center gap-6">
+                        {/* Language Switcher */}
+                        <div className="flex items-center gap-2 border-r border-border pr-6">
+                            {['vi', 'en', 'zh'].map((l) => (
+                                <button
+                                    key={l}
+                                    onClick={() => {
+                                        const newPathname = pathname.replace(/^\/[^\/]+/, `/${l}`);
+                                        router.push(newPathname);
+                                    }}
+                                    className={cn(
+                                        "px-2 py-1 text-[10px] font-bold uppercase tracking-tighter rounded transition-all",
+                                        pathname.startsWith(`/${l}`)
+                                            ? "bg-primary text-primary-foreground"
+                                            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                                    )}
+                                >
+                                    {l === 'vi' ? 'VN' : l === 'en' ? 'EN' : 'CN'}
+                                </button>
+                            ))}
                         </div>
-                        <div className="w-10 h-10 rounded-full border border-primary/20 bg-muted flex items-center justify-center overflow-hidden">
-                            <span className="text-primary font-bold">{user?.email?.[0].toUpperCase() || 'P'}</span>
+
+                        <div className="flex items-center gap-4">
+                            <div className="hidden sm:flex flex-col items-end">
+                                <span className="text-xs text-muted-foreground font-medium uppercase tracking-widest">{user?.role}</span>
+                                <span className="text-sm font-semibold">{user?.email || 'investor@preio.vn'}</span>
+                            </div>
+                            <div className="w-10 h-10 rounded-full border border-primary/20 bg-muted flex items-center justify-center overflow-hidden">
+                                <span className="text-primary font-bold">{user?.email?.[0].toUpperCase() || 'P'}</span>
+                            </div>
                         </div>
                     </div>
                 </header>

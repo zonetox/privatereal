@@ -1,0 +1,115 @@
+{
+    "Common": {
+        "title": "PREIO - 私人房地产情报局",
+        "description": "面向高净值客户 e 私人房地产投资情报系统。",
+        "login": "登录",
+        "logout": "登出",
+        "dashboard": "控制面板",
+        "market": "市场",
+        "insights": "见解",
+        "consultation": "咨询"
+    },
+    "Dashboard": {
+        "overview": "概览",
+        "leads": "潜客",
+        "clients": "客户",
+        "projects": "项目",
+        "portfolio": "投资组合",
+        "recommendations": "推荐",
+        "myProperties": "我的物业",
+        "reports": "报告",
+        "settings": "设置",
+        "logout": "登出",
+        "welcome": "欢迎,",
+        "leads_count": "总潜客数",
+        "filter_all": "所有潜客",
+        "filter_qualified": "合格",
+        "filter_new": "新增",
+        "filter_rejected": "已拒绝"
+    },
+    "Consultation": {
+        "title": "私人战略咨询",
+        "subtitle": "通过精英房地产情报保障您的传承。",
+        "cta": "开始战略评估",
+        "intro": "为高净值人士提供的个性化投资策略。"
+    },
+    "LeadForm": {
+        "step1": "投资资本",
+        "step2": "月现金流",
+        "step3": "主要职业",
+        "step4": "主要目标",
+        "step5": "联系详情",
+        "prev": "返回",
+        "next": "下一步",
+        "submit": "提交评估",
+        "capital_1_3": "10亿 - 30亿 越南盾",
+        "capital_3_5": "30亿 - 50亿 越南盾",
+        "capital_5_10": "50亿 - 100亿 越南盾",
+        "capital_10_20": "100亿 - 200亿 越南盾",
+        "capital_20plus": "200亿 越南盾以上",
+        "cashflow_lt100": "1亿 越南盾以下",
+        "cashflow_100_300": "1亿 - 3亿 越南盾",
+        "cashflow_300_1b": "3亿 - 10亿 越南盾",
+        "cashflow_gt1b": "10亿 越南盾以上",
+        "owner": "企业主 / 创始人",
+        "executive": "C级 / 高级管理人员",
+        "investor": "全职投资者",
+        "other": "其他专业人士",
+        "preserve": "资本保值",
+        "diversify": "投资组合多元化",
+        "income": "租金收益",
+        "growth": "激进的资本增长",
+        "fullName": "全名",
+        "email": "官方邮箱",
+        "phone": "电话号码",
+        "success": "评估提交成功",
+        "success_msg": "我们的高级顾问将在24小时内与您联系。"
+    },
+    "Auth": {
+        "welcome": "欢迎回来",
+        "signIn": "登录",
+        "email": "邮箱",
+        "password": "密码"
+    },
+    "HomePage": {
+        "hero": {
+            "title": "战略性房地产情报",
+            "subtitle": "为高价值房产决策提供精准建议。",
+            "cta": "开始战略评估"
+        },
+        "engines": {
+            "title": "核心情报框架",
+            "engine1": {
+                "title": "精英线索引擎",
+                "desc": "通过专有的市场逻辑识别机构级机会。"
+            },
+            "engine2": {
+                "title": "客户情报系统",
+                "desc": "深度分析投资者授权和战略资本要求。"
+            },
+            "engine3": {
+                "title": "项目情报引擎",
+                "desc": "对法律、风险和基础设施指标进行多维度分析。"
+            },
+            "engine4": {
+                "title": "顾问匹配引擎",
+                "desc": "将资产与私人投资者的个人资料进行实时算法匹配。"
+            },
+            "engine5": {
+                "title": "执行客户门户",
+                "desc": "为收购进度和投资组合监控提供安全透明度。"
+            }
+        },
+        "methodology": {
+            "title": "我们的方法论",
+            "text": "PREIO 框架消除了零售投机。每项资产都经过法律、连通性、基础设施、流动性、增长和风险六个机构维度的审计，从而生成权威的投资等级评分。"
+        },
+        "authority": {
+            "title": "机构权威",
+            "text": "PREIO 是一家战略咨询办公室，而非经纪公司。我们不销售房产；我们汇总情报以确保资本并最大化我们高净值合作伙伴的战略传承。"
+        },
+        "footer": {
+            "copyright": "© 2026 PREIO - 私人房地产情报局。版权所有。"
+        }
+    }
+}
