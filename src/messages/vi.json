@@ -1,0 +1,115 @@
+{
+    "Common": {
+        "title": "PREIO - Văn phòng Tình báo Bất động sản Tư nhân",
+        "description": "Hệ thống thông tin đầu tư bất động sản tư nhân cho khách hàng có tài sản lớn.",
+        "login": "Đăng nhập",
+        "logout": "Đăng xuất",
+        "dashboard": "Bảng điều khiển",
+        "market": "Thị trường",
+        "insights": "Phân tích",
+        "consultation": "Tư vấn"
+    },
+    "Dashboard": {
+        "overview": "Tổng quan",
+        "leads": "Tiềm năng",
+        "clients": "Khách hàng",
+        "projects": "Dự án",
+        "portfolio": "Danh mục",
+        "recommendations": "Khuyến nghị",
+        "myProperties": "Tài sản của tôi",
+        "reports": "Báo cáo",
+        "settings": "Cài đặt",
+        "logout": "Đăng xuất",
+        "welcome": "Chào mừng,",
+        "leads_count": "Tổng Lead",
+        "filter_all": "Tất cả",
+        "filter_qualified": "Tiềm năng cao",
+        "filter_new": "Mới",
+        "filter_rejected": "Từ chối"
+    },
+    "Consultation": {
+        "title": "Tư vấn Chiến lược Tư nhân",
+        "subtitle": "Bảo vệ di sản của bạn thông qua tình báo bất động sản ưu tú.",
+        "cta": "Bắt đầu Đánh giá Chiến lược",
+        "intro": "Chiến lược đầu tư cá nhân hóa cho cá nhân có tài sản lớn."
+    },
+    "LeadForm": {
+        "step1": "Vốn Đầu tư",
+        "step2": "Dòng tiền Hàng tháng",
+        "step3": "Nghề nghiệp Chính",
+        "step4": "Mục tiêu Chính",
+        "step5": "Thông tin Liên hệ",
+        "prev": "Quay lại",
+        "next": "Tiếp theo",
+        "submit": "Gửi Đánh giá",
+        "capital_1_3": "1 - 3 Tỷ VNĐ",
+        "capital_3_5": "3 - 5 Tỷ VNĐ",
+        "capital_5_10": "5 - 10 Tỷ VNĐ",
+        "capital_10_20": "10 - 20 Tỷ VNĐ",
+        "capital_20plus": "Trên 20 Tỷ VNĐ",
+        "cashflow_lt100": "Dưới 100 Triệu VNĐ",
+        "cashflow_100_300": "100 - 300 Triệu VNĐ",
+        "cashflow_300_1b": "300 Triệu - 1 Tỷ VNĐ",
+        "cashflow_gt1b": "Trên 1 Tỷ VNĐ",
+        "owner": "Chủ doanh nghiệp / Sáng lập",
+        "executive": "Quản lý cấp cao / Executive",
+        "investor": "Nhà đầu tư chuyên nghiệp",
+        "other": "Nghề nghiệp khác",
+        "preserve": "Bảo toàn vốn",
+        "diversify": "Đa dạng hóa danh mục",
+        "income": "Tạo dòng tiền cho thuê",
+        "growth": "Tăng trưởng vốn mạnh",
+        "fullName": "Họ và Tên",
+        "email": "Email chính thức",
+        "phone": "Số điện thoại",
+        "success": "Gửi đánh giá thành công",
+        "success_msg": "Cố vấn cấp cao của chúng tôi sẽ liên hệ với bạn trong vòng 24 giờ."
+    },
+    "Auth": {
+        "welcome": "Chào mừng quay trở lại",
+        "signIn": "Đăng nhập",
+        "email": "Email",
+        "password": "Mật khẩu"
+    },
+    "HomePage": {
+        "hero": {
+            "title": "Tình báo Bất động sản Chiến lược",
+            "subtitle": "Cố vấn chính xác cho các quyết định bất động sản giá trị cao.",
+            "cta": "Bắt đầu Đánh giá Chiến lược"
+        },
+        "engines": {
+            "title": "Khung Tình báo Cốt lõi",
+            "engine1": {
+                "title": "Hệ thống Lead Ưu tú",
+                "desc": "Xác định các cơ hội cấp độ tổ chức thông qua logic thị trường độc quyền."
+            },
+            "engine2": {
+                "title": "Hệ thống Tình báo Khách hàng",
+                "desc": "Phân tích sâu định hướng nhà đầu tư và yêu cầu vốn chiến lược."
+            },
+            "engine3": {
+                "title": "Công cụ Tình báo Dự án",
+                "desc": "Phân tích đa chiều các chỉ số pháp lý, rủi ro và hạ tầng."
+            },
+            "engine4": {
+                "title": "Công cụ Khớp lệnh Cố vấn",
+                "desc": "Thuật toán khớp tài sản với hồ sơ nhà đầu tư tư nhân trong thời gian thực."
+            },
+            "engine5": {
+                "title": "Cổng thông tin Khách hàng Executive",
+                "desc": "Minh bạch bảo mật cho tiến độ thâu tóm và giám sát danh mục."
+            }
+        },
+        "methodology": {
+            "title": "Phương pháp của Chúng tôi",
+            "text": "Khung PREIO loại bỏ các suy đoán bán lẻ. Mọi tài sản đều được kiểm toán qua sáu khía cạnh tổ chức—Pháp lý, Kết nối, Hạ tầng, Thanh khoản, Tăng trưởng và Rủi ro—để tạo ra điểm xếp hạng Đầu tư cuối cùng."
+        },
+        "authority": {
+            "title": "Thẩm quyền Tổ chức",
+            "text": "PREIO hoạt động như một Văn phòng Cố vấn Chiến lược, không phải môi giới. Chúng tôi không bán bất động sản; chúng tôi tổng hợp tình báo để bảo vệ nguồn vốn và tối đa hóa di sản chiến lược cho các đối tác HNW."
+        },
+        "footer": {
+            "copyright": "© 2026 PREIO - Văn phòng Tình báo Bất động sản Tư nhân. Bảo lưu mọi quyền."
+        }
+    }
+}

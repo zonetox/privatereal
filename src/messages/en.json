@@ -1,0 +1,115 @@
+{
+  "Common": {
+    "title": "PREIO - Private Real Estate Intelligence Office",
+    "description": "Private real estate investment intelligence system for high-net-worth clients.",
+    "login": "Login",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "market": "Market",
+    "insights": "Insights",
+    "consultation": "Consultation"
+  },
+  "Dashboard": {
+    "overview": "Overview",
+    "leads": "Leads",
+    "clients": "Clients",
+    "projects": "Projects",
+    "portfolio": "Portfolio",
+    "recommendations": "Recommendations",
+    "myProperties": "My Properties",
+    "reports": "Reports",
+    "settings": "Settings",
+    "logout": "Logout",
+    "welcome": "Welcome,",
+    "leads_count": "Total Leads",
+    "filter_all": "All Leads",
+    "filter_qualified": "Qualified",
+    "filter_new": "New",
+    "filter_rejected": "Rejected"
+  },
+  "Consultation": {
+    "title": "Private Strategic Consultation",
+    "subtitle": "Secure your legacy through elite real estate intelligence.",
+    "cta": "Start Strategic Assessment",
+    "intro": "Personalized investment strategies for high-net-worth individuals."
+  },
+  "LeadForm": {
+    "step1": "Investment Capital",
+    "step2": "Monthly Cashflow",
+    "step3": "Primary Occupation",
+    "step4": "Primary Objective",
+    "step5": "Contact Details",
+    "prev": "Back",
+    "next": "Next",
+    "submit": "Submit Assessment",
+    "capital_1_3": "1B - 3B VND",
+    "capital_3_5": "3B - 5B VND",
+    "capital_5_10": "5B - 10B VND",
+    "capital_10_20": "10B - 20B VND",
+    "capital_20plus": "Over 20B VND",
+    "cashflow_lt100": "Under 100M VND",
+    "cashflow_100_300": "100M - 300M VND",
+    "cashflow_300_1b": "300M - 1B VND",
+    "cashflow_gt1b": "Over 1B VND",
+    "owner": "Company Owner / Founder",
+    "executive": "C-Level / Senior Executive",
+    "investor": "Full-time Investor",
+    "other": "Other Professional",
+    "preserve": "Capital Preservation",
+    "diversify": "Portfolio Diversification",
+    "income": "Rental Income Generation",
+    "growth": "Aggressive Capital Growth",
+    "fullName": "Full Name",
+    "email": "Official Email",
+    "phone": "Phone Number",
+    "success": "Assessment Submitted Successfully",
+    "success_msg": "Our senior advisor will contact you within 24 hours."
+  },
+  "Auth": {
+    "welcome": "Welcome back",
+    "signIn": "Sign In",
+    "email": "Email",
+    "password": "Password"
+  },
+  "HomePage": {
+    "hero": {
+      "title": "Strategic Real Estate Intelligence",
+      "subtitle": "Precision advisory for high-value property decisions.",
+      "cta": "Start Strategic Assessment"
+    },
+    "engines": {
+      "title": "Core Intelligence Framework",
+      "engine1": {
+        "title": "Elite Lead Engine",
+        "desc": "Identifying institutional-grade opportunities through proprietary market logic."
+      },
+      "engine2": {
+        "title": "Client Intelligence System",
+        "desc": "Deep profiling of investor mandates and strategic capital requirements."
+      },
+      "engine3": {
+        "title": "Project Intelligence Engine",
+        "desc": "Multidimensional analysis of legal, risk, and infrastructure metrics."
+      },
+      "engine4": {
+        "title": "Advisory Fit Engine",
+        "desc": "Real-time algorithmic matching of assets to private investor profiles."
+      },
+      "engine5": {
+        "title": "Executive Client Portal",
+        "desc": "Secure transparency for acquisition progress and portfolio monitoring."
+      }
+    },
+    "methodology": {
+      "title": "Our Methodology",
+      "text": "The PREIO framework eliminates retail speculation. Every asset is audited across six institutional dimensions—Legal, Connectivity, Infrastructure, Liquidity, Growth, and Risk—to generate a definitive Investment Grade score."
+    },
+    "authority": {
+      "title": "Institutional Authority",
+      "text": "PREIO operates as a Strategic Advisory Office, not a brokerage. We do not sell properties; we aggregate intelligence to secure capital and maximize the strategic legacy of our HNW partners."
+    },
+    "footer": {
+      "copyright": "© 2026 PREIO - Private Real Estate Intelligence Office. All rights reserved."
+    }
+  }
+}
