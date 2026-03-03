@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import DashboardLayout from '@/components/layout/DashboardLayout';
-import { redirect } from 'next/navigation';
+import { redirect } from '@/navigation';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +16,8 @@ export default async function DashboardLayoutWrapper({
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/${locale}/login`);
+    redirect({ href: '/login', locale });
+    return null;
   }
 
   // Fetch role from profiles table
@@ -27,7 +28,8 @@ export default async function DashboardLayoutWrapper({
     .single();
 
   if (!profile || (profile.role !== 'admin' && profile.role !== 'client')) {
-    redirect(`/${locale}/login`);
+    redirect({ href: '/login', locale });
+    return null;
   }
 
   const userData = {

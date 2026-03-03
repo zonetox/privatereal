@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
+import { redirect } from '@/navigation';
 import {
     Building2,
     CreditCard,
@@ -105,12 +105,14 @@ function formatDate(dateStr: string | null): string {
 export const dynamic = 'force-dynamic';
 
 export default async function MyPropertiesPage({ params }: MyPropertiesPageProps) {
-    const { locale } = await Promise.resolve(params);
     const supabase = createClient();
 
     // 1. Auth check
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect(`/${locale}/login`);
+    const { locale } = params;
+
+    if (!user) redirect({ href: '/login', locale });
+    if (!user) return null;
 
     // 2. Get client_id
     const { data: clientRecord } = await supabase

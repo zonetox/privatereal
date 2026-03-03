@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
+import { redirect, Link } from '@/navigation';
 import {
   Shield,
   Target,
@@ -10,7 +10,7 @@ import {
   ArrowUpRight,
   LucideIcon
 } from 'lucide-react';
-import Link from 'next/link';
+
 
 interface DashboardPageProps {
   params: { locale: string };
@@ -64,7 +64,8 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
 
   // 1. Auth & Profile
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect(`/${locale}/login`);
+  if (!user) redirect({ href: '/login', locale });
+  if (!user) return null;
 
   // 2. Fetch Client Data
   const { data: client } = await supabase
@@ -154,7 +155,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
 
         <div className="flex items-center gap-3">
           <Link
-            href={`/${locale}/dashboard/recommendations`}
+            href="/dashboard/recommendations"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-yellow-600/10 border border-yellow-600/20 text-yellow-500 text-xs font-bold uppercase tracking-widest hover:bg-yellow-600/20 transition-all"
           >
             View Recommendations
@@ -235,7 +236,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
           </p>
         </div>
         <Link
-          href={`/${locale}/dashboard/settings`}
+          href="/dashboard/settings"
           className="px-8 py-3 rounded-xl bg-slate-100 text-slate-950 text-xs font-bold uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-black/20"
         >
           Update Profile

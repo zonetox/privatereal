@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
+import { redirect } from '@/navigation';
 import {
   Mail,
   Phone,
@@ -16,17 +16,18 @@ function cn(...inputs: ClassValue[]) {
 
 interface LeadsPageProps {
   searchParams: { status?: string };
+  params: { locale: string };
 }
 
 export const dynamic = 'force-dynamic';
 
-export default async function LeadsPage({ searchParams }: LeadsPageProps) {
+export default async function LeadsPage({ searchParams, params }: LeadsPageProps) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    // This is normally handled by the parent layout, but we'll be safe
-    return null;
-  }
+  const { locale } = params;
+
+  if (!user) redirect({ href: '/login', locale });
+  if (!user) return null;
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -35,7 +36,7 @@ export default async function LeadsPage({ searchParams }: LeadsPageProps) {
     .single();
 
   if (profile?.role !== 'admin') {
-    redirect('/dashboard');
+    redirect({ href: '/dashboard', locale });
   }
 
   const statusFilter = searchParams.status;

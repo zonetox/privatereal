@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 import {
   ShieldCheck,
   Gavel,
@@ -56,7 +56,7 @@ export default function Home({ params: { locale } }: { params: { locale: string 
 
           <div className="pt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link
-              href={`/${locale}/assessment`}
+              href="/assessment"
               className="group relative inline-flex items-center gap-3 px-10 py-5 rounded-xl bg-white text-slate-950 text-xs font-black uppercase tracking-[0.2em] hover:bg-slate-100 transition-all shadow-2xl shadow-yellow-600/10 overflow-hidden"
             >
               <span className="relative z-10 font-black">{t('hero.cta')}</span>
@@ -64,7 +64,7 @@ export default function Home({ params: { locale } }: { params: { locale: string 
             </Link>
 
             <Link
-              href={`/${locale}/login`}
+              href="/login"
               className="px-10 py-5 rounded-xl bg-slate-900/50 border border-slate-800 text-slate-300 text-xs font-black uppercase tracking-[0.2em] hover:bg-slate-900 hover:text-white transition-all"
             >
               {t('hero.client_login')}
@@ -189,7 +189,7 @@ export default function Home({ params: { locale } }: { params: { locale: string 
 
           <div className="flex flex-col items-center gap-24">
             <Link
-              href={`/${locale}/assessment`}
+              href="/assessment"
               className="inline-block px-14 py-6 rounded-full border border-slate-800 hover:border-yellow-700/50 text-slate-400 hover:text-white text-[10px] font-black uppercase tracking-[0.5em] transition-all bg-slate-900/20"
             >
               Request Private Briefing

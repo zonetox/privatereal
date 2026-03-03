@@ -1,6 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
+import { redirect, Link } from '@/navigation';
 import StrategicFitGauge from '@/components/advisory/StrategicFitGauge';
 
 interface RecommendationsPageProps {
@@ -48,7 +47,7 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
 
     // 1. Auth check
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect(`/${locale}/login`);
+    if (!user) redirect({ href: '/login', locale });
 
     // 2. Get client id from profiles
     const { data: clientRecord } = await supabase
@@ -173,7 +172,7 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
 
                             {/* View Details Button */}
                             <Link
-                                href={`/${locale}/dashboard/projects/${project.id}`}
+                                href={`/dashboard/projects/${project.id}`}
                                 className="w-full text-center text-xs font-semibold tracking-wider uppercase py-2.5 rounded-xl border border-slate-700 text-slate-300 hover:border-yellow-700/50 hover:text-yellow-400 transition-all duration-200"
                             >
                                 View Details

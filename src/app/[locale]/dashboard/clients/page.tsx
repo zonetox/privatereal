@@ -1,14 +1,17 @@
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
+import { redirect } from '@/navigation';
 import { useTranslations } from 'next-intl';
 
 export const dynamic = 'force-dynamic';
 
-export default async function ClientsPage() {
+export default async function ClientsPage({ params }: { params: { locale: string } }) {
   const t = useTranslations('Dashboard');
   const supabase = createClient();
 
   const { data: { user } } = await supabase.auth.getUser();
+  const { locale } = params;
+
+  if (!user) redirect({ href: '/login', locale });
   if (!user) return null;
 
   const { data: profile } = await supabase
@@ -18,7 +21,7 @@ export default async function ClientsPage() {
     .single();
 
   if (profile?.role !== 'admin') {
-    redirect('/dashboard');
+    redirect({ href: '/dashboard', locale });
   }
 
   return (

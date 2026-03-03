@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
+import { redirect } from '@/navigation';
 import { updateProjectAction } from './actions';
 
 interface ManageProjectPageProps {
@@ -71,7 +72,10 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
 
     // 1. Auth
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect(`/${locale}/login`);
+    if (!user) {
+        redirect({ href: '/login', locale });
+        return null;
+    }
 
     // 2. Admin check
     const { data: profile } = await supabase
@@ -81,7 +85,8 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
         .single();
 
     if (profile?.role !== 'admin') {
-        redirect(`/${locale}/dashboard`);
+        redirect({ href: '/dashboard', locale });
+        return null;
     }
 
     // 3. Fetch project

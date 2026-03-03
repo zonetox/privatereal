@@ -1,8 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
+import { redirect, Link } from '@/navigation';
 import ClientProfileForm from '@/components/forms/ClientProfileForm';
 import { ChevronRight, User } from 'lucide-react';
-import Link from 'next/link';
 
 interface ClientProfilePageProps {
     params: {
@@ -16,7 +16,10 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
 
     // 1. Admin Verification (SSR)
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect('/login');
+    const { locale } = params;
+
+    if (!user) redirect({ href: '/login', locale });
+    if (!user) return null;
 
     const { data: profile } = await supabase
         .from('profiles')
@@ -25,7 +28,7 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
         .single();
 
     if (profile?.role !== 'admin') {
-        redirect(`/${params.locale}/dashboard`);
+        redirect({ href: '/dashboard', locale });
     }
 
     // 2. Fetch Client Data
