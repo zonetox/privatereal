@@ -18,6 +18,8 @@ interface LeadsPageProps {
   searchParams: { status?: string };
 }
 
+export const dynamic = 'force-dynamic';
+
 export default async function LeadsPage({ searchParams }: LeadsPageProps) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();

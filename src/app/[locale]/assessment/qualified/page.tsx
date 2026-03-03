@@ -8,6 +8,8 @@ interface QualifiedPageProps {
     searchParams: { id?: string };
 }
 
+export const dynamic = 'force-dynamic';
+
 export default async function QualifiedPage({ searchParams }: QualifiedPageProps) {
     const leadId = searchParams.id;
     if (!leadId) notFound();

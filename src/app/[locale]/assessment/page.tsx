@@ -2,8 +2,10 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import LeadAssessmentForm from '@/components/forms/LeadAssessmentForm';
 
-export default function ConsultationPage() {
-    const t = useTranslations('Consultation');
+export const dynamic = 'force-dynamic';
+
+export default function AssessmentPage() {
+    const t = useTranslations('Assessment');
 
     return (
         <div className="min-h-screen bg-slate-950 text-white pt-24 pb-20 px-4">

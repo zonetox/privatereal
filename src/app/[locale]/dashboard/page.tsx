@@ -56,6 +56,8 @@ const RISK_BADGE_STYLE: Record<string, string> = {
   aggressive: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage({ params }: DashboardPageProps) {
   const { locale } = await Promise.resolve(params);
   const supabase = createClient();

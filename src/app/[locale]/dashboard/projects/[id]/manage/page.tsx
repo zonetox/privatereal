@@ -63,6 +63,8 @@ function SectionHeader({ title }: { title: string }) {
     );
 }
 
+export const dynamic = 'force-dynamic';
+
 export default async function ManageProjectPage({ params }: ManageProjectPageProps) {
     const { locale, id } = await Promise.resolve(params);
     const supabase = createClient();
