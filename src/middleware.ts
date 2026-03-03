@@ -1,4 +1,4 @@
-import { type NextRequest } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import createMiddleware from 'next-intl/middleware'
 import { locales, localePrefix } from './navigation'
 import { updateSession } from './lib/supabase/middleware'
@@ -21,7 +21,7 @@ export default async function middleware(request: NextRequest) {
     const response = intlMiddleware(request)
 
     // Step 2: Update Supabase session
-    const supabaseResponse = await updateSession(request, response)
+    const { supabaseResponse, user, profile } = await updateSession(request, response)
 
     // Step 3: Protected Route Logic
     const { pathname } = request.nextUrl
@@ -32,8 +32,15 @@ export default async function middleware(request: NextRequest) {
     )
 
     if (isDashboardRoute) {
-        // Simple presence check for user token in cookies could be added here
-        // But updateSession already refreshes/validates via getUser()
+        // 1. No valid session
+        if (!user) {
+            return NextResponse.redirect(new URL(`/${request.nextUrl.pathname.split('/')[1] || 'vi'}/login`, request.url))
+        }
+
+        // 2. No profile or invalid role (pending/null)
+        if (!profile || profile.role === 'pending') {
+            return NextResponse.redirect(new URL(`/${request.nextUrl.pathname.split('/')[1] || 'vi'}/login`, request.url))
+        }
     }
 
     return supabaseResponse

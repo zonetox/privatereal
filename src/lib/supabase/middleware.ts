@@ -51,7 +51,17 @@ export async function updateSession(request: NextRequest, response: NextResponse
     )
 
     // refreshing the auth token
-    await supabase.auth.getUser()
+    const { data: { user } } = await supabase.auth.getUser()
 
-    return supabaseResponse
+    let profile = null
+    if (user) {
+        const { data } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single()
+        profile = data
+    }
+
+    return { supabaseResponse, user, profile }
 }
