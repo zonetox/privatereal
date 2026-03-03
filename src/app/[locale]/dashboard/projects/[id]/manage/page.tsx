@@ -79,12 +79,7 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
         .single();
 
     if (profile?.role !== 'admin') {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3 text-center">
-                <p className="text-slate-300 font-semibold text-lg">Access Restricted</p>
-                <p className="text-slate-500 text-sm">This control panel is reserved for administrators.</p>
-            </div>
-        );
+        redirect(`/${locale}/dashboard`);
     }
 
     // 3. Fetch project

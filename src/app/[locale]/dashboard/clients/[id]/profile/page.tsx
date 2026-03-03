@@ -25,15 +25,7 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
         .single();
 
     if (profile?.role !== 'admin') {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-4">
-                <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-full">
-                    <User size={48} className="text-destructive" />
-                </div>
-                <h1 className="text-2xl font-bold">Access Restricted</h1>
-                <p className="text-muted-foreground">This area is reserved for Private Real Estate Intelligence Admins only.</p>
-            </div>
-        );
+        redirect(`/${params.locale}/dashboard`);
     }
 
     // 2. Fetch Client Data
