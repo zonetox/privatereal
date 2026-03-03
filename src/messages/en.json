@@ -73,12 +73,32 @@
   },
   "HomePage": {
     "hero": {
-      "title": "Strategic Real Estate Intelligence",
-      "subtitle": "Precision advisory for high-value property decisions.",
-      "cta": "Start Strategic Assessment"
+      "title": "Strategic Private Advisory",
+      "subtitle": "Exclusive intelligence for high-net-worth real estate legacies. Proactive. Private. Precise.",
+      "cta": "Start Strategic Assessment",
+      "client_login": "Existing Client Access"
+    },
+    "access": {
+      "title": "Strategic Access Model",
+      "step1": {
+        "title": "Strategic Assessment",
+        "desc": "Initial alignment of investment mandates and capital preservation goals."
+      },
+      "step2": {
+        "title": "Institutional Review",
+        "desc": "Direct vetting by our senior advisory board to ensure mutual strategic fit."
+      },
+      "step3": {
+        "title": "Private Briefing",
+        "desc": "Confidential disclosure of institutional-grade opportunities and risk audits."
+      },
+      "step4": {
+        "title": "Activation",
+        "desc": "Full activation of the Elite Intelligence Engine and portfolio monitoring."
+      }
     },
     "engines": {
-      "title": "Core Intelligence Framework",
+      "title": "Advisory Infrastructure",
       "engine1": {
         "title": "Elite Lead Engine",
         "desc": "Identifying institutional-grade opportunities through proprietary market logic."

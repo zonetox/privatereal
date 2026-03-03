@@ -73,12 +73,32 @@
     },
     "HomePage": {
         "hero": {
-            "title": "Tình báo Bất động sản Chiến lược",
-            "subtitle": "Cố vấn chính xác cho các quyết định bất động sản giá trị cao.",
-            "cta": "Bắt đầu Đánh giá Chiến lược"
+            "title": "Cố vấn Chiến lược Tư nhân",
+            "subtitle": "Tình báo độc quyền cho di sản bất động sản của khách hàng có tài sản lớn. Chủ động. Riêng tư. Chính xác.",
+            "cta": "Bắt đầu Đánh giá Chiến lược",
+            "client_login": "Truy cập Khách hàng Hiện tại"
+        },
+        "access": {
+            "title": "Mô hình Tiếp cận Chiến lược",
+            "step1": {
+                "title": "Đánh giá Chiến lược",
+                "desc": "Xác định ban đầu về định hướng đầu tư và mục tiêu bảo toàn vốn."
+            },
+            "step2": {
+                "title": "Xem xét Tổ chức",
+                "desc": "Hội đồng cố vấn cao cấp trực tiếp thẩm định để đảm bảo sự phù hợp chiến lược."
+            },
+            "step3": {
+                "title": "Báo cáo Tư nhân",
+                "desc": "Tiết lộ bảo mật về các cơ hội cấp độ tổ chức và kiểm toán rủi ro."
+            },
+            "step4": {
+                "title": "Kích hoạt",
+                "desc": "Kích hoạt toàn bộ Hệ thống Tình báo Ưu tú và giám sát danh mục đầu tư."
+            }
         },
         "engines": {
-            "title": "Khung Tình báo Cốt lõi",
+            "title": "Hạ tầng Cố vấn",
             "engine1": {
                 "title": "Hệ thống Lead Ưu tú",
                 "desc": "Xác định các cơ hội cấp độ tổ chức thông qua logic thị trường độc quyền."
@@ -101,7 +121,7 @@
             }
         },
         "methodology": {
-            "title": "Phương pháp của Chúng tôi",
+            "title": "Phương pháp luận",
             "text": "Khung PREIO loại bỏ các suy đoán bán lẻ. Mọi tài sản đều được kiểm toán qua sáu khía cạnh tổ chức—Pháp lý, Kết nối, Hạ tầng, Thanh khoản, Tăng trưởng và Rủi ro—để tạo ra điểm xếp hạng Đầu tư cuối cùng."
         },
         "authority": {
