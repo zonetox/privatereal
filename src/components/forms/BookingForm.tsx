@@ -31,7 +31,7 @@ export default function BookingForm({ leadId, leadEmail }: BookingFormProps) {
         if (result.success) {
             setIsSuccess(true);
         } else {
-            alert(result.error || 'Failed to book consultation');
+            alert(result.error || 'Failed to book assessment');
         }
     };
 
@@ -41,7 +41,7 @@ export default function BookingForm({ leadId, leadEmail }: BookingFormProps) {
                 <div className="flex justify-center">
                     <CheckCircle2 className="text-emerald-500 w-16 h-16" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Consultation Secured</h3>
+                <h3 className="text-2xl font-bold text-white">Assessment Secured</h3>
                 <p className="text-slate-400">Your strategic advisor will see you on {new Date(date).toLocaleDateString()} at {time}. Check your email for the calendar invitation.</p>
             </div>
         );
@@ -86,7 +86,7 @@ export default function BookingForm({ leadId, leadEmail }: BookingFormProps) {
                 disabled={isSubmitting || !date || !time}
                 className="w-full bg-primary text-primary-foreground font-bold py-4 rounded-xl shadow-xl shadow-primary/20 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 group disabled:opacity-50"
             >
-                {isSubmitting ? 'Confirming...' : 'Confirm Strategic Consultation'}
+                {isSubmitting ? 'Confirming...' : 'Confirm Strategic Assessment'}
                 {!isSubmitting && <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />}
             </button>
         </form>

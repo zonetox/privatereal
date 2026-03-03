@@ -65,7 +65,7 @@ export default function LeadAssessmentForm() {
 
             if (result.success) {
                 if (result.isQualified) {
-                    router.push(`/consultation/qualified?id=${result.lead!.id}`);
+                    router.push(`/assessment/qualified?id=${result.lead!.id}`);
                 } else {
                     setIsSuccess(true);
                 }

@@ -16,8 +16,8 @@ export async function submitBookingAction(data: {
     const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // 1 hour duration
 
     const googleEventId = await createCalendarEvent({
-        summary: `PREIO Strategic Consultation - ${data.leadEmail}`,
-        description: `Private real estate investment consultation for lead ID: ${data.leadId}`,
+        summary: `PREIO Strategic Assessment - ${data.leadEmail}`,
+        description: `Private real estate investment assessment for lead ID: ${data.leadId}`,
         startTime: startTime.toISOString(),
         endTime: endTime.toISOString(),
         attendeeEmail: data.leadEmail,
