@@ -176,16 +176,16 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                     </div>
                     <div className="space-y-1">
                         <h1 className="text-4xl font-black tracking-tighter text-slate-100">
-                            {project.name}
+                            {project.name ?? 'Unnamed Project'}
                         </h1>
                         <div className="flex flex-wrap items-center gap-4 text-slate-400">
                             <span className="flex items-center gap-1.5 text-sm">
                                 <MapPin size={16} className="text-slate-500" />
-                                {project.location}
+                                {project.location ?? 'Location unavailable'}
                             </span>
                             <span className="flex items-center gap-1.5 text-sm">
                                 <Building2 size={16} className="text-slate-500" />
-                                {project.developer}
+                                {project.developer ?? 'Developer not specified'}
                             </span>
                         </div>
                     </div>
@@ -205,7 +205,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                         <div className="flex items-center gap-2 justify-end">
                             <BarChart3 size={20} className="text-yellow-500/70" />
                             <span className="text-2xl font-black text-slate-200">
-                                {project.analyst_confidence_level}%
+                                {project.analyst_confidence_level ?? '—'}{project.analyst_confidence_level !== null ? '%' : ''}
                             </span>
                         </div>
                     </div>
