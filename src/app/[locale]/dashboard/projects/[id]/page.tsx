@@ -15,7 +15,8 @@ import {
     FileText,
     AlertTriangle,
     CheckCircle2,
-    BarChart3
+    BarChart3,
+    LucideIcon
 } from 'lucide-react';
 import StrategicFitGauge from '@/components/advisory/StrategicFitGauge';
 
@@ -44,7 +45,7 @@ function GradeBadge({ grade }: { grade: string | null }) {
     );
 }
 
-function InfoCard({ icon: Icon, label, value }: { icon: any; label: string; value: string | number | null }) {
+function InfoCard({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string | number | null }) {
     return (
         <div className="glass p-4 rounded-xl border border-white/5 flex items-start gap-4">
             <div className="p-2.5 rounded-lg bg-white/5 text-slate-400">
@@ -58,7 +59,7 @@ function InfoCard({ icon: Icon, label, value }: { icon: any; label: string; valu
     );
 }
 
-function AdvisoryNote({ icon: Icon, title, content, colorClass }: { icon: any; title: string, content: string | null; colorClass: string }) {
+function AdvisoryNote({ icon: Icon, title, content, colorClass }: { icon: LucideIcon; title: string, content: string | null; colorClass: string }) {
     if (!content) return null;
     return (
         <div className="glass p-6 rounded-2xl border border-white/5 space-y-4">
@@ -113,13 +114,22 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             evaluation_notes,
             risk_notes,
             expected_growth_rate,
-            holding_period_recommendation
+            holding_period_recommendation,
+            status,
+            visible_to_clients
         `)
         .eq('id', id)
         .single();
 
     if (projectError || !project) {
         return notFound();
+    }
+
+    // Security check: Client can only see active + visible projects
+    if (!isAdmin) {
+        if (project.status !== 'active' || !project.visible_to_clients) {
+            return notFound();
+        }
     }
 
     // 3. Fetch Fit Score (Client Only)
@@ -138,11 +148,21 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 p_project_id: id
             });
 
-            if (rpcData && rpcData.length > 0) {
-                fitData = rpcData[0];
+            if (rpcData) {
+                fitData = Array.isArray(rpcData) ? rpcData[0] : rpcData;
             }
         }
     }
+
+    // Currency formatter
+    const formatter = new Intl.NumberFormat(
+        locale === 'vi' ? 'vi-VN' : 'en-US',
+        {
+            style: 'currency',
+            currency: locale === 'vi' ? 'VND' : 'USD',
+            maximumFractionDigits: 0
+        }
+    );
 
     return (
         <div className="max-w-6xl mx-auto space-y-10 py-6 animate-in fade-in duration-700">
@@ -234,7 +254,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                             <InfoCard icon={Layout} label="Property Type" value={project.property_type} />
                             <InfoCard icon={Target} label="Target Segment" value={project.target_segment} />
                             <InfoCard icon={Calendar} label="Launch Year" value={project.launch_year} />
-                            <InfoCard icon={Coins} label="Price per m²" value={project.price_per_m2 ? `$${project.price_per_m2.toLocaleString()}` : null} />
+                            <InfoCard icon={Coins} label="Price per m²" value={project.price_per_m2 ? formatter.format(Number(project.price_per_m2)) : null} />
                             <InfoCard icon={Clock} label="Recommended Horizon" value={project.holding_period_recommendation ? `${project.holding_period_recommendation} Years` : null} />
                             <InfoCard icon={BarChart3} label="Expected Growth (p.a.)" value={project.expected_growth_rate ? `${project.expected_growth_rate}%` : null} />
                         </div>
