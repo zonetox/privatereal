@@ -8,24 +8,45 @@ interface ManageProjectPageProps {
 }
 
 // Reusable form field components (server-safe)
-function FormField({ label, name, defaultValue, type = 'text', readOnly = false }: {
+function FormField({
+    label,
+    name,
+    defaultValue,
+    type = 'text',
+    readOnly = false,
+    min,
+    max,
+    helperText
+}: {
     label: string;
     name: string;
     defaultValue?: string | number | null;
     type?: string;
     readOnly?: boolean;
+    min?: number;
+    max?: number;
+    helperText?: string;
 }) {
     return (
         <div className="space-y-1.5">
-            <label className="text-[10px] uppercase tracking-widest text-slate-500 font-medium">
-                {label}
-            </label>
+            <div className="flex items-center justify-between gap-2">
+                <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">
+                    {label}
+                </label>
+                {helperText && (
+                    <span className="text-[9px] text-slate-400/60 italic font-medium">
+                        {helperText}
+                    </span>
+                )}
+            </div>
             <input
                 type={type}
                 name={name}
                 defaultValue={defaultValue ?? ''}
                 readOnly={readOnly}
-                className={`w-full bg-slate-800/60 border rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-yellow-700/50 transition-all ${readOnly
+                min={min}
+                max={max}
+                className={`w-full bg-slate-900/40 border rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-yellow-700/50 transition-all ${readOnly
                     ? 'border-slate-700/30 text-slate-500 cursor-not-allowed'
                     : 'border-slate-700/50 hover:border-slate-600'
                     }`}
@@ -194,14 +215,30 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
                                 <option value="true">Visible to Clients</option>
                             </select>
                         </div>
-                        <FormField label="Analyst Confidence (0–100)" name="analyst_confidence_level" type="number" defaultValue={project.analyst_confidence_level} />
+                        <FormField
+                            label="Analyst Confidence (0–100)"
+                            name="analyst_confidence_level"
+                            type="number"
+                            min={0}
+                            max={100}
+                            defaultValue={project.analyst_confidence_level}
+                            helperText="Confidence in internal data"
+                        />
                     </div>
                 </div>
 
                 {/* SECTION 2 — Legal Foundation */}
                 <div className="glass p-8 rounded-3xl border border-white/5 space-y-6">
                     <SectionHeader title="Section 2 — Legal Foundation" />
-                    <FormField label="Legal Framework Score (0–100)" name="legal_score" type="number" defaultValue={project.legal_score} />
+                    <FormField
+                        label="Legal Framework Score (0–100)"
+                        name="legal_score"
+                        type="number"
+                        min={0}
+                        max={100}
+                        defaultValue={project.legal_score}
+                        helperText="0 = Unclear, 100 = Completed"
+                    />
                     <FormTextarea label="Legal Analysis & Compliance Notes" name="legal_notes" defaultValue={project.legal_notes} />
                 </div>
 
@@ -209,8 +246,24 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
                 <div className="glass p-8 rounded-3xl border border-white/5 space-y-6">
                     <SectionHeader title="Section 3 — Location & Infrastructure" />
                     <div className="grid grid-cols-2 gap-5">
-                        <FormField label="Location Score" name="location_score" type="number" defaultValue={project.location_score} />
-                        <FormField label="Infrastructure Score" name="infrastructure_score" type="number" defaultValue={project.infrastructure_score} />
+                        <FormField
+                            label="Location Score"
+                            name="location_score"
+                            type="number"
+                            min={0}
+                            max={100}
+                            defaultValue={project.location_score}
+                            helperText="Connectivity/Area"
+                        />
+                        <FormField
+                            label="Infrastructure Score"
+                            name="infrastructure_score"
+                            type="number"
+                            min={0}
+                            max={100}
+                            defaultValue={project.infrastructure_score}
+                            helperText="Utilities/Roads"
+                        />
                     </div>
                     <FormTextarea label="Asset Evaluation Summary" name="evaluation_notes" defaultValue={project.evaluation_notes} />
                 </div>
@@ -219,7 +272,15 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
                 <div className="glass p-8 rounded-3xl border border-white/5 space-y-6">
                     <SectionHeader title="Section 4 — Market Liquidity" />
                     <div className="grid grid-cols-2 gap-5">
-                        <FormField label="Liquidity Score" name="liquidity_score" type="number" defaultValue={project.liquidity_score} />
+                        <FormField
+                            label="Liquidity Score"
+                            name="liquidity_score"
+                            type="number"
+                            min={0}
+                            max={100}
+                            defaultValue={project.liquidity_score}
+                            helperText="Resale speed"
+                        />
                         <FormField label="Avg. Rental Yield (%)" name="avg_rental_yield" type="number" defaultValue={project.avg_rental_yield} />
                     </div>
                 </div>
@@ -228,7 +289,15 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
                 <div className="glass p-8 rounded-3xl border border-white/5 space-y-6">
                     <SectionHeader title="Section 5 — Growth Potential" />
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <FormField label="Growth Score" name="growth_score" type="number" defaultValue={project.growth_score} />
+                        <FormField
+                            label="Growth Score"
+                            name="growth_score"
+                            type="number"
+                            min={0}
+                            max={100}
+                            defaultValue={project.growth_score}
+                            helperText="Appreciation potential"
+                        />
                         <FormField label="Exp. Growth Rate (% p.a.)" name="expected_growth_rate" type="number" defaultValue={project.expected_growth_rate} />
                         <div className="sm:col-span-2">
                             <FormField label="Recommended Holding Period (Years)" name="holding_period_recommendation" type="number" defaultValue={project.holding_period_recommendation} />
@@ -240,7 +309,15 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
                 <div className="glass p-8 rounded-3xl border border-white/5 space-y-6">
                     <SectionHeader title="Section 6 — Risk Exposure" />
                     <div className="grid grid-cols-2 gap-5">
-                        <FormField label="Risk Index (0–100)" name="risk_score" type="number" defaultValue={project.risk_score} />
+                        <FormField
+                            label="Risk Index (0–100)"
+                            name="risk_score"
+                            type="number"
+                            min={0}
+                            max={100}
+                            defaultValue={project.risk_score}
+                            helperText="0 = Low, 100 = High"
+                        />
                         <FormField label="Downside Risk (%)" name="downside_risk_percent" type="number" defaultValue={project.downside_risk_percent} />
                     </div>
                     <FormTextarea label="Risk Mitigation Statement" name="risk_notes" defaultValue={project.risk_notes} />
