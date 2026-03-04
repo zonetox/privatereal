@@ -47,7 +47,10 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
 
     // 1. Auth check
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect({ href: '/login', locale });
+    if (!user) {
+        redirect({ href: '/login', locale });
+        return null;
+    }
 
     // 2. Get client id from profiles
     const { data: clientRecord } = await supabase
