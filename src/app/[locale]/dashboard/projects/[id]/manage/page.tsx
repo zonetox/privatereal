@@ -109,52 +109,55 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="max-w-5xl mx-auto space-y-10 py-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                <div className="space-y-1">
-                    <p className="text-[10px] uppercase tracking-[0.25em] text-yellow-600/70 font-medium">
-                        Admin — Project Control
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-white/5 pb-8">
+                <div className="space-y-2">
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-yellow-600/80 font-bold">
+                        Institutional Project Intake
                     </p>
-                    <h1 className="text-3xl font-black tracking-tighter text-slate-100">
-                        {project.name}
+                    <h1 className="text-4xl font-black tracking-tighter text-slate-100">
+                        {project.name ?? 'New Intelligence Asset'}
                     </h1>
-                    <p className="text-slate-500 text-sm">{project.location}</p>
+                    <div className="flex items-center gap-3 text-slate-500 text-sm">
+                        <span className="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                            ID: {id.slice(0, 8)}...
+                        </span>
+                        <span>{project.location ?? 'Global Market'}</span>
+                    </div>
                 </div>
 
-                <div className="mb-1">
+                <div className="flex flex-col items-end gap-3">
                     {isValid ? (
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] font-bold uppercase tracking-widest">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] font-black uppercase tracking-[0.15em]">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                             Ready for Publication
                         </div>
                     ) : (
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-500 text-[10px] font-bold uppercase tracking-widest">
-                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-500 text-[10px] font-black uppercase tracking-[0.15em]">
+                            <span className="w-2 h-2 rounded-full bg-rose-500" />
                             Draft – Incomplete
                         </div>
                     )}
                 </div>
             </div>
 
-            <form action={handleUpdate} className="space-y-8">
-                {/* Section 1 – Project Identity */}
-                <div className="rounded-2xl border border-slate-700/40 bg-slate-900/60 backdrop-blur-sm p-6 space-y-5">
-                    <SectionHeader title="Project Identity" />
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <FormField label="Name" name="name" defaultValue={project.name} />
-                        <FormField label="Location" name="location" defaultValue={project.location} />
-                        <FormField label="Developer" name="developer" defaultValue={project.developer} />
+            <form action={handleUpdate} className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-20">
+                {/* SECTION 1 — Project Identity */}
+                <div className="glass p-8 rounded-3xl border border-white/5 space-y-6 md:col-span-2">
+                    <SectionHeader title="Section 1 — Project Identity & Governance" />
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div className="sm:col-span-2">
+                            <FormField label="Full Project Name" name="name" defaultValue={project.name} />
+                        </div>
+                        <FormField label="Developer / Sponsor" name="developer" defaultValue={project.developer} />
+                        <FormField label="Primary Location" name="location" defaultValue={project.location} />
                         <FormField label="Launch Year" name="launch_year" type="number" defaultValue={project.launch_year} />
+                        <FormField label="Price per m² (Current)" name="price_per_m2" type="number" defaultValue={project.price_per_m2} />
+
                         <div className="space-y-1.5">
-                            <label className="text-[10px] uppercase tracking-widest text-slate-500 font-medium">
-                                Property Type
-                            </label>
-                            <select
-                                name="property_type"
-                                defaultValue={project.property_type ?? ''}
-                                className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-yellow-700/50 hover:border-slate-600 transition-all"
-                            >
+                            <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Property Type</label>
+                            <select name="property_type" defaultValue={project.property_type ?? ''} className="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200">
                                 <option value="">— Select —</option>
                                 <option value="apartment">Apartment</option>
                                 <option value="villa">Villa</option>
@@ -164,99 +167,113 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
                             </select>
                         </div>
                         <div className="space-y-1.5">
-                            <label className="text-[10px] uppercase tracking-widest text-slate-500 font-medium">
-                                Target Segment
-                            </label>
-                            <select
-                                name="target_segment"
-                                defaultValue={project.target_segment ?? ''}
-                                className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-yellow-700/50 hover:border-slate-600 transition-all"
-                            >
+                            <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Target Segment</label>
+                            <select name="target_segment" defaultValue={project.target_segment ?? ''} className="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200">
                                 <option value="">— Select —</option>
-                                <option value="mass">Mass</option>
-                                <option value="mid">Mid</option>
+                                <option value="mass">Mass / Entry</option>
+                                <option value="mid">Mid-Market</option>
                                 <option value="high_end">High End</option>
-                                <option value="luxury">Luxury</option>
+                                <option value="luxury">Ultra-Luxury</option>
                             </select>
                         </div>
-                    </div>
-                </div>
+                        <div className="space-y-1.5 pt-6 sm:col-span-3 border-t border-white/5" />
 
-                {/* Section 2 – Intelligence Metrics */}
-                <div className="rounded-2xl border border-slate-700/40 bg-slate-900/60 backdrop-blur-sm p-6 space-y-5">
-                    <SectionHeader title="Intelligence Metrics" />
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
-                        <FormField label="Legal Score (0–100)" name="legal_score" type="number" defaultValue={project.legal_score} />
-                        <FormField label="Location Score (0–100)" name="location_score" type="number" defaultValue={project.location_score} />
-                        <FormField label="Infrastructure Score (0–100)" name="infrastructure_score" type="number" defaultValue={project.infrastructure_score} />
-                        <FormField label="Liquidity Score (0–100)" name="liquidity_score" type="number" defaultValue={project.liquidity_score} />
-                        <FormField label="Growth Score (0–100)" name="growth_score" type="number" defaultValue={project.growth_score} />
-                        <FormField label="Risk Score (0–100)" name="risk_score" type="number" defaultValue={project.risk_score} />
-                    </div>
-                    {/* Read-only computed outputs */}
-                    <div className="grid grid-cols-2 gap-5 pt-2 border-t border-slate-800">
-                        <FormField label="Final Score (computed)" name="final_score" defaultValue={project.final_score} readOnly />
-                        <FormField label="Investment Grade (computed)" name="investment_grade" defaultValue={project.investment_grade} readOnly />
-                    </div>
-                </div>
-
-                {/* Section 3 – Governance */}
-                <div className="rounded-2xl border border-slate-700/40 bg-slate-900/60 backdrop-blur-sm p-6 space-y-5">
-                    <SectionHeader title="Governance" />
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        {/* Governance preserved */}
                         <div className="space-y-1.5">
-                            <label className="text-[10px] uppercase tracking-widest text-slate-500 font-medium">
-                                Status
-                            </label>
-                            <select
-                                name="status"
-                                defaultValue={project.status ?? 'draft'}
-                                className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-yellow-700/50 hover:border-slate-600 transition-all"
-                            >
+                            <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">System Status</label>
+                            <select name="status" defaultValue={project.status ?? 'draft'} className="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200">
                                 <option value="draft">Draft</option>
                                 <option value="active">Active</option>
                                 <option value="archived">Archived</option>
                             </select>
                         </div>
                         <div className="space-y-1.5">
-                            <label className="text-[10px] uppercase tracking-widest text-slate-500 font-medium">
-                                Visible to Clients
-                            </label>
-                            <select
-                                name="visible_to_clients"
-                                defaultValue={project.visible_to_clients ? 'true' : 'false'}
-                                className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-yellow-700/50 hover:border-slate-600 transition-all"
-                            >
-                                <option value="false">Hidden</option>
-                                <option value="true">Published</option>
+                            <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Client Visibility</label>
+                            <select name="visible_to_clients" defaultValue={project.visible_to_clients ? 'true' : 'false'} className="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-200">
+                                <option value="false">Hidden from Portal</option>
+                                <option value="true">Visible to Clients</option>
                             </select>
                         </div>
-                        <FormField
-                            label="Analyst Confidence (0–100)"
-                            name="analyst_confidence_level"
-                            type="number"
-                            defaultValue={project.analyst_confidence_level}
-                        />
+                        <FormField label="Analyst Confidence (0–100)" name="analyst_confidence_level" type="number" defaultValue={project.analyst_confidence_level} />
                     </div>
                 </div>
 
-                {/* Section 4 – Notes */}
-                <div className="rounded-2xl border border-slate-700/40 bg-slate-900/60 backdrop-blur-sm p-6 space-y-5">
-                    <SectionHeader title="Internal Notes" />
-                    <div className="grid grid-cols-1 gap-5">
-                        <FormTextarea label="Evaluation Notes" name="evaluation_notes" defaultValue={project.evaluation_notes} />
-                        <FormTextarea label="Legal Notes" name="legal_notes" defaultValue={project.legal_notes} />
-                        <FormTextarea label="Risk Notes" name="risk_notes" defaultValue={project.risk_notes} />
+                {/* SECTION 2 — Legal Foundation */}
+                <div className="glass p-8 rounded-3xl border border-white/5 space-y-6">
+                    <SectionHeader title="Section 2 — Legal Foundation" />
+                    <FormField label="Legal Framework Score (0–100)" name="legal_score" type="number" defaultValue={project.legal_score} />
+                    <FormTextarea label="Legal Analysis & Compliance Notes" name="legal_notes" defaultValue={project.legal_notes} />
+                </div>
+
+                {/* SECTION 3 — Location & Infrastructure */}
+                <div className="glass p-8 rounded-3xl border border-white/5 space-y-6">
+                    <SectionHeader title="Section 3 — Location & Infrastructure" />
+                    <div className="grid grid-cols-2 gap-5">
+                        <FormField label="Location Score" name="location_score" type="number" defaultValue={project.location_score} />
+                        <FormField label="Infrastructure Score" name="infrastructure_score" type="number" defaultValue={project.infrastructure_score} />
+                    </div>
+                    <FormTextarea label="Asset Evaluation Summary" name="evaluation_notes" defaultValue={project.evaluation_notes} />
+                </div>
+
+                {/* SECTION 4 — Market Liquidity */}
+                <div className="glass p-8 rounded-3xl border border-white/5 space-y-6">
+                    <SectionHeader title="Section 4 — Market Liquidity" />
+                    <div className="grid grid-cols-2 gap-5">
+                        <FormField label="Liquidity Score" name="liquidity_score" type="number" defaultValue={project.liquidity_score} />
+                        <FormField label="Avg. Rental Yield (%)" name="avg_rental_yield" type="number" defaultValue={project.avg_rental_yield} />
+                    </div>
+                </div>
+
+                {/* SECTION 5 — Growth Potential */}
+                <div className="glass p-8 rounded-3xl border border-white/5 space-y-6">
+                    <SectionHeader title="Section 5 — Growth Potential" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <FormField label="Growth Score" name="growth_score" type="number" defaultValue={project.growth_score} />
+                        <FormField label="Exp. Growth Rate (% p.a.)" name="expected_growth_rate" type="number" defaultValue={project.expected_growth_rate} />
+                        <div className="sm:col-span-2">
+                            <FormField label="Recommended Holding Period (Years)" name="holding_period_recommendation" type="number" defaultValue={project.holding_period_recommendation} />
+                        </div>
+                    </div>
+                </div>
+
+                {/* SECTION 6 — Risk Exposure */}
+                <div className="glass p-8 rounded-3xl border border-white/5 space-y-6">
+                    <SectionHeader title="Section 6 — Risk Exposure" />
+                    <div className="grid grid-cols-2 gap-5">
+                        <FormField label="Risk Index (0–100)" name="risk_score" type="number" defaultValue={project.risk_score} />
+                        <FormField label="Downside Risk (%)" name="downside_risk_percent" type="number" defaultValue={project.downside_risk_percent} />
+                    </div>
+                    <FormTextarea label="Risk Mitigation Statement" name="risk_notes" defaultValue={project.risk_notes} />
+                </div>
+
+                {/* SECTION 7 — Advisory Output */}
+                <div className="glass p-8 rounded-3xl border border-yellow-500/20 bg-yellow-500/5 space-y-6">
+                    <SectionHeader title="Section 7 — Advisory Output (Read-only)" />
+                    <div className="grid grid-cols-2 gap-5">
+                        <div className="space-y-1.5">
+                            <label className="text-[10px] uppercase tracking-widest text-yellow-600 font-bold">Computed Final Score</label>
+                            <div className="text-3xl font-black text-slate-100 py-2 border-b border-white/10">{project.final_score ?? '—'}</div>
+                        </div>
+                        <div className="space-y-1.5">
+                            <label className="text-[10px] uppercase tracking-widest text-yellow-600 font-bold">Investment Grade</label>
+                            <div className="text-3xl font-black text-slate-100 py-2 border-b border-white/10">{project.investment_grade ?? '—'}</div>
+                        </div>
+                    </div>
+                    <div className="p-4 rounded-xl bg-slate-900/50 border border-white/5">
+                        <p className="text-[10px] text-slate-500 leading-relaxed uppercase tracking-widest font-bold mb-2">System Intel</p>
+                        <p className="text-xs text-slate-400 italic leading-relaxed">
+                            Scores and Grade are automatically calculated by the Intelligence Engine based on the weighted metrics provided above.
+                        </p>
                     </div>
                 </div>
 
                 {/* Submit */}
-                <div className="flex justify-end">
+                <div className="md:col-span-2 flex justify-end pt-8">
                     <button
                         type="submit"
-                        className="px-8 py-2.5 rounded-xl bg-yellow-700/20 border border-yellow-700/40 text-yellow-400 text-sm font-semibold tracking-wider uppercase hover:bg-yellow-700/30 hover:border-yellow-600/60 transition-all duration-200"
+                        className="px-12 py-4 rounded-2xl bg-yellow-600 text-slate-950 text-sm font-black tracking-[0.2em] uppercase hover:bg-yellow-500 hover:scale-[1.02] transform transition-all duration-300 shadow-2xl shadow-yellow-600/20 active:scale-95"
                     >
-                        Save Changes
+                        Synchronize Asset Data
                     </button>
                 </div>
             </form>
