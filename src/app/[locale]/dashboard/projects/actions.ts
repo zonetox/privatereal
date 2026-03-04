@@ -3,11 +3,11 @@
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 
-export async function togglePublishAction(projectId: string, currentVisibility: boolean) {
+export async function togglePublishAction(projectId: string, currentVisibility: boolean, formData: FormData) {
     const supabase = createClient();
 
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return { success: false, error: 'Unauthenticated' };
+    if (!user) throw new Error('Unauthenticated');
 
     const { data: profile } = await supabase
         .from('profiles')
@@ -16,7 +16,7 @@ export async function togglePublishAction(projectId: string, currentVisibility: 
         .single();
 
     if (profile?.role !== 'admin') {
-        return { success: false, error: 'Access denied' };
+        throw new Error('Access denied');
     }
 
     const newVisibility = !currentVisibility;
@@ -27,11 +27,9 @@ export async function togglePublishAction(projectId: string, currentVisibility: 
         .eq('id', projectId);
 
     if (error) {
-        return { success: false, error: error.message };
+        throw new Error(error.message);
     }
 
     revalidatePath('/[locale]/dashboard/projects', 'page');
     revalidatePath('/[locale]/dashboard/recommendations', 'page');
-
-    return { success: true, newVisibility };
 }

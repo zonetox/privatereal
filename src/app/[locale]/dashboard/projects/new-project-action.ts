@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from '@/navigation';
 
-export async function createDraftProjectAction(locale: string) {
+export async function createDraftProjectAction(locale: string, formData: FormData) {
     const supabase = createClient();
 
     const { data: { user } } = await supabase.auth.getUser();
