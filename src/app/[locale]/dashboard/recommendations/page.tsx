@@ -31,6 +31,11 @@ type Project = {
     holding_period_recommendation: number | null;
     investment_grade: string | null;
     analyst_confidence_level: number | null;
+    liquidity_score: number | null;
+    growth_score: number | null;
+    infrastructure_score: number | null;
+    avg_rental_yield: number | null;
+    evaluation_notes: string | null;
 };
 
 type FitResult = {
@@ -72,6 +77,17 @@ function MetricItem({ icon: Icon, label, value, colorClass = "text-slate-400" }:
     );
 }
 
+function AdvisoryTag({ children, icon: Icon }: { children: React.ReactNode, icon?: any }) {
+    return (
+        <div className="px-2 py-0.5 rounded-md bg-white/5 border border-white/5 flex items-center gap-1.5 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
+            {Icon && <Icon size={10} className="text-yellow-500" />}
+            <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 group-hover:text-slate-200">
+                {children}
+            </span>
+        </div>
+    );
+}
+
 export default async function RecommendationsPage({ params }: RecommendationsPageProps) {
     const { locale } = await Promise.resolve(params);
     const supabase = createClient();
@@ -107,7 +123,12 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
             expected_growth_rate, 
             holding_period_recommendation, 
             investment_grade, 
-            analyst_confidence_level
+            analyst_confidence_level,
+            liquidity_score,
+            growth_score,
+            infrastructure_score,
+            avg_rental_yield,
+            evaluation_notes
         `)
         .eq('status', 'active')
         .eq('visible_to_clients', true)
@@ -207,12 +228,12 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
                             className="group relative flex flex-col glass rounded-[2.5rem] border border-white/5 bg-slate-900/40 transition-all duration-500 hover:-translate-y-2 hover:border-yellow-500/20 hover:shadow-[0_20px_60px_-15px_rgba(234,179,8,0.1)] overflow-hidden"
                         >
                             {/* Card Header (Identity) */}
-                            <div className="p-8 pb-4 space-y-4">
+                            <div className="p-8 pb-3 space-y-4">
                                 <div className="flex items-start justify-between gap-4">
-                                    <div className="space-y-1.5 min-w-0">
+                                    <div className="space-y-2 min-w-0">
                                         <div className="flex items-center gap-2">
                                             <span className="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-500 text-[8px] font-black uppercase tracking-widest border border-yellow-500/20">
-                                                Asset #{project.id.slice(0, 4)}
+                                                Intelligence Asset
                                             </span>
                                             {project.property_type && (
                                                 <span className="text-[9px] text-slate-500 uppercase tracking-wider font-bold">
@@ -220,28 +241,37 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
                                                 </span>
                                             )}
                                         </div>
-                                        <h2 className="text-xl font-black text-slate-100 truncate tracking-tight leading-tight group-hover:text-yellow-400 transition-colors">
+                                        <h2 className="text-2xl font-black text-slate-100 truncate tracking-tight leading-none group-hover:text-yellow-400 transition-colors">
                                             {project.name}
                                         </h2>
-                                        <div className="flex items-center gap-3 text-slate-500">
-                                            <div className="flex items-center gap-1 text-[11px] font-medium">
-                                                <MapPin size={12} className="text-slate-600" />
+                                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-slate-500">
+                                            <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider">
+                                                <MapPin size={12} className="text-yellow-500/50" />
                                                 {project.location}
+                                                {(project.infrastructure_score ?? 0) >= 85 && (
+                                                    <span className="ml-1 text-[8px] bg-emerald-500/10 text-emerald-500 px-1.5 py-0.5 rounded border border-emerald-500/20">Prime Hub</span>
+                                                )}
                                             </div>
-                                            <div className="flex items-center gap-1 text-[11px] font-medium">
-                                                <Building2 size={12} className="text-slate-600" />
+                                            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-800/40 border border-white/5 text-[9px] font-black uppercase tracking-[0.1em] text-slate-300">
+                                                <Building2 size={10} className="text-yellow-600" />
                                                 {project.developer ?? 'Institutional'}
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col items-end gap-2">
-                                        <GradeBadge grade={project.investment_grade} />
-                                    </div>
+                                    <GradeBadge grade={project.investment_grade} />
                                 </div>
                             </div>
 
+                            {/* Advisory Tags Row */}
+                            <div className="px-8 pb-5 flex flex-wrap gap-2">
+                                {(project.liquidity_score ?? 0) >= 80 && <AdvisoryTag icon={TrendingUp}>High Liquidity</AdvisoryTag>}
+                                {(project.growth_score ?? 0) >= 80 && <AdvisoryTag icon={ArrowUpRight}>Wealth Growth</AdvisoryTag>}
+                                {(project.avg_rental_yield ?? 0) >= 6 && <AdvisoryTag icon={Coins}>Rental Yield</AdvisoryTag>}
+                                {(project.holding_period_recommendation ?? 0) >= 5 && <AdvisoryTag icon={Clock}>Long-Term</AdvisoryTag>}
+                            </div>
+
                             {/* Compatibility Area (Gauge) */}
-                            <div className="px-4 py-2 border-y border-white/5 bg-white/[0.02]">
+                            <div className="px-4 py-3 border-y border-white/5 bg-white/[0.02]">
                                 <StrategicFitGauge
                                     fitScore={project.fit_score}
                                     fitLabel={project.fit_label}
@@ -252,19 +282,31 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
                                 />
                             </div>
 
+                            {/* Advisory Insight (Snippet) */}
+                            {project.evaluation_notes && (
+                                <div className="px-8 pt-6">
+                                    <div className="p-3 bg-white/5 rounded-2xl border border-white/5 italic text-[11px] text-slate-400 leading-relaxed relative">
+                                        <span className="absolute -top-2 -left-1 text-2xl text-yellow-600/30 font-serif">"</span>
+                                        {project.evaluation_notes.length > 90
+                                            ? `${project.evaluation_notes.substring(0, 90)}...`
+                                            : project.evaluation_notes}
+                                    </div>
+                                </div>
+                            )}
+
                             {/* Detailed Indicators (Market & Advisory) */}
                             <div className="p-8 pt-6 space-y-6">
                                 <div className="grid grid-cols-2 gap-x-8 gap-y-3">
                                     {/* Market Snapshot */}
                                     <div className="space-y-3">
-                                        <p className="text-[9px] uppercase tracking-[0.2em] text-slate-500 font-black mb-1">Market Snapshot</p>
+                                        <p className="text-[9px] uppercase tracking-[0.2em] text-slate-600 font-black mb-1">Market Snapshot</p>
                                         <MetricItem icon={Calendar} label="Launch" value={project.launch_year} />
                                         <MetricItem icon={Target} label="Segment" value={project.target_segment} />
                                         <MetricItem icon={Coins} label="Price/m²" value={project.price_per_m2 ? formatter.format(project.price_per_m2) : '—'} />
                                     </div>
                                     {/* Advisory Indicators */}
                                     <div className="space-y-3 pl-4 border-l border-white/5">
-                                        <p className="text-[9px] uppercase tracking-[0.2em] text-slate-500 font-black mb-1">Advisory Intel</p>
+                                        <p className="text-[9px] uppercase tracking-[0.2em] text-slate-600 font-black mb-1">Advisory Intel</p>
                                         <MetricItem icon={TrendingUp} label="Exp. Growth" value={project.expected_growth_rate ? `${project.expected_growth_rate}%` : '—'} colorClass="text-emerald-400" />
                                         <MetricItem icon={Clock} label="Horizon" value={project.holding_period_recommendation ? `${project.holding_period_recommendation}Y` : '—'} />
                                         <MetricItem icon={ShieldCheck} label="Confidence" value={project.analyst_confidence_level ? `${project.analyst_confidence_level}%` : '—'} />
@@ -273,10 +315,10 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
 
                                 {/* Footer Action */}
                                 <div className="pt-2 flex items-center justify-between group/action">
-                                    <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold group-hover/action:text-yellow-500 transition-colors">
+                                    <span className="text-[10px] uppercase tracking-widest text-slate-500 font-black group-hover/action:text-yellow-500 transition-colors">
                                         Examine Asset Intelligence
                                     </span>
-                                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 group-hover/action:bg-yellow-500 group-hover/action:text-slate-950 transition-all duration-300">
+                                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 group-hover/action:bg-yellow-500 group-hover/action:text-slate-950 transition-all duration-300 shadow-xl group-hover:scale-110">
                                         <ArrowUpRight size={16} />
                                     </div>
                                 </div>
