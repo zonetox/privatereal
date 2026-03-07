@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import {
     Building2,
     MapPin,
-    User,
     ShieldCheck,
     TrendingUp,
     Clock,
@@ -18,7 +17,11 @@ import {
     BarChart3,
     LucideIcon
 } from 'lucide-react';
-import StrategicFitGauge from '@/components/advisory/StrategicFitGauge';
+import LocationPanel from "@/components/project-intelligence/LocationPanel";
+import MarketPanel from "@/components/project-intelligence/MarketPanel";
+import RiskPanel from "@/components/project-intelligence/RiskPanel";
+import FitScorePanel from "@/components/project-intelligence/FitScorePanel";
+import InfoCard from "@/components/project-intelligence/InfoCard";
 
 interface ProjectDetailPageProps {
     params: {
@@ -45,19 +48,6 @@ function GradeBadge({ grade }: { grade: string | null }) {
     );
 }
 
-function InfoCard({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string | number | null }) {
-    return (
-        <div className="glass p-4 rounded-xl border border-white/5 flex items-start gap-4">
-            <div className="p-2.5 rounded-lg bg-white/5 text-slate-400">
-                <Icon size={18} />
-            </div>
-            <div>
-                <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1">{label}</p>
-                <p className="text-sm font-semibold text-slate-200">{value ?? '—'}</p>
-            </div>
-        </div>
-    );
-}
 
 function AdvisoryNote({ icon: Icon, title, content, colorClass }: { icon: LucideIcon; title: string, content: string | null; colorClass: string }) {
     if (!content) return null;
@@ -70,7 +60,7 @@ function AdvisoryNote({ icon: Icon, title, content, colorClass }: { icon: Lucide
                 <h3 className="text-sm font-bold uppercase tracking-widest text-slate-200">{title}</h3>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed italic">
-                "{content}"
+                &quot;{content}&quot;
             </p>
         </div>
     );
@@ -311,92 +301,19 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                     )}
 
                     {/* SECTION 7: Advanced Intelligence Domains */}
-                    {project.location_intel && (
-                        <div className="space-y-6">
-                            <div className="flex items-center gap-2">
-                                <MapPin size={18} className="text-yellow-500" />
-                                <h2 className="text-lg font-bold tracking-tight text-slate-100">Location Intelligence</h2>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <InfoCard icon={MapPin} label="Distance to CBD" value={project.location_intel.distance_to_cbd ? `${project.location_intel.distance_to_cbd} km` : null} />
-                                <InfoCard icon={CheckCircle2} label="Metro Access" value={project.location_intel.metro_access} />
-                                <InfoCard icon={CheckCircle2} label="Highway Access" value={project.location_intel.highway_access ? 'Yes' : 'No'} />
-                                <InfoCard icon={Layout} label="Neighborhood" value={project.location_intel.neighborhood_quality} />
-                            </div>
-                            {project.location_intel.infrastructure_pipeline && project.location_intel.infrastructure_pipeline.length > 0 && (
-                                <div className="glass p-6 rounded-2xl border border-white/5 space-y-3">
-                                    <h3 className="text-sm font-bold uppercase tracking-widest text-slate-200">Infrastructure Pipeline</h3>
-                                    <ul className="space-y-2">
-                                        {project.location_intel.infrastructure_pipeline.map((item: string, idx: number) => (
-                                            <li key={idx} className="flex items-start gap-2 text-sm text-slate-400">
-                                                <span className="text-yellow-500 mt-1">•</span> {item}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
-                        </div>
-                    )}
-
-                    {project.market_intel && (
-                        <div className="space-y-6">
-                            <div className="flex items-center gap-2">
-                                <TrendingUp size={18} className="text-yellow-500" />
-                                <h2 className="text-lg font-bold tracking-tight text-slate-100">Market Intelligence</h2>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <InfoCard icon={Coins} label="Area Avg Price" value={project.market_intel.average_price_area ? formatter.format(Number(project.market_intel.average_price_area)) : null} />
-                                <InfoCard icon={BarChart3} label="3Y Area Growth" value={project.market_intel.price_growth_3y ? `${project.market_intel.price_growth_3y}%` : null} />
-                                <InfoCard icon={Target} label="Supply Level" value={project.market_intel.supply_level} />
-                                <InfoCard icon={CheckCircle2} label="Demand Level" value={project.market_intel.demand_level} />
-                            </div>
-                        </div>
-                    )}
-
-                    {project.risk_intel && (
-                        <div className="space-y-6">
-                            <div className="flex items-center gap-2">
-                                <AlertTriangle size={18} className="text-yellow-500" />
-                                <h2 className="text-lg font-bold tracking-tight text-slate-100">Contextual Risk Intelligence</h2>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <InfoCard icon={ShieldCheck} label="Legal Risk" value={project.risk_intel.legal_risk} />
-                                <InfoCard icon={AlertTriangle} label="Construction Risk" value={project.risk_intel.construction_risk} />
-                                <InfoCard icon={Target} label="Supply Risk" value={project.risk_intel.supply_risk} />
-                                <InfoCard icon={TrendingUp} label="Market Risk" value={project.risk_intel.market_risk} />
-                            </div>
-                        </div>
-                    )}
+                    <LocationPanel location={project.location_intel} />
+                    <MarketPanel market={project.market_intel} locale={locale} />
+                    <RiskPanel risk={project.risk_intel} />
                 </div>
 
                 {/* Right Column: Strategic Fit (Fixed Position-like on desktop) */}
                 <div className="space-y-8">
-                    {/* SECTION 2 — Advisory Fit (Client Only) */}
-                    {!isAdmin && (
-                        <div className="sticky top-24">
-                            <StrategicFitGauge
-                                fitScore={fitData?.fit_score ?? null}
-                                fitLabel={fitData?.fit_label ?? null}
-                                riskAlignment={fitData?.risk_alignment ?? null}
-                                returnAlignment={fitData?.return_alignment ?? null}
-                                horizonAlignment={fitData?.horizon_alignment ?? null}
-                                analystConfidence={project.analyst_confidence_level}
-                            />
-                        </div>
-                    )}
-
-                    {/* Admin View or Backup Info */}
-                    {isAdmin && (
-                        <div className="glass p-6 rounded-2xl border border-white/5 space-y-4">
-                            <div className="flex items-center gap-2 text-yellow-500">
-                                <ShieldCheck size={18} />
-                                <p className="text-xs uppercase tracking-widest font-bold">Admin Internal View</p>
-                            </div>
-                            <p className="text-xs text-slate-500 leading-relaxed">
-                                You are viewing this page as an administrator. Strategic fit analysis is only active for clients to ensure personalized compatibility based on their risk profiles.
-                            </p>
-                        </div>
-                    )}
+                    {/* SECTION 2 — Advisory Fit */}
+                    <FitScorePanel 
+                        score={fitData} 
+                        analystConfidence={project.analyst_confidence_level} 
+                        isAdmin={isAdmin} 
+                    />
                 </div>
             </div>
         </div>
