@@ -36,7 +36,7 @@ export default function LoginForm() {
 
             // Success - Redirect to dashboard
             router.push('/dashboard');
-        } catch (err: any) {
+        } catch {
             setError('An unexpected error occurred. Please try again.');
             setIsLoading(false);
         }

@@ -24,8 +24,8 @@ export default function ComparisonManager() {
             }
         }
 
-        const handleSetSelection = (e: any) => {
-            const project = e.detail;
+        const handleSetSelection = (e: Event) => {
+            const project = (e as CustomEvent<ProjectCompact>).detail;
             setSelectedProjects(prev => {
                 const isAlreadySelected = prev.find(p => p.id === project.id);
                 let next;

@@ -21,6 +21,8 @@ import {
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+import { createClient } from '@/lib/supabase/client';
+
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
@@ -59,9 +61,11 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
     const router = useRouter();
 
     const handleLogout = async () => {
-        // Logout logic will be added later
+        const supabase = createClient();
+        await supabase.auth.signOut();
         router.push('/login');
     };
+
 
     // Filter nav items based on user role
     const filteredNavItems = navItems.filter(item =>
