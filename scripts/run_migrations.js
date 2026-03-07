@@ -4,7 +4,7 @@ const path = require('path');
 require('dotenv').config({ path: '.env.local' });
 
 const migrations = [
-    'supabase/migrations/20240307000003_project_domain_intelligence.sql'
+    'supabase/migrations/20240307000004_advisor_notes_schema.sql'
 ];
 
 async function runMigrations() {

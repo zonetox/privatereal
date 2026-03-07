@@ -54,7 +54,7 @@ export default async function ProjectComparison({ searchParams, params }: Compar
     const { data: clientRecord } = await supabase
         .from('clients')
         .select('id')
-        .eq('user_id', user.id)
+        .eq('user_id', user?.id)
         .single();
     
     const clientId = clientRecord?.id;

@@ -4,21 +4,7 @@ import StrategicFitGauge from '@/components/advisory/StrategicFitGauge';
 import CompareToggle from '@/components/advisory/CompareToggle';
 import LifecycleTimeline from '@/components/advisory/LifecycleTimeline';
 import LifecycleStageUpdate from '@/components/advisory/LifecycleStageUpdate';
-import {
-    Building2,
-    MapPin,
-    ArrowUpRight,
-    MessageSquare,
-    CheckSquare,
-    ChevronRight,
-    BarChart3,
-    Calendar,
-    Target,
-    Coins,
-    Clock,
-    Briefcase,
-    ShieldCheck
-} from 'lucide-react';
+import { Briefcase, Link as LinkIcon, AlertTriangle, ShieldCheck, CreditCard, Scale, Building2, Eye, Banknote, Clock, ArrowRight, MapPin, Check, ArrowUpRight, MessageSquare, CheckSquare } from 'lucide-react';
 
 interface WorkspacePageProps {
     params: { locale: string };
@@ -87,11 +73,11 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) redirect({ href: '/login', locale });
 
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user?.id).single();
     if (!profile) return null;
     const isAdmin = profile.role === 'admin';
 
-    const { data: clientRecord } = await supabase.from('clients').select('id').eq('user_id', user.id).single();
+    const { data: clientRecord } = await supabase.from('clients').select('id').eq('user_id', user?.id).single();
     if (!clientRecord) return null;
     const clientId = clientRecord.id;
 

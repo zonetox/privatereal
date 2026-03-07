@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { redirect, Link } from '@/navigation';
 import ClientProfileForm from '@/components/forms/ClientProfileForm';
+import ClientNotesTimeline from '@/components/advisory/ClientNotesTimeline';
 import { ChevronRight, User } from 'lucide-react';
 
 interface ClientProfilePageProps {
@@ -42,6 +43,13 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
         notFound();
     }
 
+    // 3. Fetch Advisor Notes
+    const { data: initialNotes } = await supabase
+        .from('advisor_client_notes')
+        .select('*')
+        .eq('client_id', params.id)
+        .order('created_at', { ascending: false });
+
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Breadcrumbs */}
@@ -66,6 +74,10 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
             </div>
 
             <ClientProfileForm clientId={client.id} initialData={client} />
+
+            <div className="pt-8 border-t border-white/10 mt-8">
+                <ClientNotesTimeline clientId={client.id} initialNotes={initialNotes || []} />
+            </div>
         </div>
     );
 }

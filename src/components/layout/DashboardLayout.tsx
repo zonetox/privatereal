@@ -15,7 +15,8 @@ import {
     LogOut,
     ChevronRight,
     Sparkles,
-    Building2
+    Building2,
+    ShieldCheck
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -47,6 +48,7 @@ const navItems = [
     { href: '/dashboard/workspace', label: 'workspace', icon: Briefcase, roles: ['client', 'admin'] },
     { href: '/dashboard/my-properties', label: 'myProperties', icon: Building2, roles: ['client', 'admin'] },
     { href: '/dashboard/reports', label: 'reports', icon: FileText, roles: ['admin'] },
+    { href: '/dashboard/advisor', label: 'advisor', icon: ShieldCheck, roles: ['admin'] },
     { href: '/dashboard/settings', label: 'settings', icon: Settings, roles: ['admin', 'client'] },
 ];
 
