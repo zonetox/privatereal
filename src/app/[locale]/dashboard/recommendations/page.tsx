@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect, Link } from '@/navigation';
 import StrategicFitGauge from '@/components/advisory/StrategicFitGauge';
+import WorkspaceToggle from '@/components/advisory/WorkspaceToggle';
+import CompareToggle from '@/components/advisory/CompareToggle';
 import {
     Building2,
     MapPin,
@@ -17,6 +19,12 @@ import {
 interface RecommendationsPageProps {
     params: { locale: string };
 }
+
+type OpportunityCard = {
+    key_strengths: string[] | null;
+    risk_indicators: string[] | null;
+    thesis_summary: string | null;
+};
 
 type Project = {
     id: string;
@@ -36,6 +44,7 @@ type Project = {
     infrastructure_score: number | null;
     avg_rental_yield: number | null;
     evaluation_notes: string | null;
+    opportunity_cards?: OpportunityCard[];
 };
 
 type FitResult = {
@@ -46,7 +55,7 @@ type FitResult = {
     horizon_alignment: number | null;
 };
 
-type ProjectWithFit = Project & FitResult;
+type ProjectWithFit = Project & FitResult & { isSelected: boolean };
 
 const GRADE_CONFIG: Record<string, string> = {
     A: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5',
@@ -77,17 +86,6 @@ function MetricItem({ icon: Icon, label, value, colorClass = "text-slate-400" }:
     );
 }
 
-function AdvisoryTag({ children, icon: Icon }: { children: React.ReactNode, icon?: any }) {
-    return (
-        <div className="px-2 py-0.5 rounded-md bg-white/5 border border-white/5 flex items-center gap-1.5 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
-            {Icon && <Icon size={10} className="text-yellow-500" />}
-            <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 group-hover:text-slate-200">
-                {children}
-            </span>
-        </div>
-    );
-}
-
 export default async function RecommendationsPage({ params }: RecommendationsPageProps) {
     const { locale } = await Promise.resolve(params);
     const supabase = createClient();
@@ -108,54 +106,32 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
 
     const clientId = clientRecord?.id ?? null;
 
-    // 3. Fetch active visible projects (Extended fields)
+    // 3. Fetch active visible projects
     const { data: projects } = await supabase
         .from('projects')
-        .select(`
-            id, 
-            name, 
-            location, 
-            developer, 
-            property_type, 
-            target_segment, 
-            price_per_m2, 
-            launch_year, 
-            expected_growth_rate, 
-            holding_period_recommendation, 
-            investment_grade, 
-            analyst_confidence_level,
-            liquidity_score,
-            growth_score,
-            infrastructure_score,
-            avg_rental_yield,
-            evaluation_notes
-        `)
+        .select('*')
         .eq('status', 'active')
         .eq('visible_to_clients', true)
         .returns<Project[]>();
 
     const activeProjects = projects ?? [];
 
-    // 4. For each project, call calculate_project_fit RPC
+    // 4. Fetch selections
+    let selectedIds = new Set<string>();
+    if (clientId) {
+        const { data: selections } = await supabase
+            .from('client_workspace_selections')
+            .select('project_id')
+            .eq('client_id', clientId);
+        selectedIds = new Set(selections?.map(s => s.project_id) || []);
+    }
+
+    // 5. Fit calculation (extended)
     const projectsWithFit: ProjectWithFit[] = await Promise.all(
         activeProjects.map(async (project: Project) => {
-            if (!clientId) {
-                return {
-                    ...project,
-                    fit_score: null,
-                    fit_label: 'Insufficient Data',
-                    risk_alignment: null,
-                    return_alignment: null,
-                    horizon_alignment: null,
-                };
-            }
+            if (!clientId) return { ...project, fit_score: null, fit_label: 'Insufficient Data', risk_alignment: null, return_alignment: null, horizon_alignment: null, isSelected: false };
 
-            const { data: fitData } = await supabase
-                .rpc('calculate_project_fit', {
-                    p_client_id: clientId,
-                    p_project_id: project.id,
-                })
-                .maybeSingle<FitResult>();
+            const { data: fitData } = await supabase.rpc('calculate_project_fit', { p_client_id: clientId, p_project_id: project.id }).maybeSingle<FitResult>();
 
             return {
                 ...project,
@@ -164,116 +140,46 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
                 risk_alignment: fitData?.risk_alignment ?? null,
                 return_alignment: fitData?.return_alignment ?? null,
                 horizon_alignment: fitData?.horizon_alignment ?? null,
+                isSelected: selectedIds.has(project.id)
             };
         })
     );
 
-    // 5. Sort by fit_score DESC (nulls last)
-    const sorted = projectsWithFit.sort((a, b) => {
-        if (a.fit_score === null && b.fit_score === null) return 0;
-        if (a.fit_score === null) return 1;
-        if (b.fit_score === null) return -1;
-        return b.fit_score - a.fit_score;
-    });
+    const sorted = projectsWithFit.sort((a, b) => (b.fit_score || 0) - (a.fit_score || 0));
 
-    // 6. Currency Formatter
-    const formatter = new Intl.NumberFormat(
-        locale === 'vi' ? 'vi-VN' : 'en-US',
-        {
-            style: 'currency',
-            currency: locale === 'vi' ? 'VND' : 'USD',
-            maximumFractionDigits: 0
-        }
-    );
+    const formatter = new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', { style: 'currency', currency: locale === 'vi' ? 'VND' : 'USD', maximumFractionDigits: 0 });
 
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div className="space-y-2">
-                    <p className="text-xs uppercase tracking-[0.3em] text-yellow-600/80 font-bold">
-                        Intelligence Board
-                    </p>
-                    <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-100 italic">
-                        Real Estate{' '}
-                        <span className="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-500 bg-clip-text text-transparent">
-                            Opportunities
-                        </span>
-                    </h1>
-                    <p className="text-slate-500 max-w-2xl text-sm leading-relaxed font-medium">
-                        Exclusive assets filtered by the PREIO Advisory Engine to match your strategic profile.
-                    </p>
+                    <p className="text-xs uppercase tracking-[0.3em] text-yellow-600/80 font-bold">Intelligence Board</p>
+                    <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-100 italic">Real Estate <span className="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-500 bg-clip-text text-transparent">Opportunities</span></h1>
                 </div>
             </div>
 
-            {/* Empty State */}
-            {sorted.length === 0 && (
-                <div className="flex flex-col items-center justify-center min-h-[40vh] gap-4 text-center rounded-3xl border border-white/5 bg-slate-900/40 p-12 glass">
-                    <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-slate-500">
-                        <BarChart3 size={32} />
-                    </div>
-                    <p className="text-slate-300 font-bold tracking-tight">No Active Opportunities</p>
-                    <p className="text-slate-500 text-xs max-w-[240px] leading-relaxed uppercase tracking-widest font-medium">
-                        The Advisory Engine has not identified any assets matching the publication criteria at this time.
-                    </p>
-                </div>
-            )}
-
-            {/* Opportunity Board Grid */}
-            {sorted.length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-                    {sorted.map((project) => (
-                        <Link
-                            key={project.id}
-                            href={`/dashboard/projects/${project.id}`}
-                            className="group relative flex flex-col glass rounded-[2.5rem] border border-white/5 bg-slate-900/40 transition-all duration-500 hover:-translate-y-2 hover:border-yellow-500/20 hover:shadow-[0_20px_60px_-15px_rgba(234,179,8,0.1)] overflow-hidden"
-                        >
-                            {/* Card Header (Identity) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                {sorted.map((project) => (
+                    <div key={project.id} className="relative">
+                        <Link href={`/dashboard/projects/${project.id}`} className="group relative flex flex-col glass rounded-[2.5rem] border border-white/5 bg-slate-900/40 transition-all duration-500 hover:-translate-y-2 hover:border-yellow-500/20 hover:shadow-[0_20px_60px_-15px_rgba(234,179,8,0.1)] overflow-hidden">
                             <div className="p-8 pb-3 space-y-4">
                                 <div className="flex items-start justify-between gap-4">
                                     <div className="space-y-2 min-w-0">
                                         <div className="flex items-center gap-2">
-                                            <span className="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-500 text-[8px] font-black uppercase tracking-widest border border-yellow-500/20">
-                                                Intelligence Asset
-                                            </span>
-                                            {project.property_type && (
-                                                <span className="text-[9px] text-slate-500 uppercase tracking-wider font-bold">
-                                                    • {project.property_type}
-                                                </span>
-                                            )}
+                                            <span className="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-500 text-[8px] font-black uppercase tracking-widest border border-yellow-500/20">Intelligence Asset</span>
                                         </div>
-                                        <h2 className="text-2xl font-black text-slate-100 truncate tracking-tight leading-none group-hover:text-yellow-400 transition-colors">
-                                            {project.name}
-                                        </h2>
-                                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-slate-500">
-                                            <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider">
-                                                <MapPin size={12} className="text-yellow-500/50" />
-                                                {project.location}
-                                                {(project.infrastructure_score ?? 0) >= 85 && (
-                                                    <span className="ml-1 text-[8px] bg-emerald-500/10 text-emerald-500 px-1.5 py-0.5 rounded border border-emerald-500/20">Prime Hub</span>
-                                                )}
-                                            </div>
-                                            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-800/40 border border-white/5 text-[9px] font-black uppercase tracking-[0.1em] text-slate-300">
-                                                <Building2 size={10} className="text-yellow-600" />
-                                                {project.developer ?? 'Institutional'}
-                                            </div>
+                                        <h2 className="text-2xl font-black text-slate-100 truncate tracking-tight">{project.name}</h2>
+                                        <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                                            <MapPin size={12} className="text-yellow-500/50" /> {project.location}
                                         </div>
                                     </div>
                                     <GradeBadge grade={project.investment_grade} />
                                 </div>
                             </div>
 
-                            {/* Advisory Tags Row */}
-                            <div className="px-8 pb-5 flex flex-wrap gap-2">
-                                {(project.liquidity_score ?? 0) >= 80 && <AdvisoryTag icon={TrendingUp}>High Liquidity</AdvisoryTag>}
-                                {(project.growth_score ?? 0) >= 80 && <AdvisoryTag icon={ArrowUpRight}>Wealth Growth</AdvisoryTag>}
-                                {(project.avg_rental_yield ?? 0) >= 6 && <AdvisoryTag icon={Coins}>Rental Yield</AdvisoryTag>}
-                                {(project.holding_period_recommendation ?? 0) >= 5 && <AdvisoryTag icon={Clock}>Long-Term</AdvisoryTag>}
-                            </div>
-
-                            {/* Compatibility Area (Gauge) */}
                             <div className="px-4 py-3 border-y border-white/5 bg-white/[0.02]">
-                                <StrategicFitGauge
-                                    fitScore={project.fit_score}
+                                <StrategicFitGauge 
+                                    fitScore={project.fit_score} 
                                     fitLabel={project.fit_label}
                                     riskAlignment={project.risk_alignment}
                                     returnAlignment={project.return_alignment}
@@ -282,51 +188,66 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
                                 />
                             </div>
 
-                            {/* Advisory Insight (Snippet) */}
-                            {project.evaluation_notes && (
-                                <div className="px-8 pt-6">
-                                    <div className="p-3 bg-white/5 rounded-2xl border border-white/5 italic text-[11px] text-slate-400 leading-relaxed relative">
-                                        <span className="absolute -top-2 -left-1 text-2xl text-yellow-600/30 font-serif">"</span>
-                                        {project.evaluation_notes.length > 90
-                                            ? `${project.evaluation_notes.substring(0, 90)}...`
-                                            : project.evaluation_notes}
-                                    </div>
+                            {/* Intelligence Curation Section */}
+                            {project.opportunity_cards && project.opportunity_cards[0] && (
+                                <div className="p-8 pt-6 pb-2 space-y-4">
+                                    {project.opportunity_cards[0].key_strengths && project.opportunity_cards[0].key_strengths.length > 0 && (
+                                        <div className="space-y-2">
+                                            <span className="text-[9px] font-black uppercase tracking-widest text-emerald-500">Key Strengths</span>
+                                            <ul className="space-y-1">
+                                                {project.opportunity_cards[0].key_strengths.slice(0, 2).map((str, idx) => (
+                                                    <li key={idx} className="flex items-start gap-2 text-[11px] text-slate-300 font-medium">
+                                                        <span className="text-emerald-500 mt-0.5">•</span> {str}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    {project.opportunity_cards[0].risk_indicators && project.opportunity_cards[0].risk_indicators.length > 0 && (
+                                        <div className="space-y-2">
+                                            <span className="text-[9px] font-black uppercase tracking-widest text-amber-500">Risk Indicators</span>
+                                            <ul className="space-y-1">
+                                                {project.opportunity_cards[0].risk_indicators.slice(0, 2).map((risk, idx) => (
+                                                    <li key={idx} className="flex items-start gap-2 text-[11px] text-slate-400 font-medium italic">
+                                                        <span className="text-amber-500 mt-0.5">•</span> {risk}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
                                 </div>
                             )}
 
-                            {/* Detailed Indicators (Market & Advisory) */}
-                            <div className="p-8 pt-6 space-y-6">
+                            <div className={`p-8 ${project.opportunity_cards && project.opportunity_cards[0] ? 'pt-4' : 'pt-6'} space-y-6`}>
                                 <div className="grid grid-cols-2 gap-x-8 gap-y-3">
-                                    {/* Market Snapshot */}
                                     <div className="space-y-3">
-                                        <p className="text-[9px] uppercase tracking-[0.2em] text-slate-600 font-black mb-1">Market Snapshot</p>
                                         <MetricItem icon={Calendar} label="Launch" value={project.launch_year} />
-                                        <MetricItem icon={Target} label="Segment" value={project.target_segment} />
                                         <MetricItem icon={Coins} label="Price/m²" value={project.price_per_m2 ? formatter.format(project.price_per_m2) : '—'} />
                                     </div>
-                                    {/* Advisory Indicators */}
                                     <div className="space-y-3 pl-4 border-l border-white/5">
-                                        <p className="text-[9px] uppercase tracking-[0.2em] text-slate-600 font-black mb-1">Advisory Intel</p>
                                         <MetricItem icon={TrendingUp} label="Exp. Growth" value={project.expected_growth_rate ? `${project.expected_growth_rate}%` : '—'} colorClass="text-emerald-400" />
-                                        <MetricItem icon={Clock} label="Horizon" value={project.holding_period_recommendation ? `${project.holding_period_recommendation}Y` : '—'} />
                                         <MetricItem icon={ShieldCheck} label="Confidence" value={project.analyst_confidence_level ? `${project.analyst_confidence_level}%` : '—'} />
                                     </div>
                                 </div>
+                            </div>
 
-                                {/* Footer Action */}
-                                <div className="pt-2 flex items-center justify-between group/action">
-                                    <span className="text-[10px] uppercase tracking-widest text-slate-500 font-black group-hover/action:text-yellow-500 transition-colors">
-                                        Examine Asset Intelligence
-                                    </span>
-                                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 group-hover/action:bg-yellow-500 group-hover/action:text-slate-950 transition-all duration-300 shadow-xl group-hover:scale-110">
-                                        <ArrowUpRight size={16} />
-                                    </div>
+                            <div className="p-8 pt-0 flex items-center justify-between gap-4">
+                                <div className="pt-2 flex items-center justify-between group/action flex-1">
+                                    <span className="text-[10px] uppercase tracking-widest text-slate-500 font-black group-hover/action:text-yellow-500 transition-colors">Examine Intelligence</span>
+                                    <ArrowUpRight size={16} />
+                                </div>
+                                <div className="pt-2">
+                                    <CompareToggle project={{ id: project.id, name: project.name }} />
                                 </div>
                             </div>
                         </Link>
-                    ))}
-                </div>
-            )}
+                        
+                        <div className="absolute bottom-6 right-20 z-20">
+                            {clientId && <WorkspaceToggle projectId={project.id} clientId={clientId} initialState={project.isSelected} />}
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

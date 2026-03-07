@@ -1,0 +1,230 @@
+import { createClient } from '@/lib/supabase/server';
+import { redirect, Link } from '@/navigation';
+import StrategicFitGauge from '@/components/advisory/StrategicFitGauge';
+import CompareToggle from '@/components/advisory/CompareToggle';
+import LifecycleTimeline from '@/components/advisory/LifecycleTimeline';
+import LifecycleStageUpdate from '@/components/advisory/LifecycleStageUpdate';
+import {
+    Building2,
+    MapPin,
+    ArrowUpRight,
+    MessageSquare,
+    CheckSquare,
+    ChevronRight,
+    BarChart3,
+    Calendar,
+    Target,
+    Coins,
+    Clock,
+    Briefcase,
+    ShieldCheck
+} from 'lucide-react';
+
+interface WorkspacePageProps {
+    params: { locale: string };
+}
+
+type Project = {
+    id: string;
+    name: string;
+    location: string;
+    developer: string | null;
+    investment_grade: string | null;
+    price_per_m2: number | null;
+    launch_year: number | null;
+    target_segment: string | null;
+    expected_growth_rate: number | null;
+    holding_period_recommendation: number | null;
+    analyst_confidence_level: number | null;
+};
+
+type FitResult = {
+    fit_score: number | null;
+    fit_label: string | null;
+    risk_alignment: number | null;
+    return_alignment: number | null;
+    horizon_alignment: number | null;
+};
+
+type AdvisorNote = {
+    id: string;
+    content: string;
+    created_at: string;
+};
+
+type ChecklistItem = {
+    id: string;
+    task_name: string;
+    is_completed: boolean;
+};
+
+type ProjectSummary = Project & FitResult & {
+    advisor_notes: AdvisorNote[];
+    checklist: ChecklistItem[];
+    lifecycle?: {
+        id: string;
+        stage: string;
+    } | null;
+};
+
+const GRADE_CONFIG: Record<string, string> = {
+    A: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5',
+    B: 'text-sky-400 border-sky-500/30 bg-sky-500/5',
+    C: 'text-amber-400 border-amber-500/30 bg-amber-500/5',
+    D: 'text-rose-400 border-rose-500/30 bg-rose-500/5',
+};
+
+function GradeBadge({ grade }: { grade: string | null }) {
+    if (!grade) return null;
+    const styles = GRADE_CONFIG[grade] || 'text-slate-400 border-slate-700 bg-slate-800';
+    return <div className={`px-2 py-0.5 rounded-full border text-[9px] font-black uppercase tracking-widest ${styles}`}>G {grade}</div>;
+}
+
+export default async function DecisionWorkspace({ params }: WorkspacePageProps) {
+    const { locale } = await Promise.resolve(params);
+    const supabase = createClient();
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) redirect({ href: '/login', locale });
+
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    if (!profile) return null;
+    const isAdmin = profile.role === 'admin';
+
+    const { data: clientRecord } = await supabase.from('clients').select('id').eq('user_id', user.id).single();
+    if (!clientRecord) return null;
+    const clientId = clientRecord.id;
+
+    const { data: selections } = await supabase.from('client_workspace_selections').select('project:projects(*)').eq('client_id', clientId);
+    const rawProjects = (selections?.map(s => s.project) || []) as unknown as Project[];
+
+    const projects: ProjectSummary[] = await Promise.all(
+        rawProjects.map(async (project) => {
+            const { data: fitData } = await supabase.rpc('calculate_project_fit', { p_client_id: clientId, p_project_id: project.id }).maybeSingle<FitResult>();
+            const { data: notes } = await supabase.from('advisor_notes').select('*').eq('client_id', clientId).eq('project_id', project.id).order('created_at', { ascending: false });
+            const { data: checklist } = await supabase.from('decision_checklists').select('*').eq('client_id', clientId).eq('project_id', project.id);
+            const { data: lifecycle } = await supabase.from('client_project_lifecycle').select('id, stage').eq('client_id', clientId).eq('project_id', project.id).maybeSingle();
+
+            return {
+                ...project,
+                fit_score: fitData?.fit_score ?? null,
+                fit_label: fitData?.fit_label ?? '—',
+                risk_alignment: fitData?.risk_alignment ?? null,
+                return_alignment: fitData?.return_alignment ?? null,
+                horizon_alignment: fitData?.horizon_alignment ?? null,
+                advisor_notes: notes || [],
+                checklist: checklist || [],
+                lifecycle: lifecycle || null
+            };
+        })
+    );
+
+    return (
+        <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="space-y-2">
+                    <p className="text-xs uppercase tracking-[0.3em] text-yellow-600/80 font-bold">Decision Center</p>
+                    <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-100 italic">Decision <span className="text-yellow-500">Workspace</span></h1>
+                </div>
+                <Link href="/dashboard/recommendations" className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 hover:bg-yellow-500 hover:text-slate-950 transition-all font-bold">Add More Assets</Link>
+            </div>
+
+            {projects.length === 0 && (
+                <div className="flex flex-col items-center justify-center min-h-[50vh] gap-6 text-center rounded-[3rem] border border-white/5 bg-slate-900/40 p-12 glass">
+                    <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center text-slate-600 border border-white/5"><Briefcase size={36} /></div>
+                    <div className="space-y-2">
+                        <p className="text-slate-300 text-xl font-black italic tracking-tight">Your Workspace is Empty</p>
+                        <p className="text-slate-500 text-xs max-w-[300px] leading-relaxed uppercase tracking-widest font-medium">Select assets from the Opportunity Board to begin your institutional evaluation.</p>
+                    </div>
+                    <Link href="/dashboard/recommendations" className="mt-4 px-8 py-4 rounded-3xl bg-yellow-500 text-slate-950 text-xs font-black uppercase tracking-widest shadow-2xl shadow-yellow-500/20 hover:scale-105 active:scale-95 transition-all">Explore Opportunities</Link>
+                </div>
+            )}
+
+            <div className="grid grid-cols-1 gap-12">
+                {projects.map((item) => (
+                    <div key={item.id} className="group relative glass rounded-[3rem] border border-white/5 bg-slate-900/20 overflow-hidden">
+                        
+                        {/* Lifecycle Banner */}
+                        <div className="px-8 pt-8 pb-4 border-b border-white/5 bg-white/[0.01]">
+                            <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-4">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Investment Journey</span>
+                                    {item.lifecycle && (
+                                        <div className="px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-[9px] font-black uppercase tracking-widest">
+                                            Current: {item.lifecycle.stage.replace(/_/g, ' ')}
+                                        </div>
+                                    )}
+                                </div>
+                                {item.lifecycle && (
+                                    <LifecycleStageUpdate 
+                                        lifecycleId={item.lifecycle.id} 
+                                        currentStage={item.lifecycle.stage} 
+                                        isAdmin={isAdmin} 
+                                    />
+                                )}
+                            </div>
+                            <LifecycleTimeline currentStage={item.lifecycle?.stage || 'exploring'} />
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
+                            <div className="lg:col-span-4 p-8 border-r border-white/5 space-y-8">
+                                <div className="space-y-4">
+                                    <div className="flex items-start justify-between">
+                                        <div className="space-y-1">
+                                            <h2 className="text-2xl font-black text-slate-100 italic">{item.name}</h2>
+                                            <div className="flex items-center gap-2 text-slate-500 text-[10px] font-bold uppercase tracking-wider"><MapPin size={12} className="text-yellow-600" />{item.location}</div>
+                                        </div>
+                                        <GradeBadge grade={item.investment_grade} />
+                                    </div>
+                                </div>
+                                <StrategicFitGauge fitScore={item.fit_score} fitLabel={item.fit_label} riskAlignment={item.risk_alignment} returnAlignment={item.return_alignment} horizonAlignment={item.horizon_alignment} />
+                                <div className="pt-4 flex flex-col gap-3">
+                                    <CompareToggle project={{ id: item.id, name: item.name }} />
+                                    <Link href={`/dashboard/projects/${item.id}`} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-yellow-500/[0.03] hover:border-yellow-500/20 transition-all group/link">
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover/link:text-yellow-500 transition-colors">Asset Intelligence Detail</span>
+                                        <ArrowUpRight size={16} className="text-slate-600 group-hover/link:text-yellow-600" />
+                                    </Link>
+                                </div>
+                            </div>
+                            
+                            <div className="lg:col-span-8 p-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-black/10">
+                                <div className="space-y-6">
+                                    <div className="flex items-center gap-2"><MessageSquare size={16} className="text-yellow-500" /><h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-200">Advisor Insights</h3></div>
+                                    <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                                        {item.advisor_notes.length === 0 ? (
+                                            <div className="p-6 rounded-2xl border border-dashed border-white/10 text-center"><p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">Awaiting Advisor Feedback</p></div>
+                                        ) : (
+                                            item.advisor_notes.map(note => (
+                                                <div key={note.id} className="p-5 rounded-2xl bg-white/5 border border-white/5"><p className="text-xs text-slate-300 leading-relaxed italic">"{note.content}"</p></div>
+                                            ))
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="space-y-6">
+                                    <div className="flex items-center gap-2"><CheckSquare size={16} className="text-emerald-500" /><h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-200">Decision Items</h3></div>
+                                    <div className="space-y-3">
+                                        {item.checklist.length === 0 ? (
+                                            ['Legal Audit', 'Financial Verification', 'Site Inspection'].map((t, i) => (
+                                                <div key={i} className="flex items-center gap-3 p-3 rounded-xl border border-white/5 bg-white/[0.02] opacity-30">
+                                                    <div className="w-5 h-5 rounded border border-white/10" />
+                                                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{t}</span>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            item.checklist.map(task => (
+                                                <div key={task.id} className={`flex items-center gap-3 p-3 rounded-xl border ${task.is_completed ? 'bg-emerald-500/5 border-emerald-500/20 text-emerald-400' : 'bg-white/[0.02] border-white/5'}`}>
+                                                    <div className={`w-5 h-5 rounded border flex items-center justify-center ${task.is_completed ? 'bg-emerald-500 border-emerald-500' : 'border-white/20'}`}>{task.is_completed && <Check size={12} className="text-slate-950" />}</div>
+                                                    <span className="text-[11px] font-black uppercase tracking-wider">{task.task_name}</span>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}

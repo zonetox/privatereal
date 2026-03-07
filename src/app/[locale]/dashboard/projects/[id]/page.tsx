@@ -95,8 +95,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
     const isAdmin = profile?.role === 'admin';
 
-    // 2. Fetch Project Data
-    const { data: project, error: projectError } = await supabase
+    // 2. Fetch Project Data with Intelligence Layers
+    const { data: projectData, error: projectError } = await supabase
         .from('projects')
         .select(`
             id,
@@ -116,14 +116,27 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             expected_growth_rate,
             holding_period_recommendation,
             status,
-            visible_to_clients
+            visible_to_clients,
+            location_intelligence:project_location(*),
+            market_intelligence:project_market(*),
+            risk_intelligence:project_risk(*),
+            opportunity_cards(*)
         `)
         .eq('id', id)
         .single();
 
-    if (projectError || !project) {
+    if (projectError || !projectData) {
         return notFound();
     }
+    
+    // Normalize single joined rows (since they are 1:1 but supabase might return arrays depending on setup)
+    const project = {
+        ...projectData,
+        location_intel: Array.isArray(projectData.location_intelligence) ? projectData.location_intelligence[0] : projectData.location_intelligence,
+        market_intel: Array.isArray(projectData.market_intelligence) ? projectData.market_intelligence[0] : projectData.market_intelligence,
+        risk_intel: Array.isArray(projectData.risk_intelligence) ? projectData.risk_intelligence[0] : projectData.risk_intelligence,
+        opportunity_card: Array.isArray(projectData.opportunity_cards) ? projectData.opportunity_cards[0] : projectData.opportunity_cards
+    };
 
     // Security check: Client can only see active + visible projects
     if (!isAdmin) {
@@ -259,6 +272,101 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                             <InfoCard icon={BarChart3} label="Expected Growth (p.a.)" value={project.expected_growth_rate ? `${project.expected_growth_rate}%` : null} />
                         </div>
                     </div>
+
+                    {/* SECTION 6A: Investment Thesis from Opportunity Card */}
+                    {project.opportunity_card && (project.opportunity_card.thesis_summary || project.opportunity_card.key_strengths?.length > 0) && (
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-2">
+                                <Target size={18} className="text-yellow-500" />
+                                <h2 className="text-lg font-bold tracking-tight text-slate-100">Investment Thesis</h2>
+                            </div>
+                            <div className="glass p-6 rounded-2xl border border-yellow-500/20 bg-yellow-500/[0.02] space-y-6">
+                                {project.opportunity_card.thesis_summary && (
+                                    <p className="text-sm text-slate-300 leading-relaxed italic border-l-2 border-yellow-500/50 pl-4">{project.opportunity_card.thesis_summary}</p>
+                                )}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                                    {project.opportunity_card.key_strengths && project.opportunity_card.key_strengths.length > 0 && (
+                                        <div className="space-y-3">
+                                            <h3 className="text-[10px] font-black uppercase tracking-widest text-emerald-500 flex items-center gap-1.5"><TrendingUp size={12}/> Key Strengths</h3>
+                                            <ul className="space-y-2">
+                                                {project.opportunity_card.key_strengths.map((str: string, idx: number) => (
+                                                    <li key={idx} className="flex items-start gap-2 text-xs text-slate-300"><span className="text-emerald-500 mt-0.5">•</span> {str}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    {project.opportunity_card.risk_indicators && project.opportunity_card.risk_indicators.length > 0 && (
+                                        <div className="space-y-3">
+                                            <h3 className="text-[10px] font-black uppercase tracking-widest text-amber-500 flex items-center gap-1.5"><AlertTriangle size={12}/> Primary Risks</h3>
+                                            <ul className="space-y-2">
+                                                {project.opportunity_card.risk_indicators.map((risk: string, idx: number) => (
+                                                    <li key={idx} className="flex items-start gap-2 text-xs text-slate-400 italic"><span className="text-amber-500 mt-0.5">•</span> {risk}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* SECTION 7: Advanced Intelligence Domains */}
+                    {project.location_intel && (
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-2">
+                                <MapPin size={18} className="text-yellow-500" />
+                                <h2 className="text-lg font-bold tracking-tight text-slate-100">Location Intelligence</h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <InfoCard icon={MapPin} label="Distance to CBD" value={project.location_intel.distance_to_cbd ? `${project.location_intel.distance_to_cbd} km` : null} />
+                                <InfoCard icon={CheckCircle2} label="Metro Access" value={project.location_intel.metro_access} />
+                                <InfoCard icon={CheckCircle2} label="Highway Access" value={project.location_intel.highway_access ? 'Yes' : 'No'} />
+                                <InfoCard icon={Layout} label="Neighborhood" value={project.location_intel.neighborhood_quality} />
+                            </div>
+                            {project.location_intel.infrastructure_pipeline && project.location_intel.infrastructure_pipeline.length > 0 && (
+                                <div className="glass p-6 rounded-2xl border border-white/5 space-y-3">
+                                    <h3 className="text-sm font-bold uppercase tracking-widest text-slate-200">Infrastructure Pipeline</h3>
+                                    <ul className="space-y-2">
+                                        {project.location_intel.infrastructure_pipeline.map((item: string, idx: number) => (
+                                            <li key={idx} className="flex items-start gap-2 text-sm text-slate-400">
+                                                <span className="text-yellow-500 mt-1">•</span> {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {project.market_intel && (
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-2">
+                                <TrendingUp size={18} className="text-yellow-500" />
+                                <h2 className="text-lg font-bold tracking-tight text-slate-100">Market Intelligence</h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <InfoCard icon={Coins} label="Area Avg Price" value={project.market_intel.average_price_area ? formatter.format(Number(project.market_intel.average_price_area)) : null} />
+                                <InfoCard icon={BarChart3} label="3Y Area Growth" value={project.market_intel.price_growth_3y ? `${project.market_intel.price_growth_3y}%` : null} />
+                                <InfoCard icon={Target} label="Supply Level" value={project.market_intel.supply_level} />
+                                <InfoCard icon={CheckCircle2} label="Demand Level" value={project.market_intel.demand_level} />
+                            </div>
+                        </div>
+                    )}
+
+                    {project.risk_intel && (
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-2">
+                                <AlertTriangle size={18} className="text-yellow-500" />
+                                <h2 className="text-lg font-bold tracking-tight text-slate-100">Contextual Risk Intelligence</h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <InfoCard icon={ShieldCheck} label="Legal Risk" value={project.risk_intel.legal_risk} />
+                                <InfoCard icon={AlertTriangle} label="Construction Risk" value={project.risk_intel.construction_risk} />
+                                <InfoCard icon={Target} label="Supply Risk" value={project.risk_intel.supply_risk} />
+                                <InfoCard icon={TrendingUp} label="Market Risk" value={project.risk_intel.market_risk} />
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Right Column: Strategic Fit (Fixed Position-like on desktop) */}

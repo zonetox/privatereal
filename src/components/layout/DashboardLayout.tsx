@@ -44,6 +44,7 @@ const navItems = [
     { href: '/dashboard/projects', label: 'projects', icon: Briefcase, roles: ['admin'] },
     { href: '/dashboard/portfolio', label: 'portfolio', icon: PieChart, roles: ['admin'] },
     { href: '/dashboard/recommendations', label: 'recommendations', icon: Sparkles, roles: ['client', 'admin'] },
+    { href: '/dashboard/workspace', label: 'workspace', icon: Briefcase, roles: ['client', 'admin'] },
     { href: '/dashboard/my-properties', label: 'myProperties', icon: Building2, roles: ['client', 'admin'] },
     { href: '/dashboard/reports', label: 'reports', icon: FileText, roles: ['admin'] },
     { href: '/dashboard/settings', label: 'settings', icon: Settings, roles: ['admin', 'client'] },

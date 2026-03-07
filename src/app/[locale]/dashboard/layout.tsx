@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { redirect } from '@/navigation';
+import ComparisonManager from '@/components/advisory/ComparisonManager';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,6 +42,7 @@ export default async function DashboardLayoutWrapper({
   return (
     <DashboardLayout user={userData}>
       {children}
+      <ComparisonManager />
     </DashboardLayout>
   );
 }
