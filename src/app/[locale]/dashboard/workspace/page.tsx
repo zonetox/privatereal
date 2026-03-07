@@ -27,9 +27,11 @@ type Project = {
 type FitResult = {
     fit_score: number | null;
     fit_label: string | null;
+    financial_alignment: number | null;
     risk_alignment: number | null;
-    return_alignment: number | null;
     horizon_alignment: number | null;
+    location_alignment: number | null;
+    strategy_alignment: number | null;
 };
 
 type AdvisorNote = {
@@ -95,9 +97,11 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                 ...project,
                 fit_score: fitData?.fit_score ?? null,
                 fit_label: fitData?.fit_label ?? '—',
+                financial_alignment: fitData?.financial_alignment ?? null,
                 risk_alignment: fitData?.risk_alignment ?? null,
-                return_alignment: fitData?.return_alignment ?? null,
                 horizon_alignment: fitData?.horizon_alignment ?? null,
+                location_alignment: fitData?.location_alignment ?? null,
+                strategy_alignment: fitData?.strategy_alignment ?? null,
                 advisor_notes: notes || [],
                 checklist: checklist || [],
                 lifecycle: lifecycle || null
@@ -163,7 +167,7 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                                         <GradeBadge grade={item.investment_grade} />
                                     </div>
                                 </div>
-                                <StrategicFitGauge fitScore={item.fit_score} fitLabel={item.fit_label} riskAlignment={item.risk_alignment} returnAlignment={item.return_alignment} horizonAlignment={item.horizon_alignment} />
+                                <StrategicFitGauge fitScore={item.fit_score} fitLabel={item.fit_label} financialAlignment={item.financial_alignment} riskAlignment={item.risk_alignment} horizonAlignment={item.horizon_alignment} locationAlignment={item.location_alignment} strategyAlignment={item.strategy_alignment} />
                                 <div className="pt-4 flex flex-col gap-3">
                                     <CompareToggle project={{ id: item.id, name: item.name }} />
                                     <Link href={`/dashboard/projects/${item.id}`} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-yellow-500/[0.03] hover:border-yellow-500/20 transition-all group/link">

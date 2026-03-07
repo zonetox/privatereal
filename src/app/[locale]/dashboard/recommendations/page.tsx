@@ -50,9 +50,11 @@ type Project = {
 type FitResult = {
     fit_score: number | null;
     fit_label: string | null;
+    financial_alignment: number | null;
     risk_alignment: number | null;
-    return_alignment: number | null;
     horizon_alignment: number | null;
+    location_alignment: number | null;
+    strategy_alignment: number | null;
 };
 
 type ProjectWithFit = Project & FitResult & { isSelected: boolean };
@@ -129,7 +131,7 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
     // 5. Fit calculation (extended)
     const projectsWithFit: ProjectWithFit[] = await Promise.all(
         activeProjects.map(async (project: Project) => {
-            if (!clientId) return { ...project, fit_score: null, fit_label: 'Insufficient Data', risk_alignment: null, return_alignment: null, horizon_alignment: null, isSelected: false };
+            if (!clientId) return { ...project, fit_score: null, fit_label: 'Insufficient Data', financial_alignment: null, risk_alignment: null, horizon_alignment: null, location_alignment: null, strategy_alignment: null, isSelected: false };
 
             const { data: fitData } = await supabase.rpc('calculate_project_fit', { p_client_id: clientId, p_project_id: project.id }).maybeSingle<FitResult>();
 
@@ -137,9 +139,11 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
                 ...project,
                 fit_score: fitData?.fit_score ?? null,
                 fit_label: fitData?.fit_label ?? 'Insufficient Data',
+                financial_alignment: fitData?.financial_alignment ?? null,
                 risk_alignment: fitData?.risk_alignment ?? null,
-                return_alignment: fitData?.return_alignment ?? null,
                 horizon_alignment: fitData?.horizon_alignment ?? null,
+                location_alignment: fitData?.location_alignment ?? null,
+                strategy_alignment: fitData?.strategy_alignment ?? null,
                 isSelected: selectedIds.has(project.id)
             };
         })
@@ -181,9 +185,11 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
                                 <StrategicFitGauge 
                                     fitScore={project.fit_score} 
                                     fitLabel={project.fit_label}
+                                    financialAlignment={project.financial_alignment ?? null}
                                     riskAlignment={project.risk_alignment}
-                                    returnAlignment={project.return_alignment}
                                     horizonAlignment={project.horizon_alignment}
+                                    locationAlignment={project.location_alignment ?? null}
+                                    strategyAlignment={project.strategy_alignment ?? null}
                                     analystConfidence={project.analyst_confidence_level}
                                 />
                             </div>

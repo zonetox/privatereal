@@ -5,9 +5,11 @@ interface FitScorePanelProps {
     score?: {
         fit_score?: number | null;
         fit_label?: string | null;
+        financial_alignment?: number | null;
         risk_alignment?: number | null;
-        return_alignment?: number | null;
         horizon_alignment?: number | null;
+        location_alignment?: number | null;
+        strategy_alignment?: number | null;
     } | null;
     analystConfidence?: number | null;
     isAdmin?: boolean;
@@ -33,9 +35,11 @@ export default function FitScorePanel({ score, analystConfidence, isAdmin = fals
             <StrategicFitGauge
                 fitScore={score?.fit_score ?? null}
                 fitLabel={score?.fit_label ?? null}
+                financialAlignment={score?.financial_alignment ?? null}
                 riskAlignment={score?.risk_alignment ?? null}
-                returnAlignment={score?.return_alignment ?? null}
                 horizonAlignment={score?.horizon_alignment ?? null}
+                locationAlignment={score?.location_alignment ?? null}
+                strategyAlignment={score?.strategy_alignment ?? null}
                 analystConfidence={analystConfidence ?? null}
             />
         </div>
