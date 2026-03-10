@@ -32,16 +32,28 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
         redirect({ href: '/dashboard', locale });
     }
 
-    // 2. Fetch Client Data
-    const { data: client, error } = await supabase
+    // 2. Fetch Client Data (Aggregated from Domain Tables)
+    const { data: clientBase, error } = await supabase
         .from('clients')
         .select('*')
         .eq('id', params.id)
         .single();
 
-    if (error || !client) {
+    if (error || !clientBase) {
         notFound();
     }
+
+    const { data: financials } = await supabase.from('client_financials').select('*').eq('client_id', params.id).single();
+    const { data: preferences } = await supabase.from('client_preferences').select('*').eq('client_id', params.id).single();
+    const { data: priorities } = await supabase.from('client_priorities').select('*').eq('client_id', params.id).single();
+
+    // Reconstruct full client object for the form
+    const client = {
+        ...clientBase,
+        ...financials,
+        ...preferences,
+        ...priorities
+    };
 
     // 3. Fetch Advisor Notes
     const { data: initialNotes } = await supabase

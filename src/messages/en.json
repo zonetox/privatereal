@@ -14,7 +14,7 @@
     "leads": "Leads",
     "clients": "Clients",
     "projects": "Projects",
-    "portfolio": "Portfolio",
+    "portfolio": "Property Collection",
     "recommendations": "Recommendations",
     "workspace": "Decision Workspace",
     "myProperties": "My Properties",
@@ -58,7 +58,7 @@
     "investor": "Full-time Investor",
     "other": "Other Professional",
     "preserve": "Capital Preservation",
-    "diversify": "Portfolio Diversification",
+    "diversify": "Strategy Balance",
     "income": "Rental Income Generation",
     "growth": "Aggressive Capital Growth",
     "fullName": "Full Name",
@@ -96,7 +96,7 @@
       },
       "step4": {
         "title": "Activation",
-        "desc": "Full activation of the Elite Intelligence Engine and portfolio monitoring."
+        "desc": "Full activation of the Elite Intelligence Engine and property oversight."
       }
     },
     "engines": {
@@ -115,16 +115,16 @@
       },
       "engine4": {
         "title": "Advisory Fit Engine",
-        "desc": "Real-time algorithmic matching of assets to private investor profiles."
+        "desc": "Real-time algorithmic matching of properties to private investor profiles."
       },
       "engine5": {
         "title": "Executive Client Portal",
-        "desc": "Secure transparency for acquisition progress and portfolio monitoring."
+        "desc": "Secure transparency for acquisition progress and project oversight."
       }
     },
     "methodology": {
       "title": "Our Methodology",
-      "text": "The PREIO framework eliminates retail speculation. Every asset is audited across six institutional dimensions—Legal, Connectivity, Infrastructure, Liquidity, Growth, and Risk—to generate a definitive Investment Grade score."
+      "text": "The PREIO framework eliminates retail speculation. Every property is audited across six institutional dimensions—Legal, Connectivity, Infrastructure, Liquidity, Growth, and Risk—to generate a definitive Investment Grade score."
     },
     "authority": {
       "title": "Institutional Authority",

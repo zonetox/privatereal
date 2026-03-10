@@ -30,7 +30,7 @@ export default async function AdvisorDashboardPage({ params: { locale } }: { par
             {/* Header */}
             <div>
                 <h1 className="text-3xl font-bold tracking-tight gold-text-gradient mb-2">Advisor Command Center</h1>
-                <p className="text-slate-400">Portfolio oversight and strategic directives.</p>
+                <p className="text-slate-400">Strategic property oversight and directives.</p>
             </div>
 
             {/* Quick Stats */}

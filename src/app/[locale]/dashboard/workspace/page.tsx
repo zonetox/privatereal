@@ -116,7 +116,7 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                     <p className="text-xs uppercase tracking-[0.3em] text-yellow-600/80 font-bold">Decision Center</p>
                     <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-100 italic">Decision <span className="text-yellow-500">Workspace</span></h1>
                 </div>
-                <Link href="/dashboard/recommendations" className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 hover:bg-yellow-500 hover:text-slate-950 transition-all font-bold">Add More Assets</Link>
+                <Link href="/dashboard/recommendations" className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 hover:bg-yellow-500 hover:text-slate-950 transition-all font-bold">Explore More Projects</Link>
             </div>
 
             {projects.length === 0 && (
@@ -124,7 +124,7 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                     <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center text-slate-600 border border-white/5"><Briefcase size={36} /></div>
                     <div className="space-y-2">
                         <p className="text-slate-300 text-xl font-black italic tracking-tight">Your Workspace is Empty</p>
-                        <p className="text-slate-500 text-xs max-w-[300px] leading-relaxed uppercase tracking-widest font-medium">Select assets from the Opportunity Board to begin your institutional evaluation.</p>
+                        <p className="text-slate-500 text-xs max-w-[300px] leading-relaxed uppercase tracking-widest font-medium">Select projects from the Opportunity Board to begin your institutional evaluation.</p>
                     </div>
                     <Link href="/dashboard/recommendations" className="mt-4 px-8 py-4 rounded-3xl bg-yellow-500 text-slate-950 text-xs font-black uppercase tracking-widest shadow-2xl shadow-yellow-500/20 hover:scale-105 active:scale-95 transition-all">Explore Opportunities</Link>
                 </div>

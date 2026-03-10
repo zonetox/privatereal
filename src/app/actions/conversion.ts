@@ -67,7 +67,7 @@ export async function convertLeadToClientAction(leadId: string) {
         if (profileError) throw profileError;
 
         // 5. Create Client Record
-        const { error: clientError } = await adminClient
+        const { data: newClient, error: clientError } = await adminClient
             .from('clients')
             .insert({
                 user_id: newUserId,
@@ -75,11 +75,18 @@ export async function convertLeadToClientAction(leadId: string) {
                 email: lead.email,
                 phone: lead.phone,
                 status: 'active'
-            });
+            })
+            .select()
+            .single();
 
-        if (clientError) throw clientError;
+        if (clientError || !newClient) throw clientError || new Error('Failed to create client record');
 
-        // 6. Update Lead Status
+        // 6. Initialize Domain Tables
+        await adminClient.from('client_financials').insert({ client_id: newClient.id });
+        await adminClient.from('client_preferences').insert({ client_id: newClient.id });
+        await adminClient.from('client_priorities').insert({ client_id: newClient.id });
+
+        // 7. Update Lead Status
         const { error: updateLeadError } = await adminClient
             .from('leads')
             .update({ status: 'converted' })

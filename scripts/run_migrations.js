@@ -4,7 +4,9 @@ const path = require('path');
 require('dotenv').config({ path: '.env.local' });
 
 const migrations = [
-    'supabase/migrations/20240308000000_v3_matching_engine_expansion.sql'
+    'supabase/migrations/20240308000003_add_advisory_intake_fields.sql',
+    'supabase/migrations/20240308000004_consolidate_intelligence_fields.sql',
+    'supabase/migrations/20240308000005_update_matching_engine_v3_core.sql'
 ];
 
 async function runMigrations() {

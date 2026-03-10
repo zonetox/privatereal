@@ -12,6 +12,7 @@ interface ClientProfileData {
     liquidity_preference: string;
     crash_reaction: string;
     leverage_preference: string;
+    investment_horizon?: string;
     target_annual_return?: number;
     succession_planning?: boolean;
     international_exposure_interest?: boolean;
@@ -46,6 +47,7 @@ export async function updateClientProfileAction(clientId: string, data: ClientPr
         liquidity_preference: data.liquidity_preference,
         crash_reaction: data.crash_reaction,
         leverage_preference: data.leverage_preference,
+        investment_horizon: data.investment_horizon,
 
         target_annual_return: data.target_annual_return || 0,
         succession_planning: !!data.succession_planning,
@@ -53,7 +55,35 @@ export async function updateClientProfileAction(clientId: string, data: ClientPr
         decision_style: data.decision_style
     };
 
-    // 3. Update Client
+    // 3. Update Domain Tables (Normalized)
+    await Promise.all([
+        supabase.from('client_financials').upsert({
+            client_id: clientId,
+            liquid_capital: updateData.liquid_capital,
+            annual_business_revenue: updateData.annual_business_revenue,
+            debt_obligations: updateData.debt_obligations,
+            real_estate_allocation_percent: updateData.real_estate_allocation_percent
+        }),
+        supabase.from('client_preferences').upsert({
+            client_id: clientId,
+            risk_score: 0, // Will be updated by trigger on clients table for now
+            risk_profile: data.liquidity_preference === 'high' ? 'conservative' : 'balanced', // Placeholder logic if needed, but trigger on clients is primary
+            investment_horizon: data.investment_horizon,
+            liquidity_preference: updateData.liquidity_preference,
+            leverage_preference: updateData.leverage_preference,
+            target_annual_return: updateData.target_annual_return,
+            crash_reaction: updateData.crash_reaction,
+            decision_style: updateData.decision_style
+        }),
+        supabase.from('client_priorities').upsert({
+            client_id: clientId,
+            succession_planning: updateData.succession_planning,
+            international_exposure_interest: updateData.international_exposure_interest,
+            max_drawdown_percent: updateData.max_drawdown_percent
+        })
+    ]);
+
+    // 4. Update Main Client Table (Maintains risk scoring & backward compatibility)
     const { data: updatedClient, error } = await supabase
         .from('clients')
         .update(updateData)

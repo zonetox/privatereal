@@ -14,7 +14,7 @@
         "leads": "Tiềm năng",
         "clients": "Khách hàng",
         "projects": "Dự án",
-        "portfolio": "Danh mục",
+        "portfolio": "Bộ sưu tập BĐS",
         "recommendations": "Khuyến nghị",
         "workspace": "Không gian Quyết định",
         "myProperties": "Tài sản của tôi",
@@ -58,7 +58,7 @@
         "investor": "Nhà đầu tư chuyên nghiệp",
         "other": "Nghề nghiệp khác",
         "preserve": "Bảo toàn vốn",
-        "diversify": "Đa dạng hóa danh mục",
+        "diversify": "Cân bằng Chiến lược",
         "income": "Tạo dòng tiền cho thuê",
         "growth": "Tăng trưởng vốn mạnh",
         "fullName": "Họ và Tên",
@@ -96,7 +96,7 @@
             },
             "step4": {
                 "title": "Kích hoạt",
-                "desc": "Kích hoạt toàn bộ Hệ thống Tình báo Ưu tú và giám sát danh mục đầu tư."
+                "desc": "Kích hoạt toàn bộ Hệ hệ thống Tình báo Ưu tú và giám sát bất động sản."
             }
         },
         "engines": {
@@ -115,16 +115,16 @@
             },
             "engine4": {
                 "title": "Công cụ Khớp lệnh Cố vấn",
-                "desc": "Thuật toán khớp tài sản với hồ sơ nhà đầu tư tư nhân trong thời gian thực."
+                "desc": "Thuật toán khớp bất động sản với hồ sơ nhà đầu tư tư nhân trong thời gian thực."
             },
             "engine5": {
                 "title": "Cổng thông tin Khách hàng Executive",
-                "desc": "Minh bạch bảo mật cho tiến độ thâu tóm và giám sát danh mục."
+                "desc": "Minh bạch bảo mật cho tiến độ thâu tóm và giám sát dự án."
             }
         },
         "methodology": {
             "title": "Phương pháp luận",
-            "text": "Khung PREIO loại bỏ các suy đoán bán lẻ. Mọi tài sản đều được kiểm toán qua sáu khía cạnh tổ chức—Pháp lý, Kết nối, Hạ tầng, Thanh khoản, Tăng trưởng và Rủi ro—để tạo ra điểm xếp hạng Đầu tư cuối cùng."
+            "text": "Khung PREIO loại bỏ các suy đoán bán lẻ. Mọi bất động sản đều được kiểm toán qua sáu khía cạnh tổ chức—Pháp lý, Kết nối, Hạ tầng, Thanh khoản, Tăng trưởng và Rủi ro—để tạo ra điểm xếp hạng Đầu tư cuối cùng."
         },
         "authority": {
             "title": "Thẩm quyền Tổ chức",
