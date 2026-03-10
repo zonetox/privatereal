@@ -144,8 +144,7 @@ Potential future capabilities include:
 
 - market intelligence pipelines
 - advanced scoring models
-- scenario simulations
-- portfolio analytics
+- advisor insight engines
 
 These capabilities will be introduced through the **Advanced Intelligence phase**.
 

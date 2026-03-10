@@ -17,7 +17,7 @@ export default function RiskPanel({ risk }: RiskPanelProps) {
         <div className="space-y-6">
             <div className="flex items-center gap-2">
                 <AlertTriangle size={18} className="text-yellow-500" />
-                <h2 className="text-lg font-bold tracking-tight text-slate-100">Contextual Risk Intelligence</h2>
+                <h2 className="text-lg font-bold tracking-tight text-slate-100">Strategic Risk Assessment</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InfoCard icon={ShieldCheck} label="Legal Risk" value={risk.legal_risk ?? null} />

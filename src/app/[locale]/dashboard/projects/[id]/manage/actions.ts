@@ -64,7 +64,7 @@ export async function updateProjectAction(projectId: string, formData: FormData)
 
         const missingFields = requiredFields.filter(f => updateData[f] === null);
         if (missingFields.length > 0) {
-            return { success: false, error: "Project incomplete. All intelligence scores and analyst confidence must be populated before publication." };
+            return { success: false, error: "Project incomplete. All advisory scores and analyst confidence must be populated before publication." };
         }
     }
 

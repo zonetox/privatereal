@@ -17,7 +17,7 @@ export default function LoginPage() {
             {/* Minimalist footer */}
             <div className="absolute bottom-8 w-full text-center z-10">
                 <p className="text-[9px] text-slate-700 font-bold uppercase tracking-[0.3em]">
-                    Private Real Estate Intelligence Office • PREIO Infrastructure v2.0
+                    Private Real Estate Advisory Office • PREIO Infrastructure v2.1
                 </p>
             </div>
         </div>

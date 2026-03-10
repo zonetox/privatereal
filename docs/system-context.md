@@ -210,8 +210,7 @@ The platform aims to evolve into a **Decision Intelligence Platform for Real Est
 Future capabilities may include:
 
 - advanced scoring models
-- scenario simulations
-- portfolio intelligence
+- market intelligence engines
 - advisor insight engines
 
 These enhancements will be implemented through the **Advanced Intelligence phase** while maintaining the core architecture.

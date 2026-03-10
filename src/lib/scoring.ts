@@ -1,18 +1,18 @@
-export type CapitalRange = 'capital_1_3' | 'capital_3_5' | 'capital_5_10' | 'capital_10_20' | 'capital_20plus';
+export type BudgetRange = 'capital_1_3' | 'capital_3_5' | 'capital_5_10' | 'capital_10_20' | 'capital_20plus';
 export type CashflowRange = 'cashflow_lt100' | 'cashflow_100_300' | 'cashflow_300_1b' | 'cashflow_gt1b';
 export type Occupation = 'owner' | 'executive' | 'investor' | 'other';
 export type Objective = 'preserve' | 'diversify' | 'income' | 'growth';
 
 export function calculateLeadScore(
-    capital: CapitalRange,
+    budget: BudgetRange,
     cashflow: CashflowRange,
     occupation: Occupation,
     objective: Objective
 ) {
     let score = 0;
 
-    // Capital weights
-    const capitalWeights: Record<CapitalRange, number> = {
+    // Budget weights
+    const budgetWeights: Record<BudgetRange, number> = {
         capital_1_3: 5,
         capital_3_5: 10,
         capital_5_10: 25,
@@ -44,7 +44,7 @@ export function calculateLeadScore(
         growth: 5,
     };
 
-    score += capitalWeights[capital] || 0;
+    score += budgetWeights[budget] || 0;
     score += cashflowWeights[cashflow] || 0;
     score += occupationWeights[occupation] || 0;
     score += objectiveWeights[objective] || 0;

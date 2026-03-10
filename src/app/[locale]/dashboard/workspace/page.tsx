@@ -1,9 +1,9 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect, Link } from '@/navigation';
-import StrategicFitGauge from '@/components/advisory/StrategicFitGauge';
-import CompareToggle from '@/components/advisory/CompareToggle';
-import LifecycleTimeline from '@/components/advisory/LifecycleTimeline';
-import LifecycleStageUpdate from '@/components/advisory/LifecycleStageUpdate';
+import StrategicFitGauge from '@/components/projects/StrategicFitGauge';
+import CompareToggle from '@/components/projects/CompareToggle';
+import LifecycleTimeline from '@/components/projects/LifecycleTimeline';
+import LifecycleStageUpdate from '@/components/projects/LifecycleStageUpdate';
 import { Briefcase, Link as LinkIcon, AlertTriangle, ShieldCheck, CreditCard, Scale, Building2, Eye, Banknote, Clock, ArrowRight, MapPin, Check, ArrowUpRight, MessageSquare, CheckSquare } from 'lucide-react';
 
 interface WorkspacePageProps {
@@ -27,11 +27,11 @@ type Project = {
 type FitResult = {
     fit_score: number | null;
     fit_label: string | null;
-    financial_alignment: number | null;
+    budget_alignment: number | null;
     risk_alignment: number | null;
     horizon_alignment: number | null;
     location_alignment: number | null;
-    strategy_alignment: number | null;
+    goal_alignment: number | null;
 };
 
 type AdvisorNote = {
@@ -97,11 +97,11 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                 ...project,
                 fit_score: fitData?.fit_score ?? null,
                 fit_label: fitData?.fit_label ?? '—',
-                financial_alignment: fitData?.financial_alignment ?? null,
+                budget_alignment: fitData?.budget_alignment ?? null,
                 risk_alignment: fitData?.risk_alignment ?? null,
                 horizon_alignment: fitData?.horizon_alignment ?? null,
                 location_alignment: fitData?.location_alignment ?? null,
-                strategy_alignment: fitData?.strategy_alignment ?? null,
+                goal_alignment: fitData?.goal_alignment ?? null,
                 advisor_notes: notes || [],
                 checklist: checklist || [],
                 lifecycle: lifecycle || null
@@ -138,7 +138,7 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                         <div className="px-8 pt-8 pb-4 border-b border-white/5 bg-white/[0.01]">
                             <div className="flex items-center justify-between mb-2">
                                 <div className="flex items-center gap-4">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Investment Journey</span>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Advisory Journey</span>
                                     {item.lifecycle && (
                                         <div className="px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-[9px] font-black uppercase tracking-widest">
                                             Current: {item.lifecycle.stage.replace(/_/g, ' ')}
@@ -153,7 +153,7 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                                     />
                                 )}
                             </div>
-                            <LifecycleTimeline currentStage={item.lifecycle?.stage || 'exploring'} />
+                            <LifecycleTimeline currentStage={item.lifecycle?.stage || 'research'} />
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
@@ -167,11 +167,11 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                                         <GradeBadge grade={item.investment_grade} />
                                     </div>
                                 </div>
-                                <StrategicFitGauge fitScore={item.fit_score} fitLabel={item.fit_label} financialAlignment={item.financial_alignment} riskAlignment={item.risk_alignment} horizonAlignment={item.horizon_alignment} locationAlignment={item.location_alignment} strategyAlignment={item.strategy_alignment} />
+                                <StrategicFitGauge fitScore={item.fit_score} fitLabel={item.fit_label} budgetAlignment={item.budget_alignment} riskAlignment={item.risk_alignment} horizonAlignment={item.horizon_alignment} locationAlignment={item.location_alignment} goalAlignment={item.goal_alignment} />
                                 <div className="pt-4 flex flex-col gap-3">
                                     <CompareToggle project={{ id: item.id, name: item.name }} />
                                     <Link href={`/dashboard/projects/${item.id}`} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-yellow-500/[0.03] hover:border-yellow-500/20 transition-all group/link">
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover/link:text-yellow-500 transition-colors">Asset Intelligence Detail</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover/link:text-yellow-500 transition-colors">Property Advisory Detail</span>
                                         <ArrowUpRight size={16} className="text-slate-600 group-hover/link:text-yellow-600" />
                                     </Link>
                                 </div>

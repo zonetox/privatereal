@@ -50,7 +50,7 @@ export default async function QualifiedPage({ searchParams }: QualifiedPageProps
                 <div className="grid md:grid-cols-3 gap-6">
                     {[
                         { icon: Star, title: "Priority Access", desc: "First-look at off-market distressed assets." },
-                        { icon: Trophy, title: "Elite Network", desc: "Invitation to private investor roundtables." },
+                        { icon: Trophy, title: "Elite Network", desc: "Invitation to exclusive client roundtables." },
                         { icon: CheckCircle2, title: "Custom Strategy", desc: "Bespoke 10-year capital growth roadmap." }
                     ].map((item, idx) => (
                         <div key={idx} className="glass p-6 rounded-2xl border border-white/5 space-y-3">

@@ -1,21 +1,21 @@
-import StrategicFitGauge from '@/components/advisory/StrategicFitGauge';
+import StrategicFitGauge from '@/components/projects/StrategicFitGauge';
 import { ShieldCheck } from 'lucide-react';
 
 interface FitScorePanelProps {
     score?: {
         fit_score?: number | null;
         fit_label?: string | null;
-        financial_alignment?: number | null;
+        budget_alignment?: number | null;
         risk_alignment?: number | null;
         horizon_alignment?: number | null;
         location_alignment?: number | null;
-        strategy_alignment?: number | null;
+        goal_alignment?: number | null;
     } | null;
-    analystConfidence?: number | null;
+    advisoryConfidence?: number | null;
     isAdmin?: boolean;
 }
 
-export default function FitScorePanel({ score, analystConfidence, isAdmin = false }: FitScorePanelProps) {
+export default function FitScorePanel({ score, advisoryConfidence, isAdmin = false }: FitScorePanelProps) {
     if (isAdmin) {
         return (
             <div className="glass p-6 rounded-2xl border border-white/5 space-y-4">
@@ -35,12 +35,12 @@ export default function FitScorePanel({ score, analystConfidence, isAdmin = fals
             <StrategicFitGauge
                 fitScore={score?.fit_score ?? null}
                 fitLabel={score?.fit_label ?? null}
-                financialAlignment={score?.financial_alignment ?? null}
+                budgetAlignment={score?.budget_alignment ?? null}
                 riskAlignment={score?.risk_alignment ?? null}
                 horizonAlignment={score?.horizon_alignment ?? null}
                 locationAlignment={score?.location_alignment ?? null}
-                strategyAlignment={score?.strategy_alignment ?? null}
-                analystConfidence={analystConfidence ?? null}
+                goalAlignment={score?.goal_alignment ?? null}
+                advisoryConfidence={advisoryConfidence ?? null}
             />
         </div>
     );

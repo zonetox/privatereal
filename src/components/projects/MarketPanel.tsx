@@ -27,7 +27,7 @@ export default function MarketPanel({ market, locale = 'vi' }: MarketPanelProps)
         <div className="space-y-6">
             <div className="flex items-center gap-2">
                 <TrendingUp size={18} className="text-yellow-500" />
-                <h2 className="text-lg font-bold tracking-tight text-slate-100">Market Intelligence</h2>
+                <h2 className="text-lg font-bold tracking-tight text-slate-100">Market Advisory</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InfoCard icon={Coins} label="Area Avg Price" value={market.average_price_area ? formatter.format(Number(market.average_price_area)) : null} />

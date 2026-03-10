@@ -8,6 +8,8 @@ interface ClientProfileData {
     annual_business_revenue?: number;
     debt_obligations?: number;
     real_estate_allocation_percent?: number;
+    budget_range?: string;
+    
     max_drawdown_percent: string | number;
     liquidity_preference: string;
     crash_reaction: string;
@@ -17,6 +19,11 @@ interface ClientProfileData {
     succession_planning?: boolean;
     international_exposure_interest?: boolean;
     decision_style: string;
+    
+    purchase_goal?: string;
+    preferred_locations?: string[];
+    holding_period?: string;
+    risk_tolerance?: string;
 }
 
 export async function updateClientProfileAction(clientId: string, data: ClientProfileData) {
@@ -52,7 +59,14 @@ export async function updateClientProfileAction(clientId: string, data: ClientPr
         target_annual_return: data.target_annual_return || 0,
         succession_planning: !!data.succession_planning,
         international_exposure_interest: !!data.international_exposure_interest,
-        decision_style: data.decision_style
+        decision_style: data.decision_style,
+        
+        // New Advisory Fields
+        purchase_goal: data.purchase_goal,
+        preferred_locations: data.preferred_locations,
+        holding_period: data.holding_period,
+        risk_tolerance: data.risk_tolerance,
+        budget_range: data.budget_range
     };
 
     // 3. Update Domain Tables (Normalized)
@@ -62,18 +76,23 @@ export async function updateClientProfileAction(clientId: string, data: ClientPr
             liquid_capital: updateData.liquid_capital,
             annual_business_revenue: updateData.annual_business_revenue,
             debt_obligations: updateData.debt_obligations,
-            real_estate_allocation_percent: updateData.real_estate_allocation_percent
+            real_estate_allocation_percent: updateData.real_estate_allocation_percent,
+            budget_range: updateData.budget_range
         }),
         supabase.from('client_preferences').upsert({
             client_id: clientId,
-            risk_score: 0, // Will be updated by trigger on clients table for now
-            risk_profile: data.liquidity_preference === 'high' ? 'conservative' : 'balanced', // Placeholder logic if needed, but trigger on clients is primary
+            risk_score: 0,
+            risk_profile: data.liquidity_preference === 'high' ? 'conservative' : 'balanced',
             investment_horizon: data.investment_horizon,
             liquidity_preference: updateData.liquidity_preference,
             leverage_preference: updateData.leverage_preference,
             target_annual_return: updateData.target_annual_return,
             crash_reaction: updateData.crash_reaction,
-            decision_style: updateData.decision_style
+            decision_style: updateData.decision_style,
+            purchase_goal: updateData.purchase_goal,
+            preferred_locations: updateData.preferred_locations,
+            holding_period: updateData.holding_period,
+            risk_tolerance: updateData.risk_tolerance
         }),
         supabase.from('client_priorities').upsert({
             client_id: clientId,

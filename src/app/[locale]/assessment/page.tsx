@@ -25,7 +25,7 @@ export default function AssessmentPage() {
                 <div className="grid md:grid-cols-3 gap-8 mb-20">
                     {[
                         {
-                            title: "Institutional Intelligence",
+                            title: "Private Advisory",
                             desc: "Access off-market data and institutional-grade analytics usually reserved for global property funds."
                         },
                         {

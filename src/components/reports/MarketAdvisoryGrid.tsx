@@ -14,7 +14,7 @@ interface MarketData {
     appreciation_potential: number;
 }
 
-export default function MarketIntelligenceGrid({ data }: { data: MarketData[] }) {
+export default function MarketAdvisoryGrid({ data }: { data: MarketData[] }) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {data.map((item) => (
@@ -22,8 +22,8 @@ export default function MarketIntelligenceGrid({ data }: { data: MarketData[] })
                     <div className="mb-4">
                         <div className="flex justify-between items-start mb-2">
                             <h3 className="text-lg font-bold text-slate-100">{item.project_name}</h3>
-                            <span className="px-2 py-1 bg-yellow-500/20 text-yellow-500 border border-yellow-500/20 rounded text-xs font-bold">
-                                GRADE {item.investment_grade}
+                            <span className="bg-primary/20 text-primary-foreground text-[10px] font-black px-2 py-0.5 rounded border border-primary/30 uppercase tracking-widest whitespace-nowrap">
+                                ADVISORY {item.investment_grade}
                             </span>
                         </div>
                         <div className="flex items-center gap-2 text-xs text-slate-400">
@@ -35,7 +35,7 @@ export default function MarketIntelligenceGrid({ data }: { data: MarketData[] })
                     <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-                                <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Rental Yield</p>
+                                <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Rental Return</p>
                                 <p className="text-sm font-bold text-slate-200">{item.avg_rental_yield}%</p>
                             </div>
                             <div className="bg-white/5 p-3 rounded-xl border border-white/5">

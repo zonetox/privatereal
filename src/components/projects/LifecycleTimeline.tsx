@@ -3,13 +3,13 @@
 import { Check, Circle, Clock } from 'lucide-react';
 
 const STAGES = [
-    { id: 'exploring', label: 'Exploring', desc: 'Initial research & alignment' },
-    { id: 'site_visit', label: 'Site Visit', desc: 'On-site asset inspection' },
-    { id: 'reservation', label: 'Reservation', desc: 'Formal intent to purchase' },
-    { id: 'deposit', label: 'Deposit', desc: 'Capital commitment' },
-    { id: 'spa_signing', label: 'SPA Signing', desc: 'Legal contract execution' },
-    { id: 'payment', label: 'Final Payment', desc: 'Asset thâu tóm complete' },
-    { id: 'portfolio', label: 'Portfolio', desc: 'Asset under management' }
+    { id: 'research', label: 'Investment Research', desc: 'Detailed asset analysis & strategic fit' },
+    { id: 'site_visit', label: 'Site Inspection', desc: 'Direct on-site infrastructure verification' },
+    { id: 'reservation', label: 'Reservation Secured', desc: 'Official project unit selection' },
+    { id: 'deposit', label: 'Commitment Deposit', desc: 'Financial transaction initiated' },
+    { id: 'contract', label: 'Legal Execution', desc: 'Contractual agreement finalized' },
+    { id: 'payment', label: 'Final Settlement', desc: 'Full ownership transfer complete' },
+    { id: 'portfolio', label: 'Asset Management', desc: 'Integration into property holdings' }
 ];
 
 interface LifecycleTimelineProps {

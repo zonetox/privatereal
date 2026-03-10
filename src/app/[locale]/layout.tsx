@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  description: "Private real estate investment intelligence system for high-net-worth clients.",
+  description: "Private real estate advisory system for high-net-worth clients.",
 };
 
 export function generateStaticParams() {

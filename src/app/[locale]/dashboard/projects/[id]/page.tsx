@@ -17,11 +17,11 @@ import {
     BarChart3,
     LucideIcon
 } from 'lucide-react';
-import LocationPanel from "@/components/project-intelligence/LocationPanel";
-import MarketPanel from "@/components/project-intelligence/MarketPanel";
-import RiskPanel from "@/components/project-intelligence/RiskPanel";
-import FitScorePanel from "@/components/project-intelligence/FitScorePanel";
-import InfoCard from "@/components/project-intelligence/InfoCard";
+import LocationPanel from "@/components/projects/LocationPanel";
+import MarketPanel from "@/components/projects/MarketPanel";
+import RiskPanel from "@/components/projects/RiskPanel";
+import FitScorePanel from "@/components/projects/FitScorePanel";
+import InfoCard from "@/components/projects/InfoCard";
 
 interface ProjectDetailPageProps {
     params: {
@@ -85,7 +85,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
     const isAdmin = profile?.role === 'admin';
 
-    // 2. Fetch Project Data with Intelligence Layers
+    // 2. Fetch Project Data with Advisory Layers
     const { data: projectData, error: projectError } = await supabase
         .from('projects')
         .select(`
@@ -174,7 +174,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 <div className="space-y-4">
                     <div className="flex items-center gap-2">
                         <span className="px-2 py-1 rounded bg-yellow-500/10 text-yellow-500 text-[10px] font-bold uppercase tracking-widest border border-yellow-500/20">
-                            PREIO Intelligence Asset
+                            PREIO Advisory Property
                         </span>
                     </div>
                     <div className="space-y-1">
@@ -197,7 +197,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 <div className="flex items-center gap-6">
                     <div className="text-right space-y-1">
                         <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold">
-                            Investment Grade
+                            Advisory Grade
                         </p>
                         <GradeBadge grade={project.investment_grade} />
                     </div>
@@ -300,7 +300,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                         </div>
                     )}
 
-                    {/* SECTION 7: Advanced Intelligence Domains */}
+                    {/* SECTION 7: Advanced Advisory Domains */}
                     <LocationPanel location={project.location_intel} />
                     <MarketPanel market={project.market_intel} locale={locale} />
                     <RiskPanel risk={project.risk_intel} />
@@ -311,7 +311,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                     {/* SECTION 2 — Advisory Fit */}
                     <FitScorePanel 
                         score={fitData} 
-                        analystConfidence={project.analyst_confidence_level} 
+                        advisoryConfidence={project.analyst_confidence_level} 
                         isAdmin={isAdmin} 
                     />
                 </div>

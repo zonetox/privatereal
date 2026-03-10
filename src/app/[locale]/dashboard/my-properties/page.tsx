@@ -168,7 +168,7 @@ export default async function MyPropertiesPage({ params }: MyPropertiesPageProps
             {/* Header */}
             <div className="space-y-2">
                 <p className="text-xs uppercase tracking-[0.2em] text-yellow-600/70 font-medium">
-                    Portfolio
+                    Holdings
                 </p>
                 <h1 className="text-4xl font-black tracking-tighter text-slate-100">
                     My{' '}
@@ -177,7 +177,7 @@ export default async function MyPropertiesPage({ params }: MyPropertiesPageProps
                     </span>
                 </h1>
                 <p className="text-slate-400 text-sm">
-                    Assets acquired through PREIO advisory.
+                    Properties acquired through PREIO advisory.
                 </p>
             </div>
 
@@ -236,7 +236,7 @@ export default async function MyPropertiesPage({ params }: MyPropertiesPageProps
                                 <details className="group border-t border-slate-800/60 pt-4">
                                     <summary className="flex items-center justify-between cursor-pointer list-none">
                                         <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold group-open:text-yellow-600/70 transition-colors">
-                                            Asset Timeline
+                                            Property Timeline
                                         </p>
                                         <ChevronDown size={14} className="text-slate-600 transition-transform group-open:rotate-180" />
                                     </summary>

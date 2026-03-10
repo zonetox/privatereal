@@ -30,7 +30,7 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
         try {
             const result = await updateProjectAction(project.id, formData);
             if (result?.success) {
-                setMessage({ type: 'success', text: 'Intelligence data committed successfully.' });
+                setMessage({ type: 'success', text: 'Advisory data committed successfully.' });
                 router.refresh();
             } else {
                 setMessage({ type: 'error', text: result?.error || 'Failed to update project.' });
@@ -83,8 +83,8 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                 {step === 1 && (
                     <div className="glass p-8 rounded-3xl border border-white/5 space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-white/5 pb-4">
-                            <h2 className="text-xl font-bold text-slate-200">Step 1 — Project Identity & DNS</h2>
-                            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest">Basic project classification and governance</p>
+                            <h1 className="text-4xl font-black gold-text-gradient uppercase tracking-tighter">Project Advisory Input</h1>
+                        <p className="text-slate-500 text-sm font-medium tracking-widest mt-1">LOCKING STRATEGIC ADVISORY DATA</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="md:col-span-2">
@@ -143,8 +143,8 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                 {step === 2 && (
                     <div className="glass p-8 rounded-3xl border border-white/5 space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-white/5 pb-4">
-                            <h2 className="text-xl font-bold text-slate-200">Step 2 — Location & Area Highlights</h2>
-                            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest">Geographic strategic analysis</p>
+                            <h2 className="text-xl font-bold text-slate-200">Step 2 — Location & Area Analysis</h2>
+                            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest">Geographic strategic evaluation</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="md:col-span-2">
@@ -171,8 +171,8 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                 {step === 3 && (
                     <div className="glass p-8 rounded-3xl border border-white/5 space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-white/5 pb-4">
-                            <h2 className="text-xl font-bold text-slate-200">Step 3 — Market Context</h2>
-                            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest">Comparative value and performance markers</p>
+                            <h2 className="text-xl font-bold text-slate-200">Step 3 — Advisory Market Context</h2>
+                            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest">Comparative value and suitability markers</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
@@ -180,11 +180,11 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                                 <input name="price_per_m2" type="number" defaultValue={project.price_per_m2} className="form-input" />
                             </div>
                             <div>
-                                <FormLabel label="Avg Rental Yield (%)" />
+                                <FormLabel label="Target Rental Return (%)" />
                                 <input name="avg_rental_yield" type="number" step="0.1" defaultValue={project.avg_rental_yield} className="form-input" />
                             </div>
                             <div>
-                                <FormLabel label="Expected Capital Growth (% p.a.)" />
+                                <FormLabel label="Target Value Appreciation (% p.a.)" />
                                 <input name="expected_growth_rate" type="number" step="0.1" defaultValue={project.expected_growth_rate} className="form-input" />
                             </div>
                             <div>
@@ -215,8 +215,8 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                 {step === 4 && (
                     <div className="glass p-8 rounded-3xl border border-white/5 space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-white/5 pb-4">
-                            <h2 className="text-xl font-bold text-slate-200">Step 4 — Risk & Considerations</h2>
-                            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest">Transparency and critical evaluative notes</p>
+                            <h2 className="text-xl font-bold text-slate-200">Step 4 — Strategic Risk Review</h2>
+                            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest">Transparency and critical advisory notes</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
@@ -244,7 +244,7 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                     <div className="glass p-8 rounded-3xl border border-yellow-500/10 border-yellow-500/20 bg-yellow-500/5 space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-yellow-500/10 pb-4">
                             <h2 className="text-xl font-bold text-yellow-500">Step 5 — Broker Advisory Thesis</h2>
-                            <p className="text-xs text-yellow-600/70 mt-1 uppercase tracking-widest">The Expert Alpha — Insights not found in brochures</p>
+                            <p className="text-xs text-yellow-600/70 mt-1 uppercase tracking-widest">The Advisor Edge — Personal project insights</p>
                         </div>
                         <div className="space-y-6">
                             <div>
@@ -260,7 +260,7 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                                 <textarea name="key_advantages" defaultValue={project.key_advantages} rows={3} className="form-input !bg-slate-900" />
                             </div>
                             <div>
-                                <FormLabel label="Analyst Confidence Level (0-100)" />
+                                <FormLabel label="Advisory Confidence Level (0-100)" />
                                 <input name="analyst_confidence_level" type="number" defaultValue={project.analyst_confidence_level} className="form-input !bg-slate-900" />
                             </div>
                         </div>
@@ -294,7 +294,7 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                             disabled={isSaving}
                             className="flex items-center gap-2 px-10 py-3 rounded-xl bg-yellow-500 text-slate-950 text-xs font-black uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-[1.05] active:scale-95 disabled:opacity-50 transition-all shadow-xl shadow-yellow-500/20"
                         >
-                            {isSaving ? 'Committing...' : <><Save size={16} /> Commit Intelligence Hub</>}
+                            {isSaving ? 'Committing...' : <><Save size={16} /> Lưu Thông tin Tư vấn</>}
                         </button>
                     </div>
                 </div>

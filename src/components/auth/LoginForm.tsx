@@ -54,7 +54,7 @@ export default function LoginForm() {
                     {t('welcome')}
                 </h1>
                 <p className="text-slate-500 text-sm font-medium tracking-wide">
-                    ACCESS TO PRIVATE INTELLIGENCE INFRASTRUCTURE
+                    ACCESS TO PRIVATE ADVISORY INFRASTRUCTURE
                 </p>
             </div>
 

@@ -16,7 +16,9 @@ import {
     ChevronRight,
     Sparkles,
     Building2,
-    ShieldCheck
+    ShieldCheck,
+    CheckSquare,
+    Scale
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -40,18 +42,24 @@ interface DashboardLayoutProps {
     user: DashboardUser | null;
 }
 
-const navItems = [
-    { href: '/dashboard', label: 'overview', icon: LayoutDashboard, roles: ['admin', 'client'] },
-    { href: '/dashboard/leads', label: 'leads', icon: UserSquare2, roles: ['admin'] },
-    { href: '/dashboard/clients', label: 'clients', icon: Users, roles: ['admin'] },
-    { href: '/dashboard/projects', label: 'projects', icon: Briefcase, roles: ['admin'] },
-    { href: '/dashboard/portfolio', label: 'portfolio', icon: PieChart, roles: ['admin'] },
-    { href: '/dashboard/recommendations', label: 'recommendations', icon: Sparkles, roles: ['client', 'admin'] },
-    { href: '/dashboard/workspace', label: 'workspace', icon: Briefcase, roles: ['client', 'admin'] },
-    { href: '/dashboard/my-properties', label: 'myProperties', icon: Building2, roles: ['client', 'admin'] },
-    { href: '/dashboard/reports', label: 'reports', icon: FileText, roles: ['admin'] },
-    { href: '/dashboard/advisor', label: 'advisor', icon: ShieldCheck, roles: ['admin'] },
-    { href: '/dashboard/settings', label: 'settings', icon: Settings, roles: ['admin', 'client'] },
+// Blueprint defined navigation items
+const adminNavItems = [
+    { href: '/dashboard', label: 'overview', icon: LayoutDashboard },
+    { href: '/dashboard/leads', label: 'leads', icon: UserSquare2 },
+    { href: '/dashboard/clients', label: 'clients', icon: Users },
+    { href: '/dashboard/projects', label: 'projects', icon: Briefcase },
+    { href: '/dashboard/recommendations', label: 'recommendations', icon: Sparkles },
+    { href: '/dashboard/workspace', label: 'workspace', icon: CheckSquare },
+    { href: '/dashboard/portfolio', label: 'advisoryCollection', icon: Building2 },
+    { href: '/dashboard/reports', label: 'reports', icon: FileText },
+];
+
+const clientNavItems = [
+    { href: '/dashboard/recommendations', label: 'recommendationsClient', icon: Sparkles },
+    { href: '/dashboard/workspace', label: 'workspaceClient', icon: CheckSquare },
+    { href: '/dashboard/compare', label: 'compare', icon: Scale },
+    { href: '/dashboard/my-properties', label: 'myProperties', icon: Building2 },
+    { href: '/dashboard/settings', label: 'profile', icon: UserSquare2 },
 ];
 
 export default function DashboardLayout({ children, user }: DashboardLayoutProps) {
@@ -67,10 +75,8 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
     };
 
 
-    // Filter nav items based on user role
-    const filteredNavItems = navItems.filter(item =>
-        user && item.roles.includes(user.role)
-    );
+    // Use role-specific navigation arrays
+    const filteredNavItems = user?.role === 'admin' ? adminNavItems : clientNavItems;
 
     return (
         <div className="flex min-h-screen bg-background text-foreground">

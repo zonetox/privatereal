@@ -2,7 +2,7 @@
 
 import { Building2, TrendingUp, User } from 'lucide-react';
 
-interface PortfolioData {
+interface AdvisoryCollectionData {
     client_id: string;
     client_name: string;
     risk_profile: string;
@@ -12,7 +12,7 @@ interface PortfolioData {
     portfolio_lifecycle_status: string;
 }
 
-export default function PropertyPortfolioTable({ data }: { data: PortfolioData[] }) {
+export default function AdvisoryCollectionTable({ data }: { data: AdvisoryCollectionData[] }) {
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('vi-VN', {
             style: 'currency',
@@ -27,10 +27,10 @@ export default function PropertyPortfolioTable({ data }: { data: PortfolioData[]
                 <thead>
                     <tr className="border-b border-white/5 text-slate-500 text-xs uppercase tracking-widest font-bold">
                         <th className="px-4 py-4">Client</th>
-                        <th className="px-4 py-4">Total Investment</th>
-                        <th className="px-4 py-4">Properties</th>
-                        <th className="px-4 py-4">Avg. ROI</th>
-                        <th className="px-4 py-4">Lifecycle Status</th>
+                        <th className="px-4 py-4">Managed Budget</th>
+                        <th className="px-4 py-4">Property Count</th>
+                        <th className="px-4 py-4">Avg. Rental Return</th>
+                        <th className="px-4 py-4">Advisory Progress</th>
                     </tr>
                 </thead>
                 <tbody className="text-sm">
@@ -57,7 +57,7 @@ export default function PropertyPortfolioTable({ data }: { data: PortfolioData[]
                                 </div>
                             </td>
                             <td className="px-4 py-4">
-                                <span className="text-green-500 font-bold">
+                                <span className="text-emerald-500 font-bold">
                                     {item.avg_expected_roi?.toFixed(1)}%
                                 </span>
                             </td>

@@ -10,7 +10,7 @@ import {
     Activity,
     Scale
 } from 'lucide-react';
-import StrategicFitGauge from '@/components/advisory/StrategicFitGauge';
+import StrategicFitGauge from '@/components/projects/StrategicFitGauge';
 
 interface ComparePageProps {
     searchParams: { ids?: string };
@@ -33,11 +33,11 @@ type Project = {
 type FitResult = {
     fit_score: number | null;
     fit_label: string | null;
-    financial_alignment: number | null;
+    budget_alignment: number | null;
     risk_alignment: number | null;
     horizon_alignment: number | null;
     location_alignment: number | null;
-    strategy_alignment: number | null;
+    goal_alignment: number | null;
 };
 
 type ProjectComparisonData = Project & FitResult;
@@ -81,11 +81,11 @@ export default async function ProjectComparison({ searchParams, params }: Compar
                 ...p,
                 fit_score: fitData?.fit_score ?? null,
                 fit_label: fitData?.fit_label ?? '—',
-                financial_alignment: fitData?.financial_alignment ?? null,
+                budget_alignment: fitData?.budget_alignment ?? null,
                 risk_alignment: fitData?.risk_alignment ?? null,
                 horizon_alignment: fitData?.horizon_alignment ?? null,
                 location_alignment: fitData?.location_alignment ?? null,
-                strategy_alignment: fitData?.strategy_alignment ?? null,
+                goal_alignment: fitData?.goal_alignment ?? null,
             };
         })
     );
@@ -156,11 +156,11 @@ export default async function ProjectComparison({ searchParams, params }: Compar
                                         <StrategicFitGauge 
                                             fitScore={p.fit_score} 
                                             fitLabel={p.fit_label}
-                                            financialAlignment={p.financial_alignment}
+                                            budgetAlignment={p.budget_alignment}
                                             riskAlignment={p.risk_alignment}
                                             horizonAlignment={p.horizon_alignment}
                                             locationAlignment={p.location_alignment}
-                                            strategyAlignment={p.strategy_alignment}
+                                            goalAlignment={p.goal_alignment}
                                         />
                                     </td>
                                 ))}

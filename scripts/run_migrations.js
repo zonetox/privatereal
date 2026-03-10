@@ -6,7 +6,8 @@ require('dotenv').config({ path: '.env.local' });
 const migrations = [
     'supabase/migrations/20240308000003_add_advisory_intake_fields.sql',
     'supabase/migrations/20240308000004_consolidate_intelligence_fields.sql',
-    'supabase/migrations/20240308000005_update_matching_engine_v3_core.sql'
+    'supabase/migrations/20240308000005_update_matching_engine_v3_core.sql',
+    'supabase/migrations/20240310000001_add_client_phone.sql'
 ];
 
 async function runMigrations() {

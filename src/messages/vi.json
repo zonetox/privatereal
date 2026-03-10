@@ -1,7 +1,7 @@
 {
     "Common": {
-        "title": "PREIO - Văn phòng Tình báo Bất động sản Tư nhân",
-        "description": "Hệ thống thông tin đầu tư bất động sản tư nhân cho khách hàng có tài sản lớn.",
+        "title": "PREIO - Văn phòng Tư vấn Bất động sản Tư nhân",
+        "description": "Hệ thống tư vấn bất động sản cá nhân cho khách hàng cao phân khúc cao cấp.",
         "login": "Đăng nhập",
         "logout": "Đăng xuất",
         "dashboard": "Bảng điều khiển",
@@ -11,16 +11,18 @@
     },
     "Dashboard": {
         "overview": "Tổng quan",
-        "leads": "Tiềm năng",
+        "leads": "Khách hàng Tiềm năng",
         "clients": "Khách hàng",
         "projects": "Dự án",
-        "portfolio": "Bộ sưu tập BĐS",
-        "recommendations": "Khuyến nghị",
-        "workspace": "Không gian Quyết định",
-        "myProperties": "Tài sản của tôi",
+        "recommendations": "Khuyến nghị Dự án",
+        "workspace": "Quyết định Khách hàng",
+        "advisoryCollection": "Bất động sản Khách hàng",
         "reports": "Báo cáo",
-        "advisor": "Phòng Cố vấn",
-        "settings": "Cài đặt",
+        "recommendationsClient": "Cơ hội Dự án",
+        "workspaceClient": "Dự án đang Cân nhắc",
+        "compare": "So sánh Dự án",
+        "myProperties": "Bất động sản của tôi",
+        "profile": "Hồ sơ cá nhân",
         "logout": "Đăng xuất",
         "welcome": "Chào mừng,",
         "leads_count": "Tổng Lead",
@@ -30,16 +32,16 @@
         "filter_rejected": "Từ chối"
     },
     "Assessment": {
-        "title": "Tư vấn Chiến lược Tư nhân",
-        "subtitle": "Bảo vệ di sản của bạn thông qua tình báo bất động sản ưu tú.",
+        "title": "Tư vấn Chiến lược Cá nhân",
+        "subtitle": "Bảo vệ di sản của bạn thông qua tư vấn bất động sản ưu tú.",
         "cta": "Bắt đầu Đánh giá Chiến lược",
-        "intro": "Chiến lược đầu tư cá nhân hóa cho cá nhân có tài sản lớn."
+        "intro": "Chiến lược tư vấn cá nhân hóa cho khách hàng tài sản lớn."
     },
     "LeadForm": {
-        "step1": "Vốn Đầu tư",
+        "step1": "Khả năng tài chính",
         "step2": "Dòng tiền Hàng tháng",
         "step3": "Nghề nghiệp Chính",
-        "step4": "Mục tiêu Chính",
+        "step4": "Mục tiêu Tư vấn",
         "step5": "Thông tin Liên hệ",
         "prev": "Quay lại",
         "next": "Tiếp theo",
@@ -57,10 +59,10 @@
         "executive": "Quản lý cấp cao / Executive",
         "investor": "Nhà đầu tư chuyên nghiệp",
         "other": "Nghề nghiệp khác",
-        "preserve": "Bảo toàn vốn",
+        "preserve": "Gìn giữ giá trị",
         "diversify": "Cân bằng Chiến lược",
-        "income": "Tạo dòng tiền cho thuê",
-        "growth": "Tăng trưởng vốn mạnh",
+        "income": "Thu nhập từ cho thuê",
+        "growth": "Tăng trưởng giá trị",
         "fullName": "Họ và Tên",
         "email": "Email chính thức",
         "phone": "Số điện thoại",
@@ -75,8 +77,8 @@
     },
     "HomePage": {
         "hero": {
-            "title": "Cố vấn Chiến lược Tư nhân",
-            "subtitle": "Tình báo độc quyền cho di sản bất động sản của khách hàng có tài sản lớn. Chủ động. Riêng tư. Chính xác.",
+            "title": "Cố vấn Chiến lược Cá nhân",
+            "subtitle": "Tư vấn độc quyền cho di sản bất động sản của khách hàng cao cấp. Chủ động. Riêng tư. Chính xác.",
             "cta": "Bắt đầu Đánh giá Chiến lược",
             "client_login": "Truy cập Khách hàng Hiện tại"
         },
@@ -96,42 +98,42 @@
             },
             "step4": {
                 "title": "Kích hoạt",
-                "desc": "Kích hoạt toàn bộ Hệ hệ thống Tình báo Ưu tú và giám sát bất động sản."
+                "desc": "Kích hoạt toàn bộ Hệ thống Tư vấn Ưu tú và giám sát dự án."
             }
         },
         "engines": {
             "title": "Hạ tầng Cố vấn",
             "engine1": {
-                "title": "Hệ thống Lead Ưu tú",
-                "desc": "Xác định các cơ hội cấp độ tổ chức thông qua logic thị trường độc quyền."
+                "title": "Hệ thống Kết nối Ưu tú",
+                "desc": "Xác định các cơ hội phù hợp thông qua cấu trúc phân tích chuyên sâu."
             },
             "engine2": {
-                "title": "Hệ thống Tình báo Khách hàng",
-                "desc": "Phân tích sâu định hướng nhà đầu tư và yêu cầu vốn chiến lược."
+                "title": "Hệ thống Tư vấn Khách hàng",
+                "desc": "Phân tích sâu định hướng cá nhân và lộ trình sở hữu bất động sản."
             },
             "engine3": {
-                "title": "Công cụ Tình báo Dự án",
-                "desc": "Phân tích đa chiều các chỉ số pháp lý, rủi ro và hạ tầng."
+                "title": "Công cụ Thông tin Dự án",
+                "desc": "Phân tích đa chiều các chỉ số pháp lý, rủi ro và hạ tầng theo chuẩn tư vấn."
             },
             "engine4": {
                 "title": "Công cụ Khớp lệnh Cố vấn",
-                "desc": "Thuật toán khớp bất động sản với hồ sơ nhà đầu tư tư nhân trong thời gian thực."
+                "desc": "Thuật toán khớp bất động sản với hồ sơ khách hàng dựa trên mức độ phù hợp thực tế."
             },
             "engine5": {
                 "title": "Cổng thông tin Khách hàng Executive",
-                "desc": "Minh bạch bảo mật cho tiến độ thâu tóm và giám sát dự án."
+                "desc": "Minh bạch bảo mật cho tiến độ sở hữu và giám sát dự án."
             }
         },
         "methodology": {
             "title": "Phương pháp luận",
-            "text": "Khung PREIO loại bỏ các suy đoán bán lẻ. Mọi bất động sản đều được kiểm toán qua sáu khía cạnh tổ chức—Pháp lý, Kết nối, Hạ tầng, Thanh khoản, Tăng trưởng và Rủi ro—để tạo ra điểm xếp hạng Đầu tư cuối cùng."
+            "text": "Khung PREIO loại bỏ các suy đoán bán lẻ. Mọi bất động sản đều được kiểm toán qua sáu khía cạnh tổ chức—Pháp lý, Kết nối, Hạ tầng, Thanh khoản, Tăng trưởng và Rủi ro—để tạo ra cấp độ Tư vấn cuối cùng."
         },
         "authority": {
-            "title": "Thẩm quyền Tổ chức",
-            "text": "PREIO hoạt động như một Văn phòng Cố vấn Chiến lược, không phải môi giới. Chúng tôi không bán bất động sản; chúng tôi tổng hợp tình báo để bảo vệ nguồn vốn và tối đa hóa di sản chiến lược cho các đối tác HNW."
+            "title": "Thẩm quyền Tư vấn",
+            "text": "PREIO hoạt động như một Văn phòng Cố vấn Chiến lược số hóa. Chúng tôi không phải sàn giao dịch; chúng tôi tổng hợp thông tin tư vấn để bảo vệ tài sản và tối ưu hóa di sản cho các đối tác."
         },
         "footer": {
-            "copyright": "© 2026 PREIO - Văn phòng Tình báo Bất động sản Tư nhân. Bảo lưu mọi quyền."
+            "copyright": "© 2026 PREIO - Văn phòng Tư vấn Bất động sản Tư nhân. Bảo lưu mọi quyền."
         }
     }
 }

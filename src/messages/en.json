@@ -1,7 +1,7 @@
 {
   "Common": {
-    "title": "PREIO - Private Real Estate Intelligence Office",
-    "description": "Private real estate investment intelligence system for high-net-worth clients.",
+    "title": "PREIO - Private Real Estate Advisory Office",
+    "description": "Private real estate advisory system for high-net-worth clients.",
     "login": "Login",
     "logout": "Logout",
     "dashboard": "Dashboard",
@@ -11,16 +11,18 @@
   },
   "Dashboard": {
     "overview": "Overview",
-    "leads": "Leads",
+    "leads": "Prospective Clients",
     "clients": "Clients",
     "projects": "Projects",
-    "portfolio": "Property Collection",
-    "recommendations": "Recommendations",
-    "workspace": "Decision Workspace",
-    "myProperties": "My Properties",
+    "recommendations": "Project Recommendations",
+    "workspace": "Client Decisions",
+    "advisoryCollection": "Client Properties",
     "reports": "Reports",
-    "advisor": "Advisor Room",
-    "settings": "Settings",
+    "recommendationsClient": "Project Opportunities",
+    "workspaceClient": "Projects Under Consideration",
+    "compare": "Compare Projects",
+    "myProperties": "My Properties",
+    "profile": "My Profile",
     "logout": "Logout",
     "welcome": "Welcome,",
     "leads_count": "Total Leads",
@@ -30,16 +32,16 @@
     "filter_rejected": "Rejected"
   },
   "Assessment": {
-    "title": "Private Strategic Consultation",
-    "subtitle": "Secure your legacy through elite real estate intelligence.",
+    "title": "Private Strategic Advisory",
+    "subtitle": "Secure your legacy through elite real estate advisory.",
     "cta": "Start Strategic Assessment",
     "intro": "Personalized investment strategies for high-net-worth individuals."
   },
   "LeadForm": {
-    "step1": "Investment Capital",
+    "step1": "Financial Capacity",
     "step2": "Monthly Cashflow",
     "step3": "Primary Occupation",
-    "step4": "Primary Objective",
+    "step4": "Advisory Objective",
     "step5": "Contact Details",
     "prev": "Back",
     "next": "Next",
@@ -57,10 +59,10 @@
     "executive": "C-Level / Senior Executive",
     "investor": "Full-time Investor",
     "other": "Other Professional",
-    "preserve": "Capital Preservation",
+    "preserve": "Value Preservation",
     "diversify": "Strategy Balance",
-    "income": "Rental Income Generation",
-    "growth": "Aggressive Capital Growth",
+    "income": "Rental Income Goals",
+    "growth": "Property Value Appreciation",
     "fullName": "Full Name",
     "email": "Official Email",
     "phone": "Phone Number",
@@ -76,7 +78,7 @@
   "HomePage": {
     "hero": {
       "title": "Strategic Private Advisory",
-      "subtitle": "Exclusive intelligence for high-net-worth real estate legacies. Proactive. Private. Precise.",
+      "subtitle": "Exclusive advisory for high-net-worth real estate legacies. Proactive. Private. Precise.",
       "cta": "Start Strategic Assessment",
       "client_login": "Existing Client Access"
     },
@@ -84,7 +86,7 @@
       "title": "Strategic Access Model",
       "step1": {
         "title": "Strategic Assessment",
-        "desc": "Initial alignment of investment mandates and capital preservation goals."
+        "desc": "Initial alignment of property objectives and value preservation goals."
       },
       "step2": {
         "title": "Institutional Review",
@@ -96,7 +98,7 @@
       },
       "step4": {
         "title": "Activation",
-        "desc": "Full activation of the Elite Intelligence Engine and property oversight."
+        "desc": "Full activation of the Elite Advisory Engine and property oversight."
       }
     },
     "engines": {
@@ -106,16 +108,16 @@
         "desc": "Identifying institutional-grade opportunities through proprietary market logic."
       },
       "engine2": {
-        "title": "Client Intelligence System",
-        "desc": "Deep profiling of investor mandates and strategic capital requirements."
+        "title": "Client Advisory System",
+        "desc": "Deep profiling of investor mandates and strategic requirements."
       },
       "engine3": {
-        "title": "Project Intelligence Engine",
+        "title": "Project Advisory Engine",
         "desc": "Multidimensional analysis of legal, risk, and infrastructure metrics."
       },
       "engine4": {
         "title": "Advisory Fit Engine",
-        "desc": "Real-time algorithmic matching of properties to private investor profiles."
+        "desc": "Real-time algorithmic matching of properties to client profiles."
       },
       "engine5": {
         "title": "Executive Client Portal",
@@ -124,14 +126,14 @@
     },
     "methodology": {
       "title": "Our Methodology",
-      "text": "The PREIO framework eliminates retail speculation. Every property is audited across six institutional dimensions—Legal, Connectivity, Infrastructure, Liquidity, Growth, and Risk—to generate a definitive Investment Grade score."
+      "text": "The PREIO framework eliminates retail speculation. Every property is audited across six institutional dimensions—Legal, Connectivity, Infrastructure, Liquidity, Growth, and Risk—to generate a definitive Advisory Grade."
     },
     "authority": {
-      "title": "Institutional Authority",
-      "text": "PREIO operates as a Strategic Advisory Office, not a brokerage. We do not sell properties; we aggregate intelligence to secure capital and maximize the strategic legacy of our HNW partners."
+      "title": "Strategic Authority",
+      "text": "PREIO operates as a Strategic Advisory Office, not a brokerage. We do not sell properties directamente; we aggregate advisory insights to ensure project suitability and maximize the strategic legacy of our partners."
     },
     "footer": {
-      "copyright": "© 2026 PREIO - Private Real Estate Intelligence Office. All rights reserved."
+      "copyright": "© 2026 PREIO - Private Real Estate Advisory Office. All rights reserved."
     }
   }
 }

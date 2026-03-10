@@ -133,7 +133,7 @@ export default async function ProjectsPage({ params }: ProjectsPageProps) {
           <h1 className="text-3xl font-black tracking-tighter text-slate-100">
             Project{' '}
             <span className="bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent">
-              Intelligence
+              Advisory
             </span>
           </h1>
           <p className="text-sm text-slate-500">
@@ -160,7 +160,7 @@ export default async function ProjectsPage({ params }: ProjectsPageProps) {
               <Building2 size={22} />
             </div>
             <p className="text-slate-400 font-semibold">No projects in system</p>
-            <p className="text-slate-600 text-sm">Create a new project to begin the intelligence intake process.</p>
+            <p className="text-slate-600 text-sm">Create a new project to begin the advisory intake process.</p>
           </div>
         ) : (
           <table className="w-full border-collapse">

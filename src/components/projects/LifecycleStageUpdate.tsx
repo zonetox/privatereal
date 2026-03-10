@@ -12,11 +12,11 @@ interface StageUpdateProps {
 }
 
 const STAGES = [
-    { id: 'exploring', label: 'Exploring' },
+    { id: 'research', label: 'Research' },
     { id: 'site_visit', label: 'Site Visit' },
     { id: 'reservation', label: 'Reservation' },
     { id: 'deposit', label: 'Deposit' },
-    { id: 'spa_signing', label: 'SPA Signing' },
+    { id: 'contract', label: 'Contract Executed' },
     { id: 'payment', label: 'Final Payment' },
     { id: 'portfolio', label: 'Portfolio' }
 ];

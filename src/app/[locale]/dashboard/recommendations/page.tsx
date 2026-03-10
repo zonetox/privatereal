@@ -1,8 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect, Link } from '@/navigation';
-import StrategicFitGauge from '@/components/advisory/StrategicFitGauge';
-import WorkspaceToggle from '@/components/advisory/WorkspaceToggle';
-import CompareToggle from '@/components/advisory/CompareToggle';
+import StrategicFitGauge from '@/components/projects/StrategicFitGauge';
+import WorkspaceToggle from '@/components/projects/WorkspaceToggle';
+import CompareToggle from '@/components/projects/CompareToggle';
 import {
     Building2,
     MapPin,
@@ -50,11 +50,11 @@ type Project = {
 type FitResult = {
     fit_score: number | null;
     fit_label: string | null;
-    financial_alignment: number | null;
+    budget_alignment: number | null;
     risk_alignment: number | null;
     horizon_alignment: number | null;
     location_alignment: number | null;
-    strategy_alignment: number | null;
+    goal_alignment: number | null;
 };
 
 type ProjectWithFit = Project & FitResult & { isSelected: boolean };
@@ -131,7 +131,7 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
     // 5. Fit calculation (extended)
     const projectsWithFit: ProjectWithFit[] = await Promise.all(
         activeProjects.map(async (project: Project) => {
-            if (!clientId) return { ...project, fit_score: null, fit_label: 'Insufficient Data', financial_alignment: null, risk_alignment: null, horizon_alignment: null, location_alignment: null, strategy_alignment: null, isSelected: false };
+            if (!clientId) return { ...project, fit_score: null, fit_label: 'Insufficient Data', budget_alignment: null, risk_alignment: null, horizon_alignment: null, location_alignment: null, goal_alignment: null, isSelected: false };
 
             const { data: fitData } = await supabase.rpc('calculate_project_fit', { p_client_id: clientId, p_project_id: project.id }).maybeSingle<FitResult>();
 
@@ -139,11 +139,11 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
                 ...project,
                 fit_score: fitData?.fit_score ?? null,
                 fit_label: fitData?.fit_label ?? 'Insufficient Data',
-                financial_alignment: fitData?.financial_alignment ?? null,
+                budget_alignment: fitData?.budget_alignment ?? null,
                 risk_alignment: fitData?.risk_alignment ?? null,
                 horizon_alignment: fitData?.horizon_alignment ?? null,
                 location_alignment: fitData?.location_alignment ?? null,
-                strategy_alignment: fitData?.strategy_alignment ?? null,
+                goal_alignment: fitData?.goal_alignment ?? null,
                 isSelected: selectedIds.has(project.id)
             };
         })
@@ -157,7 +157,7 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div className="space-y-2">
-                    <p className="text-xs uppercase tracking-[0.3em] text-yellow-600/80 font-bold">Intelligence Board</p>
+                    <p className="text-xs uppercase tracking-[0.3em] text-yellow-600/80 font-bold">Advisory Board</p>
                     <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-100 italic">Real Estate <span className="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-500 bg-clip-text text-transparent">Opportunities</span></h1>
                 </div>
             </div>
@@ -170,7 +170,7 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
                                 <div className="flex items-start justify-between gap-4">
                                     <div className="space-y-2 min-w-0">
                                         <div className="flex items-center gap-2">
-                                            <span className="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-500 text-[8px] font-black uppercase tracking-widest border border-yellow-500/20">Intelligence Asset</span>
+                                            <span className="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-500 text-[8px] font-black uppercase tracking-widest border border-yellow-500/20">Advisory Project</span>
                                         </div>
                                         <h2 className="text-2xl font-black text-slate-100 truncate tracking-tight">{project.name}</h2>
                                         <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
@@ -185,12 +185,12 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
                                 <StrategicFitGauge 
                                     fitScore={project.fit_score} 
                                     fitLabel={project.fit_label}
-                                    financialAlignment={project.financial_alignment ?? null}
+                                    budgetAlignment={project.budget_alignment ?? null}
                                     riskAlignment={project.risk_alignment}
                                     horizonAlignment={project.horizon_alignment}
                                     locationAlignment={project.location_alignment ?? null}
-                                    strategyAlignment={project.strategy_alignment ?? null}
-                                    analystConfidence={project.analyst_confidence_level}
+                                    goalAlignment={project.goal_alignment ?? null}
+                                    advisoryConfidence={project.analyst_confidence_level}
                                 />
                             </div>
 
@@ -239,7 +239,7 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
 
                             <div className="p-8 pt-0 flex items-center justify-between gap-4">
                                 <div className="pt-2 flex items-center justify-between group/action flex-1">
-                                    <span className="text-[10px] uppercase tracking-widest text-slate-500 font-black group-hover/action:text-yellow-500 transition-colors">Examine Intelligence</span>
+                                    <span className="text-[10px] uppercase tracking-widest text-slate-500 font-black group-hover/action:text-yellow-500 transition-colors">Examine Advisory</span>
                                     <ArrowUpRight size={16} />
                                 </div>
                                 <div className="pt-2">

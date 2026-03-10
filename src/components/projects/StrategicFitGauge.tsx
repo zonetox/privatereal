@@ -6,12 +6,12 @@ import { DollarSign, ShieldAlert, Clock, MapPin, Target } from 'lucide-react';
 type StrategicFitGaugeProps = {
     fitScore: number | null;
     fitLabel: string | null;
-    financialAlignment: number | null;
+    budgetAlignment: number | null;
     riskAlignment: number | null;
     horizonAlignment: number | null;
     locationAlignment: number | null;
-    strategyAlignment: number | null;
-    analystConfidence?: number | null;
+    goalAlignment: number | null;
+    advisoryConfidence?: number | null;
 };
 
 const RADIUS = 80;
@@ -56,12 +56,12 @@ function PillarBar({
 export default function StrategicFitGauge({
     fitScore,
     fitLabel,
-    financialAlignment,
+    budgetAlignment,
     riskAlignment,
     horizonAlignment,
     locationAlignment,
-    strategyAlignment,
-    analystConfidence,
+    goalAlignment,
+    advisoryConfidence,
 }: StrategicFitGaugeProps) {
     const uniqueId = useId();
     const gradientId = `goldGradient-${uniqueId.replace(/:/g, '')}`;
@@ -90,15 +90,15 @@ export default function StrategicFitGauge({
 
     const offset = CIRCUMFERENCE - (animatedScore / 100) * CIRCUMFERENCE;
 
-    const hasPillarData = financialAlignment !== null || riskAlignment !== null;
+    const hasPillarData = budgetAlignment !== null || riskAlignment !== null;
 
     if (fitScore === null) {
         return (
             <div className="rounded-2xl border border-yellow-800/40 bg-slate-900/60 backdrop-blur-sm p-6 flex flex-col items-center gap-3 text-center">
-                <p className="text-xs uppercase tracking-[0.2em] text-yellow-600/70 font-medium">Strategic Compatibility</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-yellow-600/70 font-medium">Fit Score</p>
                 <p className="text-lg font-bold text-slate-100">Insufficient Data</p>
                 <p className="text-xs text-slate-500 max-w-[220px] leading-relaxed">
-                    Complete advisory profile to enable 5-pillar compatibility analysis.
+                    Complete advisory profile to enable 5-pillar suitability analysis.
                 </p>
             </div>
         );
@@ -107,7 +107,7 @@ export default function StrategicFitGauge({
     return (
         <div className="rounded-2xl border border-slate-700/50 bg-slate-900/60 backdrop-blur-sm p-6 flex flex-col items-center gap-5">
             <p className="text-xs uppercase tracking-[0.2em] text-yellow-600/70 font-medium">
-                Strategic Compatibility
+                Fit Score
             </p>
 
             {/* Circular Gauge */}
@@ -140,21 +140,21 @@ export default function StrategicFitGauge({
             {/* 5-Pillar Breakdown */}
             {hasPillarData && (
                 <div className="w-full border-t border-slate-700/50 pt-4 flex flex-col gap-3">
-                    <p className="text-[9px] uppercase tracking-widest text-slate-600 font-bold text-center">5-Pillar Analysis</p>
-                    <PillarBar label="Financial & Return" value={financialAlignment} icon={DollarSign} />
-                    <PillarBar label="Risk & Drawdown" value={riskAlignment} icon={ShieldAlert} />
-                    <PillarBar label="Horizon & Liquidity" value={horizonAlignment} icon={Clock} />
-                    <PillarBar label="Location Match" value={locationAlignment} icon={MapPin} />
-                    <PillarBar label="Strategy & Asset" value={strategyAlignment} icon={Target} />
+                    <p className="text-[9px] uppercase tracking-widest text-slate-600 font-bold text-center">Advisory 5-Pillar Analysis</p>
+                    <PillarBar label="Budget Compatibility" value={budgetAlignment} icon={DollarSign} />
+                    <PillarBar label="Location Preference" value={locationAlignment} icon={MapPin} />
+                    <PillarBar label="Goal Alignment" value={goalAlignment} icon={Target} />
+                    <PillarBar label="Risk Tolerance" value={riskAlignment} icon={ShieldAlert} />
+                    <PillarBar label="Holding Strategy" value={horizonAlignment} icon={Clock} />
                 </div>
             )}
 
-            {/* Analyst Confidence */}
-            {analystConfidence !== null && analystConfidence !== undefined && (
+            {/* Advisory Confidence */}
+            {advisoryConfidence !== null && advisoryConfidence !== undefined && (
                 <div className="w-full border-t border-slate-700/50 pt-3">
                     <p className="text-xs text-slate-400 text-center tracking-wide">
-                        Analyst Confidence:{' '}
-                        <span className="text-slate-300 font-medium">{analystConfidence} / 100</span>
+                        Advisor Confidence:{' '}
+                        <span className="text-slate-300 font-medium">{advisoryConfidence} / 100</span>
                     </p>
                 </div>
             )}

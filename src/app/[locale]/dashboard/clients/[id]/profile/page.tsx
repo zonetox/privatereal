@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { redirect, Link } from '@/navigation';
 import ClientProfileForm from '@/components/forms/ClientProfileForm';
-import ClientNotesTimeline from '@/components/advisory/ClientNotesTimeline';
+import ClientNotesTimeline from '@/components/projects/ClientNotesTimeline';
 import { ChevronRight, User } from 'lucide-react';
 
 interface ClientProfilePageProps {
@@ -70,13 +70,13 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
                 <ChevronRight size={14} />
                 <span className="text-foreground font-medium">{client.full_name}</span>
                 <ChevronRight size={14} />
-                <span className="text-primary font-semibold">Intelligence Profile</span>
+                <span className="text-primary font-semibold">Advisory Profile</span>
             </nav>
 
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div className="space-y-2">
                     <h1 className="text-4xl font-black tracking-tighter">
-                        Client Intelligence <span className="gold-text-gradient">Profiling</span>
+                        Client Advisory <span className="gold-text-gradient">Profiling</span>
                     </h1>
                     <p className="text-slate-400 max-w-2xl">
                         Strategic assessment and risk parameters for <strong className="text-white">{client.full_name}</strong>.

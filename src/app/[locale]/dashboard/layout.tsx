@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import { redirect } from '@/navigation';
-import ComparisonManager from '@/components/advisory/ComparisonManager';
+import ComparisonManager from '@/components/projects/ComparisonManager';
 
 export const dynamic = 'force-dynamic';
 

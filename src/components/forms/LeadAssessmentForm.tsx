@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronRight, ChevronLeft, CheckCircle2 } from 'lucide-react';
 import { submitLeadAction, LeadSubmissionData } from '@/app/actions/leads';
-import { CapitalRange, CashflowRange, Occupation, Objective } from '@/lib/scoring';
+import { BudgetRange, CashflowRange, Occupation, Objective } from '@/lib/scoring';
 import { getTrackingDetails } from '@/lib/tracking';
 import { useRouter } from '@/navigation';
 
@@ -19,7 +19,7 @@ export default function LeadAssessmentForm() {
     const [honeypot, setHoneypot] = useState('');
 
     const [formData, setFormData] = useState({
-        capital: '' as CapitalRange,
+        budget: '' as BudgetRange,
         cashflow: '' as CashflowRange,
         occupation: '' as Occupation,
         objective: '' as Objective,
@@ -46,12 +46,12 @@ export default function LeadAssessmentForm() {
 
         const tracking = getTrackingDetails() as LeadSubmissionData['tracking'];
 
-        if (formData.capital && formData.cashflow && formData.occupation && formData.objective) {
+        if (formData.budget && formData.cashflow && formData.occupation && formData.objective) {
             const submissionData: LeadSubmissionData = {
                 fullName: formData.fullName,
                 email: formData.email,
                 phone: formData.phone,
-                capital: formData.capital,
+                capital: formData.budget,
                 cashflow: formData.cashflow,
                 occupation: formData.occupation,
                 objective: formData.objective,
@@ -128,7 +128,7 @@ export default function LeadAssessmentForm() {
                             {['capital_1_3', 'capital_3_5', 'capital_5_10', 'capital_10_20', 'capital_20plus'].map((val) => (
                                 <label
                                     key={val}
-                                    className={`flex items-center p-5 rounded-xl border-2 cursor-pointer transition-all duration-200 ${formData.capital === val
+                                    className={`flex items-center p-5 rounded-xl border-2 cursor-pointer transition-all duration-200 ${formData.budget === val
                                         ? 'border-primary bg-primary/10 shadow-lg shadow-primary/5'
                                         : 'border-slate-800 hover:border-slate-700 bg-slate-900/50'
                                         }`}
@@ -138,12 +138,12 @@ export default function LeadAssessmentForm() {
                                         name="capital"
                                         value={val}
                                         required
-                                        checked={formData.capital === val}
-                                        onChange={(e) => updateField('capital', e.target.value)}
+                                        checked={formData.budget === val}
+                                        onChange={(e) => updateField('budget', e.target.value)}
                                         className="sr-only"
                                     />
-                                    <div className={`w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center ${formData.capital === val ? 'border-primary' : 'border-slate-600'}`}>
-                                        {formData.capital === val && <div className="w-2 h-2 rounded-full bg-primary" />}
+                                    <div className={`w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center ${formData.budget === val ? 'border-primary' : 'border-slate-600'}`}>
+                                        {formData.budget === val && <div className="w-2 h-2 rounded-full bg-primary" />}
                                     </div>
                                     <span className="text-lg font-medium">{t(val)}</span>
                                 </label>

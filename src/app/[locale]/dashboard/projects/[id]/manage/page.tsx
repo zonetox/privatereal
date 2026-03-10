@@ -53,7 +53,7 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
             <nav className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500">
                 <span className="opacity-60">Dashboard</span>
                 <ChevronRight size={14} />
-                <span className="opacity-60">Intelligence Hub</span>
+                <span className="opacity-60">Advisory Hub</span>
                 <ChevronRight size={14} />
                 <span className="text-yellow-500">Expert Intake</span>
             </nav>
@@ -65,7 +65,7 @@ export default async function ManageProjectPage({ params }: ManageProjectPagePro
                         Institutional Project Intake
                     </p>
                     <h1 className="text-4xl font-black tracking-tighter text-slate-100">
-                        {project.name ?? 'New Intelligence Asset'}
+                        {project.name ?? 'New Advisory Property'}
                     </h1>
                     <div className="flex items-center gap-3 text-slate-500 text-sm">
                         <span className="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-bold uppercase tracking-wider text-slate-400">

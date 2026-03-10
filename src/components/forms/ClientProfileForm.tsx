@@ -27,6 +27,13 @@ interface ClientProfileFormProps {
         succession_planning?: boolean;
         international_exposure_interest?: boolean;
         decision_style?: string;
+        
+        // New Advisory Fields
+        purchase_goal?: string;
+        preferred_locations?: string[];
+        holding_period?: string;
+        risk_tolerance?: string;
+        budget_range?: string;
     };
 }
 
@@ -52,6 +59,13 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
         succession_planning: initialData.succession_planning || false,
         international_exposure_interest: initialData.international_exposure_interest || false,
         decision_style: initialData.decision_style || 'data_driven',
+
+        // New Advisory Fields
+        purchase_goal: initialData.purchase_goal || 'investment',
+        preferred_locations: initialData.preferred_locations || [],
+        holding_period: initialData.holding_period || '3_7_years',
+        risk_tolerance: initialData.risk_tolerance || 'balanced',
+        budget_range: initialData.budget_range || '5_10_billion',
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -120,106 +134,104 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Section 1: Financial Intelligence */}
+                {/* Section 1: Advisory Intent */}
                 <div className="glass p-8 rounded-2xl border border-white/5 space-y-6">
                     <div className="flex items-center gap-3 mb-2">
                         <div className="p-2 bg-primary/10 rounded-lg">
                             <Zap className="text-primary" size={20} />
                         </div>
-                        <h2 className="text-xl font-bold">Financial Intelligence</h2>
+                        <h2 className="text-xl font-bold">Advisory Intent</h2>
                     </div>
 
                     <div className="space-y-4">
                         <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Liquid Capital (Billion VND)</label>
-                            <input
-                                name="liquid_capital"
-                                type="number"
-                                step="0.1"
-                                value={formData.liquid_capital}
+                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Primary Purchase Goal</label>
+                            <select
+                                name="purchase_goal"
+                                value={formData.purchase_goal}
                                 onChange={handleChange}
                                 className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
-                            />
+                            >
+                                <option value="living">End-User / Living</option>
+                                <option value="investment">Capital Growth</option>
+                                <option value="rental">Rental Yield / Passive Income</option>
+                            </select>
                         </div>
                         <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Annual Business Revenue</label>
-                            <input
-                                name="annual_business_revenue"
-                                type="number"
-                                step="0.1"
-                                value={formData.annual_business_revenue}
+                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Target Holding Period</label>
+                            <select
+                                name="holding_period"
+                                value={formData.holding_period}
                                 onChange={handleChange}
                                 className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
-                            />
+                            >
+                                <option value="under_3_years">Short Term ({"<"} 3 years)</option>
+                                <option value="3_7_years">Medium Term (3 - 7 years)</option>
+                                <option value="7_years_plus">Long Term ({">"} 7 years)</option>
+                            </select>
                         </div>
                         <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Debt Obligations</label>
+                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Preferred Locations</label>
                             <input
-                                name="debt_obligations"
-                                type="number"
-                                step="0.1"
-                                value={formData.debt_obligations}
-                                onChange={handleChange}
+                                name="preferred_locations_input"
+                                type="text"
+                                placeholder="e.g. District 1, District 2, Thao Dien"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault();
+                                        const val = (e.target as HTMLInputElement).value.trim();
+                                        if (val && !formData.preferred_locations.includes(val)) {
+                                            setFormData(prev => ({
+                                                ...prev,
+                                                preferred_locations: [...prev.preferred_locations, val]
+                                            }));
+                                            (e.target as HTMLInputElement).value = '';
+                                        }
+                                    }
+                                }}
                                 className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
                             />
-                        </div>
-                        <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Real Estate Allocation (%)</label>
-                            <input
-                                name="real_estate_allocation_percent"
-                                type="number"
-                                value={formData.real_estate_allocation_percent}
-                                onChange={handleChange}
-                                className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
-                            />
+                            <div className="flex flex-wrap gap-2 mt-3">
+                                {formData.preferred_locations.map(loc => (
+                                    <span key={loc} className="bg-primary/20 text-primary-foreground text-[10px] font-bold px-2 py-1 rounded-md flex items-center gap-1 group">
+                                        {loc}
+                                        <button 
+                                            type="button"
+                                            onClick={() => setFormData(prev => ({ ...prev, preferred_locations: prev.preferred_locations.filter(l => l !== loc) }))}
+                                            className="hover:text-white"
+                                        >
+                                            ×
+                                        </button>
+                                    </span>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Section 2: Risk Psychology */}
+                {/* Section 2: Purchase Parameters */}
                 <div className="glass p-8 rounded-2xl border border-white/5 space-y-6">
                     <div className="flex items-center gap-3 mb-2">
                         <div className="p-2 bg-emerald-500/10 rounded-lg">
-                            <ShieldAlert className="text-emerald-500" size={20} />
+                            <Scale className="text-emerald-500" size={20} />
                         </div>
-                        <h2 className="text-xl font-bold">Risk Psychology</h2>
+                        <h2 className="text-xl font-bold">Purchase Parameters</h2>
                     </div>
 
                     <div className="space-y-4">
                         <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Max Drawdown Tolerance (%)</label>
-                            <input
-                                name="max_drawdown_percent"
-                                type="number"
-                                value={formData.max_drawdown_percent}
-                                onChange={handleChange}
-                                className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
-                            />
-                        </div>
-                        <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Liquidity Preference</label>
+                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Allocated Budget Range</label>
                             <select
-                                name="liquidity_preference"
-                                value={formData.liquidity_preference}
+                                name="budget_range"
+                                value={formData.budget_range}
                                 onChange={handleChange}
                                 className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
                             >
-                                <option value="low">Low (Long term)</option>
-                                <option value="medium">Medium</option>
-                                <option value="high">High (Immediate)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Market Crash Reaction</label>
-                            <select
-                                name="crash_reaction"
-                                value={formData.crash_reaction}
-                                onChange={handleChange}
-                                className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
-                            >
-                                <option value="panic_sell">Panic Sell</option>
-                                <option value="hold">Hold</option>
-                                <option value="buy_more">Buy More</option>
+                                <option value="1_3_billion">1 - 3 Billion VND</option>
+                                <option value="3_5_billion">3 - 5 Billion VND</option>
+                                <option value="5_10_billion">5 - 10 Billion VND</option>
+                                <option value="10_20_billion">10 - 20 Billion VND</option>
+                                <option value="20_billion_plus">Above 20 Billion VND</option>
                             </select>
                         </div>
                         <div>
@@ -230,79 +242,126 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                                 onChange={handleChange}
                                 className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
                             >
-                                <option value="none">None</option>
-                                <option value="moderate">Moderate (Conservative LTV)</option>
-                                <option value="high">High</option>
+                                <option value="none">Zero Leverage (All Cash)</option>
+                                <option value="moderate">Moderate (30% - 50% LTV)</option>
+                                <option value="high">High Leverage ({">"} 50% LTV)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Liquidity Requirement</label>
+                            <select
+                                name="liquidity_preference"
+                                value={formData.liquidity_preference}
+                                onChange={handleChange}
+                                className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
+                            >
+                                <option value="low">Low (Long-term preservation)</option>
+                                <option value="medium">Medium (Standard real estate exit)</option>
+                                <option value="high">High (Quick secondary market exit)</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                {/* Section 3: Strategic Intent */}
+                {/* Section 3: Advisory Strategy */}
                 <div className="glass p-8 rounded-2xl border border-white/5 space-y-6 md:col-span-2">
                     <div className="flex items-center gap-3 mb-2">
                         <div className="p-2 bg-amber-500/10 rounded-lg">
-                            <Scale className="text-amber-500" size={20} />
+                            <ShieldAlert className="text-amber-500" size={20} />
                         </div>
-                        <h2 className="text-xl font-bold">Strategic Intent</h2>
+                        <h2 className="text-xl font-bold">Advisory Strategy</h2>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-4">
                             <div>
-                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Target Annual Return (%)</label>
+                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Risk Tolerance Grade</label>
+                                <select
+                                    name="risk_tolerance"
+                                    value={formData.risk_tolerance}
+                                    onChange={handleChange}
+                                    className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
+                                >
+                                    <option value="conservative">Conservative (Capital focus)</option>
+                                    <option value="balanced">Balanced (Growth & Safety)</option>
+                                    <option value="aggressive">Aggressive (Maximum upside)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Target Rental Return (%)</label>
                                 <input
                                     name="target_annual_return"
                                     type="number"
+                                    step="0.1"
                                     value={formData.target_annual_return}
                                     onChange={handleChange}
                                     className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
                                 />
                             </div>
                             <div>
-                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Decision Making Style</label>
+                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Decision Style</label>
                                 <select
                                     name="decision_style"
                                     value={formData.decision_style}
                                     onChange={handleChange}
                                     className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
                                 >
-                                    <option value="data_driven">Data Driven</option>
-                                    <option value="emotional">Emotional / Intuitive</option>
-                                    <option value="delegative">Delegative</option>
-                                    <option value="control_oriented">Control Oriented</option>
+                                    <option value="data_driven">Data Driven Audit</option>
+                                    <option value="emotional">Intuitive / Personal Fit</option>
+                                    <option value="delegative">Delegated to Office</option>
+                                    <option value="control_oriented">Active Oversight</option>
                                 </select>
                             </div>
                         </div>
 
                         <div className="space-y-6 pt-4">
-                            <label className="flex items-center gap-4 cursor-pointer group">
-                                <input
-                                    name="succession_planning"
-                                    type="checkbox"
-                                    checked={formData.succession_planning}
-                                    onChange={handleChange}
-                                    className="w-5 h-5 rounded border-white/10 bg-slate-900/50 accent-primary"
-                                />
-                                <div className="flex flex-col">
-                                    <span className="text-sm font-bold group-hover:text-primary transition-colors">Succession Planning</span>
-                                    <span className="text-xs text-muted-foreground">Interested in legacy and inheritance strategy</span>
-                                </div>
-                            </label>
+                            <div>
+                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Legacy Objectives</label>
+                                <div className="space-y-3">
+                                    <label className="flex items-center gap-4 cursor-pointer group">
+                                        <input
+                                            name="succession_planning"
+                                            type="checkbox"
+                                            checked={formData.succession_planning}
+                                            onChange={handleChange}
+                                            className="w-5 h-5 rounded border-white/10 bg-slate-900/50 accent-primary"
+                                        />
+                                        <div className="flex flex-col">
+                                            <span className="text-sm font-bold group-hover:text-primary transition-colors">Inheritance & Succession</span>
+                                            <span className="text-xs text-muted-foreground">Focus on cross-generational property transfer</span>
+                                        </div>
+                                    </label>
 
-                            <label className="flex items-center gap-4 cursor-pointer group">
-                                <input
-                                    name="international_exposure_interest"
-                                    type="checkbox"
-                                    checked={formData.international_exposure_interest}
-                                    onChange={handleChange}
-                                    className="w-5 h-5 rounded border-white/10 bg-slate-900/50 accent-primary"
-                                />
-                                <div className="flex flex-col">
-                                    <span className="text-sm font-bold group-hover:text-primary transition-colors">International Exposure</span>
-                                    <span className="text-xs text-muted-foreground">Interested in cross-border investment opportunities</span>
+                                    <label className="flex items-center gap-4 cursor-pointer group">
+                                        <input
+                                            name="international_exposure_interest"
+                                            type="checkbox"
+                                            checked={formData.international_exposure_interest}
+                                            onChange={handleChange}
+                                            className="w-5 h-5 rounded border-white/10 bg-slate-900/50 accent-primary"
+                                        />
+                                        <div className="flex flex-col">
+                                            <span className="text-sm font-bold group-hover:text-primary transition-colors">Cross-Border Interest</span>
+                                            <span className="text-xs text-muted-foreground">Open to international property opportunities</span>
+                                        </div>
+                                    </label>
                                 </div>
-                            </label>
+                            </div>
+                            
+                            {/* Hidden technical fields for backward compatibility/migrated data storage */}
+                            <div className="opacity-40 border-t border-white/5 pt-4">
+                                <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">Institutional Metadata (Audit only)</h3>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="text-[9px] font-bold text-muted-foreground uppercase block mb-1">Annual Revenue (B)</label>
+                                        <input name="annual_business_revenue" type="number" value={formData.annual_business_revenue} onChange={handleChange} className="w-full bg-slate-900/80 border border-white/10 rounded p-1 text-xs outline-none" />
+                                    </div>
+                                    <div>
+                                        <label className="text-[9px] font-bold text-muted-foreground uppercase block mb-1">Debt Index (B)</label>
+                                        <input name="debt_obligations" type="number" value={formData.debt_obligations} onChange={handleChange} className="w-full bg-slate-900/80 border border-white/10 rounded p-1 text-xs outline-none" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -323,7 +382,7 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                         className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-xl font-bold flex items-center gap-2 shadow-xl transition-all hover:scale-105 disabled:opacity-50"
                     >
                         {isSaving ? <Zap size={20} className="animate-pulse" /> : <Save size={20} />}
-                        Save Intelligence Profile
+                        Save Advisory Profile
                     </button>
                 </div>
             )}

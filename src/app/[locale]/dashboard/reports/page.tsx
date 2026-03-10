@@ -1,8 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from '@/navigation';
 import { getTranslations } from 'next-intl/server';
-import PropertyPortfolioTable from '@/components/reports/PropertyPortfolioTable';
-import MarketIntelligenceGrid from '@/components/reports/MarketIntelligenceGrid';
+import AdvisoryCollectionTable from '@/components/reports/AdvisoryCollectionTable';
+import MarketAdvisoryGrid from '@/components/reports/MarketAdvisoryGrid';
 import AdvisoryEngagementList from '@/components/reports/AdvisoryEngagementList';
 
 export const dynamic = 'force-dynamic';
@@ -49,28 +49,28 @@ export default async function ReportsPage({ params }: { params: { locale: string
     <div className="p-8 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div>
         <h1 className="text-4xl font-extrabold tracking-tight gold-text-gradient mb-3">Institutional Reporting Hub</h1>
-        <p className="text-slate-400 max-w-2xl">Executive oversight across client property collections, market location intelligence, and advisory performance metrics.</p>
+        <p className="text-slate-400 max-w-2xl">Executive oversight across client property collections, market location advisory, and advisory performance metrics.</p>
       </div>
 
       <div className="space-y-12">
-        {/* Section 1: Client Portfolio */}
+        {/* Section 1: Advisory Collections */}
         <section className="space-y-6">
           <div className="flex items-center justify-between border-b border-white/5 pb-4">
-            <h2 className="text-xl font-bold text-slate-200">Client Property Collections</h2>
-            <span className="text-xs text-slate-500 uppercase tracking-widest font-bold">Total Collections: {portfolioData?.length || 0}</span>
+            <h2 className="text-xl font-bold text-slate-200">Advisory Collections</h2>
+            <span className="text-xs text-slate-500 uppercase tracking-widest font-bold">Total Active: {portfolioData?.length || 0}</span>
           </div>
           <div className="glass rounded-2xl border border-white/5 p-2">
-            <PropertyPortfolioTable data={portfolioData || []} />
+            <AdvisoryCollectionTable data={portfolioData || []} />
           </div>
         </section>
 
-        {/* Section 2: Market Intelligence */}
+        {/* Section 2: Market Advisory */}
         <section className="space-y-6">
           <div className="flex items-center justify-between border-b border-white/5 pb-4">
-            <h2 className="text-xl font-bold text-slate-200">Market Location Intelligence</h2>
+            <h2 className="text-xl font-bold text-slate-200">Market Location Advisory</h2>
             <span className="text-xs text-slate-500 uppercase tracking-widest font-bold">Active Projects: {marketData?.length || 0}</span>
           </div>
-          <MarketIntelligenceGrid data={marketData || []} />
+          <MarketAdvisoryGrid data={marketData || []} />
         </section>
 
         {/* Section 3: Advisory Engagement */}

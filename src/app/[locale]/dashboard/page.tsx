@@ -111,16 +111,16 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
 
   // Get highest fit score
   let highestFit: number | null = null;
-  if (projects && projects.length > 0) {
-    const fitResults = await Promise.all(
-      projects.map(p => supabase.rpc('calculate_project_fit', {
-        p_client_id: client.id,
-        p_project_id: p.id
-      }))
-    );
-    const scores = fitResults
-      .map(r => r.data?.fit_score || 0)
-      .filter(s => s > 0);
+    if (projects && projects.length > 0) {
+      const fitResults = await Promise.all(
+        projects.map(p => supabase.rpc('calculate_project_fit', {
+          p_client_id: client.id,
+          p_project_id: p.id
+        }))
+      );
+      const scores = fitResults
+        .map(r => r.data?.fit_score || 0)
+        .filter(s => s > 0);
 
     if (scores.length > 0) {
       highestFit = Math.max(...scores);
@@ -212,7 +212,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
 
         {/* 5. Total Properties */}
         <MetricCard
-          title="Total Assets"
+          title="Total Properties"
           value={totalProperties}
           subtitle="Acquired through PREIO"
           icon={Building2}
@@ -222,7 +222,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
         <MetricCard
           title="Latest Acquisition"
           value={latestPurchase ? new Date(latestPurchase).toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
-          subtitle="Portfolio expansion history"
+          subtitle="Collection expansion history"
           icon={TrendingUp}
         />
       </div>

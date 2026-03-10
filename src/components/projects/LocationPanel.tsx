@@ -18,7 +18,7 @@ export default function LocationPanel({ location }: LocationPanelProps) {
         <div className="space-y-6">
             <div className="flex items-center gap-2">
                 <MapPin size={18} className="text-yellow-500" />
-                <h2 className="text-lg font-bold tracking-tight text-slate-100">Location Intelligence</h2>
+                <h2 className="text-lg font-bold tracking-tight text-slate-100">Location Strategy</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InfoCard icon={MapPin} label="Distance to CBD" value={location.distance_to_cbd ? `${location.distance_to_cbd} km` : null} />

@@ -32,9 +32,7 @@ export async function convertLeadToClientAction(leadId: string) {
         return { success: false, error: 'Lead not found' };
     }
 
-    if (lead.status === 'converted') {
-        return { success: false, error: 'Lead is already converted' };
-    }
+    if (lead.status === 'converted')            return { success: false, error: "Project incomplete. All advisory scores and advisor edge must be populated before publication." };
 
     const adminClient = createAdminClient();
     const tempPassword = `PREIO_${Math.random().toString(36).slice(-8)}!`;
