@@ -44,6 +44,7 @@ type Project = {
     infrastructure_score: number | null;
     avg_rental_yield: number | null;
     evaluation_notes: string | null;
+    min_unit_price: number | null;
     opportunity_cards?: OpportunityCard[];
 };
 
@@ -166,18 +167,23 @@ export default async function RecommendationsPage({ params }: RecommendationsPag
                 {sorted.map((project) => (
                     <div key={project.id} className="relative">
                         <Link href={`/dashboard/projects/${project.id}`} className="group relative flex flex-col glass rounded-[2.5rem] border border-white/5 bg-slate-900/40 transition-all duration-500 hover:-translate-y-2 hover:border-yellow-500/20 hover:shadow-[0_20px_60px_-15px_rgba(234,179,8,0.1)] overflow-hidden">
-                            <div className="p-8 pb-3 space-y-4">
+                            <div className="p-8 pb-4 space-y-4">
                                 <div className="flex items-start justify-between gap-4">
-                                    <div className="space-y-2 min-w-0">
-                                        <div className="flex items-center gap-2">
+                                    <div className="space-y-1 min-w-0">
+                                        <div className="flex items-center gap-2 mb-1">
                                             <span className="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-500 text-[8px] font-black uppercase tracking-widest border border-yellow-500/20">Advisory Project</span>
                                         </div>
                                         <h2 className="text-2xl font-black text-slate-100 truncate tracking-tight">{project.name}</h2>
-                                        <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                                        <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                                            {project.developer && <span className="text-amber-500/90">{project.developer} <span className="text-slate-600 px-1">•</span></span>}
                                             <MapPin size={12} className="text-yellow-500/50" /> {project.location}
                                         </div>
                                     </div>
-                                    <GradeBadge grade={project.investment_grade} />
+                                </div>
+                                
+                                <div className="pt-2">
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-0.5">Giá từ</p>
+                                    <p className="text-xl font-bold text-emerald-400">{project.min_unit_price ? formatter.format(project.min_unit_price) : 'Liên hệ'}</p>
                                 </div>
                             </div>
 
