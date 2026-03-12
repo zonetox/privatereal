@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { calculateLeadScore, CapitalRange, CashflowRange, Occupation, Objective } from '@/lib/scoring';
+import { calculateLeadScore, BudgetRange, CashflowRange, Occupation, Objective } from '@/lib/scoring';
 import { revalidatePath } from 'next/cache';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { headers } from 'next/headers';
@@ -10,7 +10,7 @@ export interface LeadSubmissionData {
     fullName: string;
     email: string;
     phone: string;
-    capital: CapitalRange;
+    capital: BudgetRange;
     cashflow: CashflowRange;
     occupation: Occupation;
     objective: Objective;
