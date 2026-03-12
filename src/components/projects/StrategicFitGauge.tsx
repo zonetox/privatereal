@@ -7,10 +7,10 @@ type StrategicFitGaugeProps = {
     fitScore: number | null;
     fitLabel: string | null;
     budgetAlignment: number | null;
-    riskAlignment: number | null;
-    horizonAlignment: number | null;
     locationAlignment: number | null;
     goalAlignment: number | null;
+    riskAlignment: number | null;
+    horizonAlignment: number | null;
     advisoryConfidence?: number | null;
 };
 

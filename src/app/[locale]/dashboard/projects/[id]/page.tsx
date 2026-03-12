@@ -1,27 +1,28 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from '@/navigation';
 import { notFound } from 'next/navigation';
-import {
-    Building2,
-    MapPin,
-    ShieldCheck,
-    TrendingUp,
-    Clock,
-    Layout,
-    Calendar,
-    Target,
-    Coins,
-    FileText,
-    AlertTriangle,
-    CheckCircle2,
-    BarChart3,
-    LucideIcon
+import { 
+    MapPin, 
+    Building2, 
+    BarChart3, 
+    TrendingUp, 
+    Target, 
+    Clock, 
+    Coins, 
+    Layout, 
+    Calendar, 
+    FileText, 
+    CheckCircle2, 
+    ShieldCheck, 
+    AlertTriangle 
 } from 'lucide-react';
 import LocationPanel from "@/components/projects/LocationPanel";
 import MarketPanel from "@/components/projects/MarketPanel";
 import RiskPanel from "@/components/projects/RiskPanel";
+import AdvisorPanel from "@/components/projects/AdvisorPanel";
 import FitScorePanel from "@/components/projects/FitScorePanel";
 import InfoCard from "@/components/projects/InfoCard";
+import StrategicFitGauge from "@/components/projects/StrategicFitGauge";
 
 interface ProjectDetailPageProps {
     params: {
@@ -49,22 +50,6 @@ function GradeBadge({ grade }: { grade: string | null }) {
 }
 
 
-function AdvisoryNote({ icon: Icon, title, content, colorClass }: { icon: LucideIcon; title: string, content: string | null; colorClass: string }) {
-    if (!content) return null;
-    return (
-        <div className="glass p-6 rounded-2xl border border-white/5 space-y-4">
-            <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg bg-white/5 ${colorClass}`}>
-                    <Icon size={20} />
-                </div>
-                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-200">{title}</h3>
-            </div>
-            <p className="text-sm text-slate-400 leading-relaxed italic">
-                &quot;{content}&quot;
-            </p>
-        </div>
-    );
-}
 
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
     const { locale, id } = params;
@@ -85,8 +70,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
     const isAdmin = profile?.role === 'admin';
 
-    // 2. Fetch Project Data with Advisory Layers
-    const { data: projectData, error: projectError } = await supabase
+    // 2. Fetch Project Data directly from projects table (Primary Source of Truth)
+    const { data: project, error: projectError } = await supabase
         .from('projects')
         .select(`
             id,
@@ -100,33 +85,44 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             final_score,
             investment_grade,
             analyst_confidence_level,
-            legal_notes,
-            evaluation_notes,
-            risk_notes,
-            expected_growth_rate,
-            holding_period_recommendation,
             status,
             visible_to_clients,
-            location_intelligence:project_location(*),
-            market_intelligence:project_market(*),
-            risk_intelligence:project_risk(*),
+            
+            location_score,
+            infrastructure_score,
+            liquidity_score,
+            growth_score,
+            legal_score,
+            risk_score,
+            downside_risk_percent,
+            
+            evaluation_notes,
+            legal_notes,
+            risk_notes,
+            buyer_suitability,
+            not_suitable_for,
+            key_advantages,
+            key_concerns,
+            market_trend_notes,
+            
+            avg_rental_yield,
+            expected_growth_rate,
+            holding_period_recommendation,
+            construction_status,
+            distance_to_cbd,
+            rental_demand,
+            supply_level,
+            
             opportunity_cards(*)
         `)
         .eq('id', id)
         .single();
 
-    if (projectError || !projectData) {
+    if (projectError || !project) {
         return notFound();
     }
     
-    // Normalize single joined rows (since they are 1:1 but supabase might return arrays depending on setup)
-    const project = {
-        ...projectData,
-        location_intel: Array.isArray(projectData.location_intelligence) ? projectData.location_intelligence[0] : projectData.location_intelligence,
-        market_intel: Array.isArray(projectData.market_intelligence) ? projectData.market_intelligence[0] : projectData.market_intelligence,
-        risk_intel: Array.isArray(projectData.risk_intelligence) ? projectData.risk_intelligence[0] : projectData.risk_intelligence,
-        opportunity_card: Array.isArray(projectData.opportunity_cards) ? projectData.opportunity_cards[0] : projectData.opportunity_cards
-    };
+    const opportunity_card = Array.isArray(project.opportunity_cards) ? project.opportunity_cards[0] : project.opportunity_cards;
 
     // Security check: Client can only see active + visible projects
     if (!isAdmin) {
@@ -138,7 +134,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     // 3. Fetch Fit Score (Client Only)
     let fitData = null;
     if (!isAdmin) {
-        // Fetch client record to get the numeric UUID id
         const { data: clientRecord } = await supabase
             .from('clients')
             .select('id')
@@ -168,152 +163,117 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     );
 
     return (
-        <div className="max-w-6xl mx-auto space-y-10 py-6 animate-in fade-in duration-700">
-            {/* SECTION 1 — Project Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-8 border-b border-white/5">
-                <div className="space-y-4">
-                    <div className="flex items-center gap-2">
-                        <span className="px-2 py-1 rounded bg-yellow-500/10 text-yellow-500 text-[10px] font-bold uppercase tracking-widest border border-yellow-500/20">
-                            PREIO Advisory Property
-                        </span>
-                    </div>
-                    <div className="space-y-1">
-                        <h1 className="text-4xl font-black tracking-tighter text-slate-100">
-                            {project.name ?? 'Unnamed Project'}
-                        </h1>
-                        <div className="flex flex-wrap items-center gap-4 text-slate-400">
-                            <span className="flex items-center gap-1.5 text-sm">
-                                <MapPin size={16} className="text-slate-500" />
-                                {project.location ?? 'Location unavailable'}
-                            </span>
-                            <span className="flex items-center gap-1.5 text-sm">
-                                <Building2 size={16} className="text-slate-500" />
-                                {project.developer ?? 'Developer not specified'}
+        <div className="max-w-7xl mx-auto space-y-16 py-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            
+            {/* LAYER 1 — ADVISORY HEADER */}
+            <div className="glass p-10 rounded-[2.5rem] border border-white/5 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-yellow-500/[0.03] to-transparent pointer-events-none" />
+                
+                <div className="flex flex-col lg:flex-row justify-between gap-12 relative z-10">
+                    <div className="space-y-8 flex-1">
+                        <div className="flex items-center gap-3">
+                            <span className="px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-500 text-[10px] font-black uppercase tracking-[0.2em] border border-yellow-500/20">
+                                PREIO Advisory Dashboard
                             </span>
                         </div>
-                    </div>
-                </div>
+                        
+                        <div className="space-y-4">
+                            <h1 className="text-5xl font-black tracking-tighter text-slate-100 leading-[1.1]">
+                                {project.name ?? 'Dự án chưa đặt tên'}
+                            </h1>
+                            <div className="flex flex-wrap items-center gap-6 text-slate-400">
+                                <span className="flex items-center gap-2 text-sm">
+                                    <MapPin size={18} className="text-yellow-500/70" />
+                                    {project.location}
+                                </span>
+                                <span className="flex items-center gap-2 text-sm">
+                                    <Building2 size={18} className="text-yellow-500/70" />
+                                    {project.developer}
+                                </span>
+                            </div>
+                        </div>
 
-                <div className="flex items-center gap-6">
-                    <div className="text-right space-y-1">
-                        <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold">
-                            Advisory Grade
-                        </p>
-                        <GradeBadge grade={project.investment_grade} />
-                    </div>
-                    <div className="text-right space-y-1">
-                        <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold">
-                            Confidence
-                        </p>
-                        <div className="flex items-center gap-2 justify-end">
-                            <BarChart3 size={20} className="text-yellow-500/70" />
-                            <span className="text-2xl font-black text-slate-200">
-                                {project.analyst_confidence_level ?? '—'}{project.analyst_confidence_level !== null ? '%' : ''}
-                            </span>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 pt-4 border-t border-white/5">
+                            <div>
+                                <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1">Loại hình</p>
+                                <p className="text-slate-200 font-bold">{project.property_type}</p>
+                            </div>
+                            <div>
+                                <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1">Phân khúc</p>
+                                <p className="text-slate-200 font-bold">{project.target_segment}</p>
+                            </div>
+                            <div className="hidden md:block">
+                                <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1">Độ tự tin</p>
+                                <div className="flex items-center gap-2">
+                                    <BarChart3 size={14} className="text-yellow-500" />
+                                    <p className="text-slate-200 font-bold">{project.analyst_confidence_level}%</p>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+
+                    <div className="flex items-center gap-10">
+                        <div className="text-center space-y-2">
+                            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Xếp hạng</p>
+                            <GradeBadge grade={project.investment_grade} />
+                        </div>
+                        {fitData && (
+                            <div className="w-52 h-52">
+                                <StrategicFitGauge 
+                                    fitScore={fitData.fit_score}
+                                    fitLabel={fitData.fit_label}
+                                    budgetAlignment={fitData.budget_alignment}
+                                    locationAlignment={fitData.location_alignment}
+                                    goalAlignment={fitData.goal_alignment}
+                                    riskAlignment={fitData.risk_alignment}
+                                    horizonAlignment={fitData.horizon_alignment}
+                                    advisoryConfidence={project.analyst_confidence_level}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                {/* Left Column: Advisory & Context */}
-                <div className="lg:col-span-2 space-y-10">
-
-                    {/* SECTION 3 — PREIO Advisory Notes */}
-                    <div className="space-y-6">
-                        <div className="flex items-center gap-2">
-                            <FileText size={18} className="text-yellow-500" />
-                            <h2 className="text-lg font-bold tracking-tight text-slate-100">PREIO Advisory Analysis</h2>
-                        </div>
-                        <div className="grid grid-cols-1 gap-6">
-                            <AdvisoryNote
-                                icon={CheckCircle2}
-                                title="Executive Evaluation"
-                                content={project.evaluation_notes}
-                                colorClass="text-emerald-500"
-                            />
-                            <AdvisoryNote
-                                icon={ShieldCheck}
-                                title="Legal Framework & Compliance"
-                                content={project.legal_notes}
-                                colorClass="text-sky-500"
-                            />
-                            <AdvisoryNote
-                                icon={AlertTriangle}
-                                title="Risk Assessment"
-                                content={project.risk_notes}
-                                colorClass="text-rose-500"
-                            />
-                        </div>
-                    </div>
-
-                    {/* SECTION 4 & 5 & 6 — Financial & Market Metrics */}
-                    <div className="space-y-6">
-                        <div className="flex items-center gap-2">
-                            <TrendingUp size={18} className="text-yellow-500" />
-                            <h2 className="text-lg font-bold tracking-tight text-slate-100">Market & Asset Overview</h2>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <InfoCard icon={Layout} label="Property Type" value={project.property_type} />
-                            <InfoCard icon={Target} label="Target Segment" value={project.target_segment} />
-                            <InfoCard icon={Calendar} label="Launch Year" value={project.launch_year} />
-                            <InfoCard icon={Coins} label="Price per m²" value={project.price_per_m2 ? formatter.format(Number(project.price_per_m2)) : null} />
-                            <InfoCard icon={Clock} label="Recommended Horizon" value={project.holding_period_recommendation ? `${project.holding_period_recommendation} Years` : null} />
-                            <InfoCard icon={BarChart3} label="Expected Growth (p.a.)" value={project.expected_growth_rate ? `${project.expected_growth_rate}%` : null} />
-                        </div>
-                    </div>
-
-                    {/* SECTION 6A: Investment Thesis from Opportunity Card */}
-                    {project.opportunity_card && (project.opportunity_card.thesis_summary || project.opportunity_card.key_strengths?.length > 0) && (
-                        <div className="space-y-6">
-                            <div className="flex items-center gap-2">
-                                <Target size={18} className="text-yellow-500" />
-                                <h2 className="text-lg font-bold tracking-tight text-slate-100">Investment Thesis</h2>
-                            </div>
-                            <div className="glass p-6 rounded-2xl border border-yellow-500/20 bg-yellow-500/[0.02] space-y-6">
-                                {project.opportunity_card.thesis_summary && (
-                                    <p className="text-sm text-slate-300 leading-relaxed italic border-l-2 border-yellow-500/50 pl-4">{project.opportunity_card.thesis_summary}</p>
-                                )}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                                    {project.opportunity_card.key_strengths && project.opportunity_card.key_strengths.length > 0 && (
-                                        <div className="space-y-3">
-                                            <h3 className="text-[10px] font-black uppercase tracking-widest text-emerald-500 flex items-center gap-1.5"><TrendingUp size={12}/> Key Strengths</h3>
-                                            <ul className="space-y-2">
-                                                {project.opportunity_card.key_strengths.map((str: string, idx: number) => (
-                                                    <li key={idx} className="flex items-start gap-2 text-xs text-slate-300"><span className="text-emerald-500 mt-0.5">•</span> {str}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-                                    {project.opportunity_card.risk_indicators && project.opportunity_card.risk_indicators.length > 0 && (
-                                        <div className="space-y-3">
-                                            <h3 className="text-[10px] font-black uppercase tracking-widest text-amber-500 flex items-center gap-1.5"><AlertTriangle size={12}/> Primary Risks</h3>
-                                            <ul className="space-y-2">
-                                                {project.opportunity_card.risk_indicators.map((risk: string, idx: number) => (
-                                                    <li key={idx} className="flex items-start gap-2 text-xs text-slate-400 italic"><span className="text-amber-500 mt-0.5">•</span> {risk}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* SECTION 7: Advanced Advisory Domains */}
-                    <LocationPanel location={project.location_intel} />
-                    <MarketPanel market={project.market_intel} locale={locale} />
-                    <RiskPanel risk={project.risk_intel} />
+            {/* LAYER 2 — ADVISORY ANALYSIS GRID (2x2) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                <div className="glass p-8 rounded-[2rem] border border-white/5 bg-slate-900/40">
+                    <LocationPanel location={project} />
                 </div>
+                <div className="glass p-8 rounded-[2rem] border border-white/5 bg-slate-900/40">
+                    <MarketPanel market={project} locale={locale} />
+                </div>
+                <div className="glass p-8 rounded-[2rem] border border-white/5 bg-slate-900/40">
+                    <RiskPanel risk={project} />
+                </div>
+                <div className="glass p-8 rounded-[2rem] border border-white/5 bg-slate-900/40">
+                    <AdvisorPanel notes={project} />
+                </div>
+            </div>
 
-                {/* Right Column: Strategic Fit (Fixed Position-like on desktop) */}
-                <div className="space-y-8">
-                    {/* SECTION 2 — Advisory Fit */}
-                    <FitScorePanel 
-                        score={fitData} 
-                        advisoryConfidence={project.analyst_confidence_level} 
-                        isAdmin={isAdmin} 
-                    />
+            {/* LAYER 3 — STRATEGIC OVERVIEW & FIT DETAIL */}
+            <div className="pt-10 border-t border-white/5">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    <div className="lg:col-span-2 space-y-10">
+                        <div className="flex items-center gap-3">
+                            <Layout size={20} className="text-yellow-500" />
+                            <h2 className="text-xl font-bold tracking-tight text-slate-100 uppercase tracking-widest">Thông tin Tài sản & Kỳ vọng</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <InfoCard icon={Calendar} label="Thời điểm Bàn giao" value={project.launch_year} />
+                            <InfoCard icon={Coins} label="Đơn giá Niêm yết" value={project.price_per_m2 ? formatter.format(Number(project.price_per_m2)) : null} />
+                            <InfoCard icon={Clock} label="Chu kỳ Đầu tư (Khuyến nghị)" value={project.holding_period_recommendation ? `${project.holding_period_recommendation} Năm` : null} />
+                            <InfoCard icon={TrendingUp} label="Kỳ vọng Tăng trưởng" value={project.expected_growth_rate ? `${project.expected_growth_rate}% / năm` : null} />
+                        </div>
+                    </div>
+
+                    <div className="space-y-8">
+                        <FitScorePanel 
+                            score={fitData} 
+                            advisoryConfidence={project.analyst_confidence_level} 
+                            isAdmin={isAdmin} 
+                        />
+                    </div>
                 </div>
             </div>
         </div>
