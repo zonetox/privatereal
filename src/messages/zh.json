@@ -121,7 +121,7 @@
             },
             "engine5": {
                 "title": "执行客户门户",
-                "desc": "为收购进度和投资组合监控提供安全透明度。"
+                "desc": "为收购进度 and 投资组合监控提供安全透明度。"
             }
         },
         "methodology": {
@@ -135,5 +135,70 @@
         "footer": {
             "copyright": "© 2026 PREIO - 私人房地产情报局。版权所有。"
         }
+    },
+    "Workspace": {
+        "title": "客户",
+        "subtitle": "决策中心",
+        "explore_more": "探索更多项目",
+        "empty_title": "您的工作区目前为空",
+        "empty_desc": "从机会板块选择项目以开始机构评估。",
+        "explore_opportunities": "探索机会",
+        "advisory_journey": "咨询历程",
+        "current_stage": "当前",
+        "property_advisory_detail": "房产咨询详情",
+        "generate_brief": "生成咨询简报",
+        "advisor_insights": "顾问见解",
+        "awaiting_feedback": "等待顾问反馈",
+        "decision_items": "决策事项"
+    },
+    "Comparison": {
+        "title": "项目",
+        "subtitle": "对比",
+        "sub_header": "机构分析",
+        "no_projects": "未选择分析项目",
+        "metric_alignment": "指标匹配",
+        "selected_asset": "已选资产",
+        "grade": "等级",
+        "overview": "项目概览",
+        "strategic_fit": "战略契合度",
+        "expert_analysis": "专家分析",
+        "market_context": "市场背景",
+        "risk_review": "风险审查",
+        "price_from": "起售价",
+        "developer": "开发商",
+        "location": "区域",
+        "location_score": "位置评分",
+        "liquidity_score": "流动性评分",
+        "growth_score": "增长潜力评分",
+        "legal_score": "法律评分",
+        "price_per_m2": "单价",
+        "yield": "收益率",
+        "expected_growth": "预期增长",
+        "risk_score": "风险评分"
+    },
+    "AdvisoryBrief": {
+        "strictly_confidential": "严格保密",
+        "title_main": "咨询",
+        "title_sub": "简报",
+        "return_workspace": "返回工作区",
+        "ready_advisory": "咨询准备就绪",
+        "client": "客户",
+        "date": "日期",
+        "overview_title": "01. 项目摘要",
+        "investment_grade": "投资评级",
+        "target_segment": "目标客群",
+        "price_point": "价格区间",
+        "strategic_fit_title": "02. 战略契合度分析",
+        "fit_coefficient": "契合系数",
+        "strategic_advantages_title": "03. 战略优势",
+        "market_context_title": "04. 市场背景",
+        "risk_review_title": "05. 风险审查",
+        "analyst_conclusion_title": "06. 分析师结论",
+        "conclusion_intro": "基于当前的机构匹配算法，该资产与您的投资画像呈现 {label} 契合度。",
+        "risk_conclusion": "项目的风险等级为 {score}/100，符合您设定的风险上限。",
+        "location_conclusion": "战略位置契合度达 {score}%，确保投资组合的长期协同作用。",
+        "generated_by": "由 PREIO 咨询引擎 v3.0 生成",
+        "contact_advisor": "联系顾问",
+        "not_available": "该项目尚无分析笔记。请联系您的专职顾问进行深入定性审查。"
     }
 }

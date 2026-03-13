@@ -5,6 +5,7 @@ import {
     MapPin,
     ArrowLeft
 } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
 interface BriefPageProps {
     params: { locale: string, id: string };
@@ -21,6 +22,7 @@ type FitResult = {
 };
 
 export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
+    const t = await getTranslations('AdvisoryBrief');
     const { locale, id: projectId } = await Promise.resolve(params);
     const supabase = createClient();
 
@@ -71,12 +73,12 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                     className="flex items-center gap-2 text-slate-500 hover:text-yellow-500 transition-colors text-xs font-black uppercase tracking-widest"
                 >
                     <ArrowLeft size={16} />
-                    Return to Workspace
+                    {t('return_workspace')}
                 </Link>
                 <button 
                     className="px-6 py-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 text-[10px] font-black uppercase tracking-widest hover:bg-yellow-500 hover:text-slate-950 transition-all"
                 >
-                    Ready for Advisory
+                    {t('ready_advisory')}
                 </button>
             </div>
 
@@ -87,17 +89,17 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                 <div className="flex flex-col md:flex-row justify-between items-start gap-8 border-b-2 border-slate-100 pb-12">
                     <div className="space-y-4">
                         <div className="space-y-1">
-                            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Strictly Confidential</p>
-                            <h1 className="text-4xl font-black tracking-tighter uppercase italic">Advisory <span className="text-yellow-600">Brief</span></h1>
+                            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">{t('strictly_confidential')}</p>
+                            <h1 className="text-4xl font-black tracking-tighter uppercase italic">{t('title_main')} <span className="text-yellow-600">{t('title_sub')}</span></h1>
                         </div>
                         <div className="flex items-center gap-6 pt-4">
                             <div>
-                                <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Client</p>
+                                <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">{t('client')}</p>
                                 <p className="text-sm font-black">{clientRecord.profiles?.full_name || 'Valued Client'}</p>
                             </div>
                             <div className="w-px h-8 bg-slate-200" />
                             <div>
-                                <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Date</p>
+                                <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">{t('date')}</p>
                                 <p className="text-sm font-black uppercase">{new Date().toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                             </div>
                         </div>
@@ -111,7 +113,7 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                 <section className="space-y-8">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-px bg-slate-900" />
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em]">01. Project Summary</h2>
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em]">{t('overview_title')}</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                         <div className="space-y-6">
@@ -123,10 +125,10 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100">
-                                <MemoMetric label="Developer" value={project.developer || 'N/A'} />
-                                <MemoMetric label="Investment Grade" value={`Grade ${project.investment_grade || 'B'}`} />
-                                <MemoMetric label="Target Segment" value={project.target_segment || 'Residential'} />
-                                <MemoMetric label="Price Point" value={project.min_unit_price ? formatter.format(project.min_unit_price) : 'Contact Advisor'} />
+                                <MemoMetric label={t('developer')} value={project.developer || 'N/A'} />
+                                <MemoMetric label={t('investment_grade')} value={`Grade ${project.investment_grade || 'B'}`} />
+                                <MemoMetric label={t('target_segment')} value={project.target_segment || 'Residential'} />
+                                <MemoMetric label={t('price_point')} value={project.min_unit_price ? formatter.format(project.min_unit_price) : t('contact_advisor')} />
                             </div>
                         </div>
                         <div className="bg-slate-50 p-6 border border-slate-100 italic text-slate-600 text-sm leading-relaxed">
@@ -139,12 +141,12 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                 <section className="space-y-8">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-px bg-slate-900" />
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em]">02. Strategic Fit Analysis</h2>
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em]">{t('strategic_fit_title')}</h2>
                     </div>
                     <div className="p-8 border-2 border-slate-900">
                         <div className="flex flex-col md:flex-row items-center gap-12">
                             <div className="w-full md:w-1/3 text-center space-y-2">
-                                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Fit Coefficient</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">{t('fit_coefficient')}</p>
                                 <div className="text-6xl font-black italic text-slate-900">{fitData?.fit_score}%</div>
                                 <div className="px-3 py-1 bg-yellow-600 text-white text-[9px] font-black uppercase tracking-widest inline-block">
                                     {fitData?.fit_label}
@@ -165,7 +167,7 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                 <section className="space-y-8">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-px bg-slate-900" />
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em]">03. Strategic Advantages</h2>
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em]">{t('strategic_advantages_title')}</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {(project.key_advantages || ['Infrastructure Development', 'Market Gapping', 'Legal Security']).map((adv: string, idx: number) => (
@@ -182,7 +184,7 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                     <section className="space-y-8">
                         <div className="flex items-center gap-3">
                             <div className="w-8 h-px bg-slate-900" />
-                            <h2 className="text-xs font-black uppercase tracking-[0.3em]">04. Market Context</h2>
+                            <h2 className="text-xs font-black uppercase tracking-[0.3em]">{t('market_context_title')}</h2>
                         </div>
                         <div className="space-y-4">
                             <MetricRow label="Liquidity Score" value={project.liquidity_score} />
@@ -193,7 +195,7 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                     <section className="space-y-8">
                         <div className="flex items-center gap-3">
                             <div className="w-8 h-px bg-slate-900" />
-                            <h2 className="text-xs font-black uppercase tracking-[0.3em]">05. Risk Review</h2>
+                            <h2 className="text-xs font-black uppercase tracking-[0.3em]">{t('risk_review_title')}</h2>
                         </div>
                         <div className="space-y-4">
                             <MetricRow label="Legal Status Code" value={project.legal_score} suffix="/ 100" />
@@ -207,20 +209,20 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                 <section className="space-y-8 pt-12 border-t border-slate-100">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-px bg-slate-900" />
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em]">06. Analyst Conclusion</h2>
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em]">{t('analyst_conclusion_title')}</h2>
                     </div>
                     <div className="bg-slate-950 text-white p-10 space-y-6">
                         <p className="text-xl font-bold tracking-tight italic">
-                            Based on the current institutional matching algorithm, this asset represents a <span className="text-yellow-500 font-black uppercase">{fitData?.fit_label}</span> alignment with your investment profile.
+                            {t('conclusion_intro', { label: fitData?.fit_label })}
                         </p>
                         <ul className="space-y-3">
                             <li className="flex gap-3 text-sm text-slate-400">
                                 <span className="text-yellow-500 font-black">●</span>
-                                The project&apos;s risk rating of {project.risk_score}/100 falls within your defined risk ceiling.
+                                {t('risk_conclusion', { score: project.risk_score ?? 0 })}
                             </li>
                             <li className="flex gap-3 text-sm text-slate-400">
                                 <span className="text-yellow-500 font-black">●</span>
-                                Strategic location alignment of {fitData?.location_alignment}% ensures long-term portfolio synergy.
+                                {t('location_conclusion', { score: fitData?.location_alignment ?? 0 })}
                             </li>
                         </ul>
                     </div>
@@ -233,7 +235,7 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                         <p className="text-[8px] font-black uppercase tracking-widest">Decision Intelligence Office</p>
                     </div>
                     <div className="text-right">
-                        <p className="text-[10px] font-black italic">Generated by PREIO Advisory Engine v3.0</p>
+                        <p className="text-[10px] font-black italic">{t('generated_by')}</p>
                     </div>
                 </div>
             </div>

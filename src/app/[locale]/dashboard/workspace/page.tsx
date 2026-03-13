@@ -5,6 +5,7 @@ import CompareToggle from '@/components/projects/CompareToggle';
 import LifecycleTimeline from '@/components/projects/LifecycleTimeline';
 import LifecycleStageUpdate from '@/components/projects/LifecycleStageUpdate';
 import { MapPin, Check, ArrowUpRight, MessageSquare, CheckSquare, FileText, Briefcase } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
 interface WorkspacePageProps {
     params: { locale: string };
@@ -69,6 +70,7 @@ function GradeBadge({ grade }: { grade: string | null }) {
 }
 
 export default async function DecisionWorkspace({ params }: WorkspacePageProps) {
+    const t = await getTranslations('Workspace');
     const { locale } = await Promise.resolve(params);
     const supabase = createClient();
 
@@ -123,10 +125,10 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                 <div className="flex flex-col items-center justify-center min-h-[50vh] gap-6 text-center rounded-[3rem] border border-white/5 bg-slate-900/40 p-12 glass">
                     <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center text-slate-600 border border-white/5"><Briefcase size={36} /></div>
                     <div className="space-y-2">
-                        <p className="text-slate-300 text-xl font-black italic tracking-tight">Your Workspace is Empty</p>
-                        <p className="text-slate-500 text-xs max-w-[300px] leading-relaxed uppercase tracking-widest font-medium">Select projects from the Opportunity Board to begin your institutional evaluation.</p>
+                        <p className="text-slate-300 text-xl font-black italic tracking-tight">{t('empty_title')}</p>
+                        <p className="text-slate-500 text-xs max-w-[300px] leading-relaxed uppercase tracking-widest font-medium">{t('empty_desc')}</p>
                     </div>
-                    <Link href="/dashboard/recommendations" className="mt-4 px-8 py-4 rounded-3xl bg-yellow-500 text-slate-950 text-xs font-black uppercase tracking-widest shadow-2xl shadow-yellow-500/20 hover:scale-105 active:scale-95 transition-all">Explore Opportunities</Link>
+                    <Link href="/dashboard/recommendations" className="mt-4 px-8 py-4 rounded-3xl bg-yellow-500 text-slate-950 text-xs font-black uppercase tracking-widest shadow-2xl shadow-yellow-500/20 hover:scale-105 active:scale-95 transition-all">{t('explore_opportunities')}</Link>
                 </div>
             )}
 
@@ -138,10 +140,10 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                         <div className="px-8 pt-8 pb-4 border-b border-white/5 bg-white/[0.01]">
                             <div className="flex items-center justify-between mb-2">
                                 <div className="flex items-center gap-4">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Advisory Journey</span>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">{t('advisory_journey')}</span>
                                     {item.lifecycle && (
                                         <div className="px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-[9px] font-black uppercase tracking-widest">
-                                            Current: {item.lifecycle.stage.replace(/_/g, ' ')}
+                                            {t('current_stage')}: {item.lifecycle.stage.replace(/_/g, ' ')}
                                         </div>
                                     )}
                                 </div>
@@ -174,11 +176,11 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                                         className="flex items-center justify-center gap-2 w-full p-4 rounded-2xl bg-yellow-500 text-slate-950 hover:bg-yellow-400 transition-all shadow-xl shadow-yellow-500/10"
                                     >
                                         <FileText size={16} />
-                                        <span className="text-[10px] font-black uppercase tracking-widest">Generate Advisory Brief</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest">{t('generate_brief')}</span>
                                     </Link>
                                     <CompareToggle project={{ id: item.id, name: item.name }} />
                                     <Link href={`/dashboard/projects/${item.id}`} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-yellow-500/[0.03] hover:border-yellow-500/20 transition-all group/link">
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover/link:text-yellow-500 transition-colors">Property Advisory Detail</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover/link:text-yellow-500 transition-colors">{t('property_advisory_detail')}</span>
                                         <ArrowUpRight size={16} className="text-slate-600 group-hover/link:text-yellow-600" />
                                     </Link>
                                 </div>
@@ -186,10 +188,10 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                             
                             <div className="lg:col-span-8 p-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-black/10">
                                 <div className="space-y-6">
-                                    <div className="flex items-center gap-2"><MessageSquare size={16} className="text-yellow-500" /><h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-200">Advisor Insights</h3></div>
+                                    <div className="flex items-center gap-2"><MessageSquare size={16} className="text-yellow-500" /><h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-200">{t('advisor_insights')}</h3></div>
                                     <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                                         {item.advisor_notes.length === 0 ? (
-                                            <div className="p-6 rounded-2xl border border-dashed border-white/10 text-center"><p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">Awaiting Advisor Feedback</p></div>
+                                            <div className="p-6 rounded-2xl border border-dashed border-white/10 text-center"><p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">{t('awaiting_feedback')}</p></div>
                                         ) : (
                                             item.advisor_notes.map(note => (
                                                 <div key={note.id} className="p-5 rounded-2xl bg-white/5 border border-white/5"><p className="text-xs text-slate-300 leading-relaxed italic">&ldquo;{note.content}&rdquo;</p></div>
@@ -198,7 +200,7 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                                     </div>
                                 </div>
                                 <div className="space-y-6">
-                                    <div className="flex items-center gap-2"><CheckSquare size={16} className="text-emerald-500" /><h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-200">Decision Items</h3></div>
+                                    <div className="flex items-center gap-2"><CheckSquare size={16} className="text-emerald-500" /><h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-200">{t('decision_items')}</h3></div>
                                     <div className="space-y-3">
                                         {item.checklist.length === 0 ? (
                                             ['Legal Audit', 'Financial Verification', 'Site Inspection'].map((t, i) => (

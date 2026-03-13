@@ -3,15 +3,14 @@ import { redirect, Link } from '@/navigation';
 import {
     ArrowLeft,
     ShieldCheck,
-    TrendingUp,
     Coins,
-    Clock,
     Target,
     Activity,
     Scale,
     Building2
 } from 'lucide-react';
 import StrategicFitGauge from '@/components/projects/StrategicFitGauge';
+import { getTranslations } from 'next-intl/server';
 
 interface ComparePageProps {
     searchParams: { ids?: string };
@@ -49,6 +48,7 @@ type FitResult = {
 type ProjectComparisonData = Project & FitResult;
 
 export default async function ProjectComparison({ searchParams, params }: ComparePageProps) {
+    const t = await getTranslations('Comparison');
     const { locale } = await Promise.resolve(params);
     const { ids: idsParam } = await Promise.resolve(searchParams);
     const supabase = createClient();
@@ -116,8 +116,8 @@ export default async function ProjectComparison({ searchParams, params }: Compar
                         <ArrowLeft size={20} />
                     </Link>
                     <div className="space-y-1">
-                        <p className="text-[10px] uppercase tracking-[0.3em] text-yellow-600/80 font-black">Institutional Analysis</p>
-                        <h1 className="text-4xl font-black tracking-tighter text-slate-100 italic">Project <span className="text-yellow-500">Comparison</span></h1>
+                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-yellow-600/80 uppercase tracking-[0.3em]">{t('sub_header')}</p>
+                        <h1 className="text-4xl font-black tracking-tighter text-slate-100 italic">{t('title')} <span className="text-yellow-500">{t('subtitle')}</span></h1>
                     </div>
                 </div>
             </div>
@@ -125,7 +125,7 @@ export default async function ProjectComparison({ searchParams, params }: Compar
             {projects.length === 0 ? (
                 <div className="p-20 flex flex-col items-center justify-center rounded-[3rem] border border-dashed border-white/10 bg-slate-900/20 gap-4">
                     <Scale size={48} className="text-slate-700" />
-                    <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">No Projects Selected for Analysis</p>
+                    <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">{t('no_projects')}</p>
                 </div>
             ) : (
                 <div className="overflow-x-auto pb-10 custom-scrollbar">
@@ -133,18 +133,18 @@ export default async function ProjectComparison({ searchParams, params }: Compar
                         <thead>
                             <tr>
                                 <th className="sticky left-0 bg-slate-950/80 backdrop-blur-md z-30 min-w-[200px] text-left p-6 align-bottom border-b border-white/5">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">Metric Alignment</span>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">{t('metric_alignment')}</span>
                                 </th>
                                 {projects.map(p => (
                                     <th key={p.id} className="min-w-[320px] p-6 text-left border-b border-white/5">
                                         <div className="space-y-2">
                                             <div className="flex items-center gap-2">
-                                                <span className="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-500 text-[8px] font-black uppercase tracking-widest">Selected Asset</span>
+                                                <span className="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-500 text-[8px] font-black uppercase tracking-widest">{t('selected_asset')}</span>
                                                 {p.investment_grade && (
                                                     <div className={`px-2 py-0.5 rounded-full border text-[8px] font-black uppercase tracking-widest ${
                                                         p.investment_grade === 'A' ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5' : 'text-sky-400 border-sky-500/30'
                                                     }`}>
-                                                        Grade {p.investment_grade}
+                                                        {t('grade')} {p.investment_grade}
                                                     </div>
                                                 )}
                                             </div>
@@ -161,14 +161,14 @@ export default async function ProjectComparison({ searchParams, params }: Compar
                         <tbody className="divide-y divide-white/5">
                             {/* Project Overview Group */}
                             <ComparisonRow 
-                                label="Project Overview" 
+                                label={t('overview')} 
                                 icon={Building2} 
                                 projects={projects}
                                 render={p => (
                                     <div className="space-y-4">
-                                        <MetricValue label="Giá từ" value={p.min_unit_price ? formatter.format(p.min_unit_price) : 'Liên hệ'} color="text-emerald-400" />
-                                        <MetricValue label="Chủ đầu tư" value={p.developer || '—'} />
-                                        <MetricValue label="Khu vực" value={p.location} />
+                                        <MetricValue label={t('price_from')} value={p.min_unit_price ? formatter.format(p.min_unit_price) : 'Liên hệ'} color="text-emerald-400" />
+                                        <MetricValue label={t('developer')} value={p.developer || '—'} />
+                                        <MetricValue label={t('location')} value={p.location} />
                                     </div>
                                 )}
                             />
@@ -176,7 +176,7 @@ export default async function ProjectComparison({ searchParams, params }: Compar
                             {/* Strategic Fit Group */}
                             <tr>
                                 <td className="sticky left-0 bg-slate-950/80 backdrop-blur-md z-20 py-8 px-6 font-black text-[11px] uppercase tracking-widest text-slate-400 flex items-center gap-2">
-                                    <Activity size={14} className="text-yellow-600" /> Strategic Fit
+                                    <Activity size={14} className="text-yellow-600" /> {t('strategic_fit')}
                                 </td>
                                 {projects.map(p => (
                                     <td key={p.id} className="py-8 px-6 bg-white/[0.01]">
@@ -195,41 +195,41 @@ export default async function ProjectComparison({ searchParams, params }: Compar
 
                             {/* Expert Analysis Group */}
                             <ComparisonRow 
-                                label="Expert Analysis" 
+                                label={t('expert_analysis')} 
                                 icon={Target} 
                                 projects={projects}
                                 render={p => (
                                     <div className="space-y-4">
-                                        <MetricValue label="Vị trí (Location)" value={p.location_score ? `${p.location_score} / 100` : '—'} />
-                                        <MetricValue label="Thanh khoản (Liquidity)" value={p.liquidity_score ? `${p.liquidity_score} / 100` : '—'} />
-                                        <MetricValue label="Tiềm năng tăng (Growth)" value={p.growth_score ? `${p.growth_score} / 100` : '—'} />
-                                        <MetricValue label="Pháp lý (Legal)" value={p.legal_score ? `${p.legal_score} / 100` : '—'} />
+                                        <MetricValue label={t('location_score')} value={p.location_score ? `${p.location_score} / 100` : '—'} />
+                                        <MetricValue label={t('liquidity_score')} value={p.liquidity_score ? `${p.liquidity_score} / 100` : '—'} />
+                                        <MetricValue label={t('growth_score')} value={p.growth_score ? `${p.growth_score} / 100` : '—'} />
+                                        <MetricValue label={t('legal_score')} value={p.legal_score ? `${p.legal_score} / 100` : '—'} />
                                     </div>
                                 )}
                             />
 
                             {/* Market Dynamics Group */}
                             <ComparisonRow 
-                                label="Market Context" 
+                                label={t('market_context')} 
                                 icon={Coins} 
                                 projects={projects}
                                 render={p => (
                                     <div className="space-y-4">
-                                        <MetricValue label="Đơn giá (Price/m²)" value={p.price_per_m2 ? formatter.format(p.price_per_m2) : '—'} />
-                                        <MetricValue label="Lợi suất (Yield)" value={p.avg_rental_yield ? `${p.avg_rental_yield}%` : '—'} />
-                                        <MetricValue label="Tăng trưởng dự kiến" value={p.expected_growth_rate ? `${p.expected_growth_rate}%` : '—'} color="text-emerald-400" />
+                                        <MetricValue label={t('price_per_m2')} value={p.price_per_m2 ? formatter.format(p.price_per_m2) : '—'} />
+                                        <MetricValue label={t('yield')} value={p.avg_rental_yield ? `${p.avg_rental_yield}%` : '—'} />
+                                        <MetricValue label={t('expected_growth')} value={p.expected_growth_rate ? `${p.expected_growth_rate}%` : '—'} color="text-emerald-400" />
                                     </div>
                                 )}
                             />
 
                             {/* Risk Review Group */}
                             <ComparisonRow 
-                                label="Risk Review" 
+                                label={t('risk_review')} 
                                 icon={ShieldCheck} 
                                 projects={projects}
                                 render={p => (
                                     <div className="space-y-4">
-                                        <MetricValue label="Risk Score" value={p.risk_score ? `${p.risk_score} / 100` : '—'} />
+                                        <MetricValue label={t('risk_score')} value={p.risk_score ? `${p.risk_score} / 100` : '—'} />
                                         <div className="pt-2">
                                             <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                                                 <div 
@@ -251,7 +251,12 @@ export default async function ProjectComparison({ searchParams, params }: Compar
     );
 }
 
-function ComparisonRow({ label, icon: Icon, projects, render }: { label: string, icon: any, projects: any[], render: (p: any) => React.ReactNode }) {
+function ComparisonRow({ label, icon: Icon, projects, render }: { 
+    label: string, 
+    icon: React.ElementType, 
+    projects: ProjectComparisonData[], 
+    render: (p: ProjectComparisonData) => React.ReactNode 
+}) {
     return (
         <tr className="group hover:bg-white/[0.02] transition-all">
             <td className="sticky left-0 bg-slate-950/80 backdrop-blur-md z-20 py-10 px-6 align-top">
