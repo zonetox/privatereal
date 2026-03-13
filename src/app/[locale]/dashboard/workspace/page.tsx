@@ -4,7 +4,7 @@ import StrategicFitGauge from '@/components/projects/StrategicFitGauge';
 import CompareToggle from '@/components/projects/CompareToggle';
 import LifecycleTimeline from '@/components/projects/LifecycleTimeline';
 import LifecycleStageUpdate from '@/components/projects/LifecycleStageUpdate';
-import { Briefcase, Link as LinkIcon, AlertTriangle, ShieldCheck, CreditCard, Scale, Building2, Eye, Banknote, Clock, ArrowRight, MapPin, Check, ArrowUpRight, MessageSquare, CheckSquare } from 'lucide-react';
+import { MapPin, Check, ArrowUpRight, MessageSquare, CheckSquare, FileText, Briefcase } from 'lucide-react';
 
 interface WorkspacePageProps {
     params: { locale: string };
@@ -169,6 +169,13 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                                 </div>
                                 <StrategicFitGauge fitScore={item.fit_score} fitLabel={item.fit_label} budgetAlignment={item.budget_alignment} riskAlignment={item.risk_alignment} horizonAlignment={item.horizon_alignment} locationAlignment={item.location_alignment} goalAlignment={item.goal_alignment} />
                                 <div className="pt-4 flex flex-col gap-3">
+                                    <Link 
+                                        href={`/dashboard/workspace/${item.id}/brief`}
+                                        className="flex items-center justify-center gap-2 w-full p-4 rounded-2xl bg-yellow-500 text-slate-950 hover:bg-yellow-400 transition-all shadow-xl shadow-yellow-500/10"
+                                    >
+                                        <FileText size={16} />
+                                        <span className="text-[10px] font-black uppercase tracking-widest">Generate Advisory Brief</span>
+                                    </Link>
                                     <CompareToggle project={{ id: item.id, name: item.name }} />
                                     <Link href={`/dashboard/projects/${item.id}`} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-yellow-500/[0.03] hover:border-yellow-500/20 transition-all group/link">
                                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover/link:text-yellow-500 transition-colors">Property Advisory Detail</span>
@@ -185,7 +192,7 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                                             <div className="p-6 rounded-2xl border border-dashed border-white/10 text-center"><p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">Awaiting Advisor Feedback</p></div>
                                         ) : (
                                             item.advisor_notes.map(note => (
-                                                <div key={note.id} className="p-5 rounded-2xl bg-white/5 border border-white/5"><p className="text-xs text-slate-300 leading-relaxed italic">"{note.content}"</p></div>
+                                                <div key={note.id} className="p-5 rounded-2xl bg-white/5 border border-white/5"><p className="text-xs text-slate-300 leading-relaxed italic">&ldquo;{note.content}&rdquo;</p></div>
                                             ))
                                         )}
                                     </div>

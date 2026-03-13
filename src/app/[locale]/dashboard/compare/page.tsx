@@ -8,7 +8,8 @@ import {
     Clock,
     Target,
     Activity,
-    Scale
+    Scale,
+    Building2
 } from 'lucide-react';
 import StrategicFitGauge from '@/components/projects/StrategicFitGauge';
 
@@ -24,10 +25,15 @@ type Project = {
     developer: string | null;
     investment_grade: string | null;
     price_per_m2: number | null;
+    min_unit_price: number | null;
     avg_rental_yield: number | null;
     expected_growth_rate: number | null;
     holding_period_recommendation: number | null;
     risk_score: number | null;
+    location_score: number | null;
+    liquidity_score: number | null;
+    growth_score: number | null;
+    legal_score: number | null;
 };
 
 type FitResult = {
@@ -47,7 +53,9 @@ export default async function ProjectComparison({ searchParams, params }: Compar
     const { ids: idsParam } = await Promise.resolve(searchParams);
     const supabase = createClient();
 
-    const ids = idsParam ? idsParam.split(',') : [];
+    // 4. Enforce Project Limit (Server-side)
+    const rawIds = idsParam ? idsParam.split(',') : [];
+    const ids = rawIds.slice(0, 3);
 
     // 1. Auth & Client ID
     const { data: { user } } = await supabase.auth.getUser();
@@ -61,7 +69,7 @@ export default async function ProjectComparison({ searchParams, params }: Compar
     
     const clientId = clientRecord?.id;
 
-    // 2. Fetch Projects
+    // 2. Fetch Projects (Including missing score fields)
     const { data: rawProjects } = await supabase
         .from('projects')
         .select('*')
@@ -132,21 +140,40 @@ export default async function ProjectComparison({ searchParams, params }: Compar
                                         <div className="space-y-2">
                                             <div className="flex items-center gap-2">
                                                 <span className="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-500 text-[8px] font-black uppercase tracking-widest">Selected Asset</span>
-                                                <div className={`px-2 py-0.5 rounded-full border text-[8px] font-black uppercase tracking-widest ${
-                                                    p.investment_grade === 'A' ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5' : 'text-sky-400 border-sky-500/30'
-                                                }`}>
-                                                    Grade {p.investment_grade}
-                                                </div>
+                                                {p.investment_grade && (
+                                                    <div className={`px-2 py-0.5 rounded-full border text-[8px] font-black uppercase tracking-widest ${
+                                                        p.investment_grade === 'A' ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5' : 'text-sky-400 border-sky-500/30'
+                                                    }`}>
+                                                        Grade {p.investment_grade}
+                                                    </div>
+                                                )}
                                             </div>
                                             <h3 className="text-2xl font-black text-slate-100 truncate">{p.name}</h3>
-                                            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic">{p.location}</p>
+                                            <div className="flex flex-col gap-1">
+                                                {p.developer && <p className="text-[11px] text-amber-500 font-black uppercase tracking-widest">{p.developer}</p>}
+                                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic">{p.location}</p>
+                                            </div>
                                         </div>
                                     </th>
                                 ))}
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
-                            {/* Strategic Fit Section */}
+                            {/* Project Overview Group */}
+                            <ComparisonRow 
+                                label="Project Overview" 
+                                icon={Building2} 
+                                projects={projects}
+                                render={p => (
+                                    <div className="space-y-4">
+                                        <MetricValue label="Giá từ" value={p.min_unit_price ? formatter.format(p.min_unit_price) : 'Liên hệ'} color="text-emerald-400" />
+                                        <MetricValue label="Chủ đầu tư" value={p.developer || '—'} />
+                                        <MetricValue label="Khu vực" value={p.location} />
+                                    </div>
+                                )}
+                            />
+
+                            {/* Strategic Fit Group */}
                             <tr>
                                 <td className="sticky left-0 bg-slate-950/80 backdrop-blur-md z-20 py-8 px-6 font-black text-[11px] uppercase tracking-widest text-slate-400 flex items-center gap-2">
                                     <Activity size={14} className="text-yellow-600" /> Strategic Fit
@@ -166,34 +193,38 @@ export default async function ProjectComparison({ searchParams, params }: Compar
                                 ))}
                             </tr>
 
-                            {/* Market Dynamics */}
+                            {/* Expert Analysis Group */}
                             <ComparisonRow 
-                                label="Market Snapshot" 
+                                label="Expert Analysis" 
                                 icon={Target} 
                                 projects={projects}
                                 render={p => (
                                     <div className="space-y-4">
-                                        <MetricValue label="Price / m²" value={p.price_per_m2 ? formatter.format(p.price_per_m2) : '—'} />
-                                        <MetricValue label="Rental Yield" value={p.avg_rental_yield ? `${p.avg_rental_yield}%` : '—'} />
+                                        <MetricValue label="Vị trí (Location)" value={p.location_score ? `${p.location_score} / 100` : '—'} />
+                                        <MetricValue label="Thanh khoản (Liquidity)" value={p.liquidity_score ? `${p.liquidity_score} / 100` : '—'} />
+                                        <MetricValue label="Tiềm năng tăng (Growth)" value={p.growth_score ? `${p.growth_score} / 100` : '—'} />
+                                        <MetricValue label="Pháp lý (Legal)" value={p.legal_score ? `${p.legal_score} / 100` : '—'} />
                                     </div>
                                 )}
                             />
 
-                            {/* Growth & Risk */}
+                            {/* Market Dynamics Group */}
                             <ComparisonRow 
-                                label="Financial Outlook" 
-                                icon={TrendingUp} 
+                                label="Market Context" 
+                                icon={Coins} 
                                 projects={projects}
                                 render={p => (
                                     <div className="space-y-4">
-                                        <MetricValue label="Annual Growth" value={p.expected_growth_rate ? `${p.expected_growth_rate}%` : '—'} color="text-emerald-400" />
-                                        <MetricValue label="Rec. Horizon" value={p.holding_period_recommendation ? `${p.holding_period_recommendation} Years` : '—'} />
+                                        <MetricValue label="Đơn giá (Price/m²)" value={p.price_per_m2 ? formatter.format(p.price_per_m2) : '—'} />
+                                        <MetricValue label="Lợi suất (Yield)" value={p.avg_rental_yield ? `${p.avg_rental_yield}%` : '—'} />
+                                        <MetricValue label="Tăng trưởng dự kiến" value={p.expected_growth_rate ? `${p.expected_growth_rate}%` : '—'} color="text-emerald-400" />
                                     </div>
                                 )}
                             />
 
+                            {/* Risk Review Group */}
                             <ComparisonRow 
-                                label="Risk Governance" 
+                                label="Risk Review" 
                                 icon={ShieldCheck} 
                                 projects={projects}
                                 render={p => (
@@ -248,3 +279,4 @@ function MetricValue({ label, value, color = "text-slate-300" }: { label: string
         </div>
     );
 }
+
