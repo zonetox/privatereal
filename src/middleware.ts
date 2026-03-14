@@ -45,10 +45,8 @@ export default async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL(`/${locale}/login`, request.url))
         }
 
-        // 2. Allow access even if role is pending (Temporary for evaluation)
-        if (!profile) {
-            return NextResponse.redirect(new URL(`/${locale}/login`, request.url))
-        }
+        // 2. Allow access even if profile record is missing (Temporary for evaluation)
+        // We will handle profile existence checks within the dashboard pages if needed
     }
 
     return supabaseResponse

@@ -48,9 +48,9 @@ export default function RegisterForm() {
                 return;
             }
 
-            // Success
-            router.push('/dashboard');
-        } catch {
+            // Success - Direct redirect to dashboard
+            window.location.href = `/${locale}/dashboard`;
+        } catch (err) {
             setError('An unexpected error occurred. Please try again.');
             setIsLoading(false);
         }
