@@ -104,6 +104,12 @@ export default async function ProjectComparison({ searchParams, params }: Compar
         maximumFractionDigits: 0
     });
 
+    // Log comparison activity (Client Only)
+    if (clientId && projects.length > 0) {
+        const { logActivityAction } = require('@/app/actions/activity-logger');
+        logActivityAction('compare_projects', undefined, `Comparing ${projects.length} projects`, { project_ids: ids });
+    }
+
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-right-4 duration-700">
             {/* Header */}

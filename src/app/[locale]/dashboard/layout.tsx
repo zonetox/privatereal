@@ -39,6 +39,14 @@ export default async function DashboardLayoutWrapper({
     role: profile.role as 'admin' | 'client'
   };
 
+  // Log session access (counts as active metric)
+  if (userData.role === 'client') {
+    // We import it here or use a side effect component, but since it's a server component layout,
+    // we can just call it (it's safe as it's a server action called from server)
+    const { logActivityAction } = require('@/app/actions/activity-logger');
+    logActivityAction('login', undefined, 'Accessing Dashboard');
+  }
+
   return (
     <DashboardLayout user={userData}>
       {children}

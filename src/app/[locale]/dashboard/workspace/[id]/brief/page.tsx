@@ -64,6 +64,12 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
         maximumFractionDigits: 0
     });
 
+    // Log brief generation activity (Client Only)
+    if (clientId && projectId) {
+        const { logActivityAction } = require('@/app/actions/activity-logger');
+        logActivityAction('brief_generated', projectId, `Generated Advisory Brief for ${project.name}`);
+    }
+
     return (
         <div className="max-w-4xl mx-auto space-y-12 pb-20 animate-in fade-in duration-1000">
             {/* Action Bar (Hidden on print) */}

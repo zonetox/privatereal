@@ -63,6 +63,8 @@ export default function WorkspaceToggle({ projectId, clientId, initialState = fa
             
             if (!error) {
                 setIsAdded(true);
+                const { logActivityAction } = require('@/app/actions/activity-logger');
+                logActivityAction('workspace_add', projectId, 'Added to Workspace');
                 router.refresh();
             }
         }

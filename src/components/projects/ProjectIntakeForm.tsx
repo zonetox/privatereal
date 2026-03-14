@@ -27,6 +27,25 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
     async function handleSubmit(formData: FormData) {
         setIsSaving(true);
         setMessage(null);
+
+        // 1. Client-side score validation (0-100)
+        const scoreFields = [
+            'location_score', 'infrastructure_score', 'liquidity_score', 
+            'growth_score', 'legal_score', 'risk_score', 'analyst_confidence_level'
+        ];
+        
+        for (const field of scoreFields) {
+            const val = formData.get(field);
+            if (val !== null && val !== '') {
+                const num = parseInt(val as string);
+                if (num < 0 || num > 100) {
+                    setMessage({ type: 'error', text: `Lỗi: Điểm số "${field.replace('_', ' ')}" phải nằm trong khoảng 0-100.` });
+                    setIsSaving(false);
+                    return;
+                }
+            }
+        }
+
         try {
             const result = await updateProjectAction(project.id, formData);
             if (result?.success) {
@@ -177,9 +196,9 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                                 <input name="price_per_m2" type="number" defaultValue={project.price_per_m2} className="form-input" />
                             </div>
                             <div>
-                                <FormLabel label="Giá căn hộ tối thiểu — Min Unit Price (VNĐ) ★" />
-                                <input name="min_unit_price" type="number" defaultValue={project.min_unit_price} className="form-input" placeholder="VD: 3000000000 (3 Tỷ VNĐ)" />
-                                <p className="text-[9px] text-yellow-600/70 mt-1 uppercase tracking-widest font-bold">★ Dùng cho tính toán Budget Alignment & Advisory Brief</p>
+                                <FormLabel label="Giá căn hộ tối thiểu (VND) ★" />
+                                <input name="min_unit_price" type="number" defaultValue={project.min_unit_price} className="form-input" placeholder="VD: 3000000000" />
+                                <p className="text-[9px] text-yellow-600/70 mt-1 uppercase tracking-widest font-bold">★ Dùng cho tính toán Budget Alignment</p>
                             </div>
                             <div>
                                 <FormLabel label="Tỷ suất cho thuê mục tiêu (%)" />
@@ -279,7 +298,12 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                             </div>
                             <div>
                                 <FormLabel label="Ưu điểm Vượt trội (Key Advantages)" />
-                                <textarea name="key_advantages" defaultValue={project.key_advantages} rows={3} className="form-input !bg-slate-900" />
+                                <textarea 
+                                    name="key_advantages" 
+                                    defaultValue={Array.isArray(project.key_advantages) ? project.key_advantages.join('\n') : (project.key_advantages || '')} 
+                                    rows={3} 
+                                    className="form-input !bg-slate-900" 
+                                />
                             </div>
                             <div>
                                 <FormLabel label="Luận điểm Đầu tư chính (Investment Thesis)" />

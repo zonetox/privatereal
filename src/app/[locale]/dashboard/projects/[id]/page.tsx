@@ -166,6 +166,12 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         }
     }
 
+    // Log project view activity (Client Only)
+    if (!isAdmin) {
+      const { logActivityAction } = require('@/app/actions/activity-logger');
+      logActivityAction('project_view', id, `Viewing Project: ${project.name}`);
+    }
+
     // Currency formatter
     const formatter = new Intl.NumberFormat(
         locale === 'vi' ? 'vi-VN' : 'en-US',

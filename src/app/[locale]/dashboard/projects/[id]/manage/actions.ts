@@ -19,7 +19,7 @@ export async function updateProjectAction(projectId: string, formData: FormData)
     if (profile?.role !== 'admin') throw new Error('Access denied');
 
     // 3. Prepare update data
-    const updateData: Record<string, string | number | boolean | null> = {
+    const updateData: Record<string, string | number | boolean | string[] | null> = {
         name: formData.get('name') as string,
         location: formData.get('location') as string,
         developer: formData.get('developer') as string,
@@ -46,7 +46,7 @@ export async function updateProjectAction(projectId: string, formData: FormData)
         risk_notes: formData.get('risk_notes') as string,
         buyer_suitability: formData.get('buyer_suitability') as string,
         not_suitable_for: formData.get('not_suitable_for') as string,
-        key_advantages: formData.get('key_advantages') as string,
+        key_advantages: (formData.get('key_advantages') as string)?.split('\n').map(l => l.trim()).filter(l => l !== '') || [],
         key_concerns: formData.get('key_concerns') as string,
         market_trend_notes: formData.get('market_trend_notes') as string,
         construction_status: formData.get('construction_status') as string,

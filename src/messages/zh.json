@@ -200,5 +200,43 @@
         "generated_by": "由 PREIO 咨询引擎 v3.0 生成",
         "contact_advisor": "联系顾问",
         "not_available": "该项目尚无分析笔记。请联系您的专职顾问进行深入定性审查。"
+    },
+    "Leads": {
+        "title": "精英线索引擎",
+        "subtitle": "管理和跟踪您的战略线索和高净值评估。",
+        "total_leads": "总线索数",
+        "status_all": "全部",
+        "status_qualified": "合格",
+        "status_new": "新线索",
+        "status_rejected": "已拒绝",
+        "status_converted": "已转化",
+        "col_name": "姓名 / 联系方式",
+        "col_capital": "资金规模",
+        "col_score": "评分",
+        "col_status": "状态",
+        "col_date": "日期",
+        "col_action": "操作",
+        "no_leads": "未发现线索。战略评估将显示在此处。"
+    },
+    "MyProperties": {
+        "holdings_badge": "资产持有",
+        "title_main": "我的",
+        "title_sub": "房产",
+        "subtitle": "通过 PREIO 顾问收购的房产。",
+        "empty_title": "暂无收购记录。",
+        "empty_desc": "您的确认房产将在顾问记录后显示在此处。",
+        "label_unit": "单元代码",
+        "label_purchase_date": "购买日期",
+        "label_contract_value": "合同价值",
+        "timeline_title": "房产时间轴",
+        "status_reserved": "已预订",
+        "status_contract_signed": "合同已签署",
+        "status_paid": "已付款",
+        "status_transferred": "已转让",
+        "milestone_payment_due": "应付账款",
+        "milestone_construction_update": "施工进度更新",
+        "milestone_handover": "交房",
+        "milestone_document_submission": "档案提交",
+        "view_full_note": "查看完整说明"
     }
 }

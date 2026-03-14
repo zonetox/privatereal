@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from '@/navigation';
+import { getTranslations } from 'next-intl/server';
 import {
   Mail,
   Phone,
@@ -22,9 +23,10 @@ interface LeadsPageProps {
 export const dynamic = 'force-dynamic';
 
 export default async function LeadsPage({ searchParams, params }: LeadsPageProps) {
+  const { locale } = await Promise.resolve(params);
+  const t = await getTranslations({ locale });
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const { locale } = params;
 
   if (!user) redirect({ href: '/login', locale });
   if (!user) return null;
@@ -39,7 +41,7 @@ export default async function LeadsPage({ searchParams, params }: LeadsPageProps
     redirect({ href: '/dashboard', locale });
   }
 
-  const statusFilter = searchParams.status;
+  const { status: statusFilter } = await Promise.resolve(searchParams);
 
   let query = supabase
     .from('leads')
@@ -57,13 +59,13 @@ export default async function LeadsPage({ searchParams, params }: LeadsPageProps
     <div className="space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Elite Lead Engine</h1>
-          <p className="text-muted-foreground mt-1">Manage and track your strategic leads and high-net-worth assessments.</p>
+          <h1 className="text-3xl font-bold tracking-tight">{t('Leads.title')}</h1>
+          <p className="text-muted-foreground mt-1">{t('Leads.subtitle')}</p>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="glass px-4 py-2 rounded-lg border border-border flex items-center gap-2">
-            <span className="text-sm font-medium text-slate-400">Total Leads:</span>
+            <span className="text-sm font-medium text-slate-400">{t('Leads.total_leads')}:</span>
             <span className="text-sm font-bold text-primary">{leads?.length || 0}</span>
           </div>
         </div>
@@ -83,7 +85,7 @@ export default async function LeadsPage({ searchParams, params }: LeadsPageProps
                   : "text-muted-foreground hover:text-foreground hover:bg-white/5"
               )}
             >
-              <span className="capitalize">{s}</span>
+              <span className="capitalize">{t(`Leads.status_${s}`)}</span>
             </a>
           ))}
         </div>
@@ -94,12 +96,12 @@ export default async function LeadsPage({ searchParams, params }: LeadsPageProps
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-slate-900/50 border-b border-border">
-              <th className="p-4 text-xs font-bold uppercase tracking-widest text-slate-500">Name / Contact</th>
-              <th className="p-4 text-xs font-bold uppercase tracking-widest text-slate-500 text-center">Capital</th>
-              <th className="p-4 text-xs font-bold uppercase tracking-widest text-slate-500 text-center">Score</th>
-              <th className="p-4 text-xs font-bold uppercase tracking-widest text-slate-500 text-center">Status</th>
-              <th className="p-4 text-xs font-bold uppercase tracking-widest text-slate-500">Date</th>
-              <th className="p-4 text-xs font-bold uppercase tracking-widest text-slate-500 text-right">Action</th>
+              <th className="p-4 text-xs font-bold uppercase tracking-widest text-slate-500">{t('Leads.col_name')}</th>
+              <th className="p-4 text-xs font-bold uppercase tracking-widest text-slate-500 text-center">{t('Leads.col_capital')}</th>
+              <th className="p-4 text-xs font-bold uppercase tracking-widest text-slate-500 text-center">{t('Leads.col_score')}</th>
+              <th className="p-4 text-xs font-bold uppercase tracking-widest text-slate-500 text-center">{t('Leads.col_status')}</th>
+              <th className="p-4 text-xs font-bold uppercase tracking-widest text-slate-500">{t('Leads.col_date')}</th>
+              <th className="p-4 text-xs font-bold uppercase tracking-widest text-slate-500 text-right">{t('Leads.col_action')}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border/50">
@@ -115,8 +117,8 @@ export default async function LeadsPage({ searchParams, params }: LeadsPageProps
                   </div>
                 </td>
                 <td className="p-4 text-center">
-                  <span className="text-sm font-medium text-slate-300 uppercase tracking-tighter">
-                    {lead.capital_range?.replace('capital_', '').replace('_', '-')}
+                  <span className="text-sm font-medium text-slate-300">
+                    {t(`LeadForm.${lead.capital_range || 'capital_1_3'}`)}
                   </span>
                 </td>
                 <td className="p-4 text-center">
@@ -132,12 +134,12 @@ export default async function LeadsPage({ searchParams, params }: LeadsPageProps
                     lead.status === 'rejected' && "bg-rose-500/10 text-rose-500 border border-rose-500/20",
                     lead.status === 'converted' && "bg-purple-500/10 text-purple-500 border border-purple-500/20"
                   )}>
-                    {lead.status}
+                    {t(`Leads.status_${lead.status}`)}
                   </span>
                 </td>
                 <td className="p-4">
                   <span className="text-sm text-slate-400">
-                    {new Date(lead.created_at).toLocaleDateString()}
+                    {new Date(lead.created_at).toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-GB')}
                   </span>
                 </td>
                 <td className="p-4 text-right">
@@ -161,7 +163,7 @@ export default async function LeadsPage({ searchParams, params }: LeadsPageProps
             {(!leads || leads.length === 0) && (
               <tr>
                 <td colSpan={6} className="p-12 text-center text-slate-500 italic">
-                  No leads found. Strategic assessments will appear here.
+                  {t('Leads.no_leads')}
                 </td>
               </tr>
             )}
