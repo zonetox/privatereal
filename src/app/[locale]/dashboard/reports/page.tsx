@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server';
 import AdvisoryCollectionTable from '@/components/reports/AdvisoryCollectionTable';
 import MarketAdvisoryGrid from '@/components/reports/MarketAdvisoryGrid';
 import AdvisoryEngagementList from '@/components/reports/AdvisoryEngagementList';
+import WorkspaceActivityTable from '@/components/reports/WorkspaceActivityTable';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,6 +32,7 @@ export default async function ReportsPage({ params }: { params: { locale: string
   // Fetch Reporting Data from Views
   const { data: portfolioData } = await supabase.from('v_client_property_portfolio_summary').select('*');
   const { data: marketData } = await supabase.from('v_market_intelligence_snapshot').select('*');
+  const { data: workspaceActivity } = await supabase.from('v_client_workspace_activity').select('*');
   const { data: engagementRaw } = await supabase.from('advisor_client_notes').select('client_id, created_at, action_items, clients(full_name)');
 
   // Transform engagement data (manual aggregate since it's more complex)
@@ -48,16 +50,18 @@ export default async function ReportsPage({ params }: { params: { locale: string
   return (
     <div className="p-8 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div>
-        <h1 className="text-4xl font-extrabold tracking-tight gold-text-gradient mb-3">Institutional Reporting Hub</h1>
-        <p className="text-slate-400 max-w-2xl">Executive oversight across client property collections, market location advisory, and advisory performance metrics.</p>
+        <h1 className="text-4xl font-extrabold tracking-tight gold-text-gradient mb-3">{t('ReportsOverview.title')}</h1>
+        <p className="text-slate-400 max-w-2xl">{t('ReportsOverview.subtitle')}</p>
       </div>
 
       <div className="space-y-12">
         {/* Section 1: Advisory Collections */}
         <section className="space-y-6">
           <div className="flex items-center justify-between border-b border-white/5 pb-4">
-            <h2 className="text-xl font-bold text-slate-200">Advisory Collections</h2>
-            <span className="text-xs text-slate-500 uppercase tracking-widest font-bold">Total Active: {portfolioData?.length || 0}</span>
+            <h2 className="text-xl font-bold text-slate-200">{t('ReportsOverview.collections_title')}</h2>
+            <span className="text-xs text-slate-500 uppercase tracking-widest font-bold">
+              {t('ReportsOverview.total_active')}: {portfolioData?.length || 0}
+            </span>
           </div>
           <div className="glass rounded-2xl border border-white/5 p-2">
             <AdvisoryCollectionTable data={portfolioData || []} />
@@ -67,8 +71,10 @@ export default async function ReportsPage({ params }: { params: { locale: string
         {/* Section 2: Market Advisory */}
         <section className="space-y-6">
           <div className="flex items-center justify-between border-b border-white/5 pb-4">
-            <h2 className="text-xl font-bold text-slate-200">Market Location Advisory</h2>
-            <span className="text-xs text-slate-500 uppercase tracking-widest font-bold">Active Projects: {marketData?.length || 0}</span>
+            <h2 className="text-xl font-bold text-slate-200">{t('ReportsOverview.market_title')}</h2>
+            <span className="text-xs text-slate-500 uppercase tracking-widest font-bold">
+              {t('Dashboard.projects')}: {marketData?.length || 0}
+            </span>
           </div>
           <MarketAdvisoryGrid data={marketData || []} />
         </section>
@@ -76,11 +82,22 @@ export default async function ReportsPage({ params }: { params: { locale: string
         {/* Section 3: Advisory Engagement */}
         <section className="space-y-6">
           <div className="flex items-center justify-between border-b border-white/5 pb-4">
-            <h2 className="text-xl font-bold text-slate-200">Advisory Engagement Analysis</h2>
+            <h2 className="text-xl font-bold text-slate-200">{t('ReportsOverview.engagement_title')}</h2>
           </div>
           <div className="max-w-4xl">
             <AdvisoryEngagementList data={engagementData} />
           </div>
+        </section>
+
+        {/* Section 4: Client Workspace Activity */}
+        <section className="space-y-6">
+          <div className="flex items-center justify-between border-b border-white/5 pb-4">
+            <h2 className="text-xl font-bold text-slate-200">{t('ReportsOverview.workspace_activity_title')}</h2>
+            <span className="text-xs text-slate-500 uppercase tracking-widest font-bold">
+              {t('Dashboard.workspaceClient')}: {workspaceActivity?.length || 0}
+            </span>
+          </div>
+          <WorkspaceActivityTable data={workspaceActivity || []} />
         </section>
       </div>
     </div>

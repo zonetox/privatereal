@@ -147,7 +147,7 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                         <div className="flex flex-col md:flex-row items-center gap-12">
                             <div className="w-full md:w-1/3 text-center space-y-2">
                                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">{t('fit_coefficient')}</p>
-                                <div className="text-6xl font-black italic text-slate-900">{fitData?.fit_score}%</div>
+                                <div className="text-6xl font-black italic text-slate-900">{fitData?.fit_score ?? 0}%</div>
                                 <div className="px-3 py-1 bg-yellow-600 text-white text-[9px] font-black uppercase tracking-widest inline-block">
                                     {fitData?.fit_label}
                                 </div>
@@ -170,7 +170,13 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                         <h2 className="text-xs font-black uppercase tracking-[0.3em]">{t('strategic_advantages_title')}</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {(project.key_advantages || ['Infrastructure Development', 'Market Gapping', 'Legal Security']).map((adv: string, idx: number) => (
+                        {((): string[] => {
+                            const raw = project.key_advantages;
+                            if (!raw) return ['Infrastructure Development', 'Market Gapping', 'Legal Security'];
+                            if (Array.isArray(raw)) return raw;
+                            // TEXT field: split by newline or comma
+                            return (raw as string).split(/[\n,]/).map((s: string) => s.trim()).filter(Boolean);
+                        })().map((adv: string, idx: number) => (
                             <div key={idx} className="flex gap-3 p-4 border border-slate-100">
                                 <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
                                 <span className="text-[11px] font-black uppercase tracking-wider text-slate-800 leading-tight">{adv}</span>
@@ -213,7 +219,7 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
                     </div>
                     <div className="bg-slate-950 text-white p-10 space-y-6">
                         <p className="text-xl font-bold tracking-tight italic">
-                            {t('conclusion_intro', { label: fitData?.fit_label })}
+                            {t('conclusion_intro', { label: fitData?.fit_label ?? '—' })}
                         </p>
                         <ul className="space-y-3">
                             <li className="flex gap-3 text-sm text-slate-400">

@@ -21,6 +21,19 @@ export async function togglePublishAction(projectId: string, currentVisibility: 
 
     const newVisibility = !currentVisibility;
 
+    // If publishing (toggling ON), validate project completeness first
+    if (newVisibility === true) {
+        const { data: isValid } = await supabase.rpc('validate_project_for_publish', {
+            p_project_id: projectId,
+        });
+
+        if (!isValid) {
+            throw new Error(
+                'Dự án chưa đủ dữ liệu để xuất bản. Vui lòng điền đủ điểm số và thông tin tư vấn trước khi publish.'
+            );
+        }
+    }
+
     const { error } = await supabase
         .from('projects')
         .update({ visible_to_clients: newVisibility })

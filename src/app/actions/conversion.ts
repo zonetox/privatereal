@@ -64,7 +64,7 @@ export async function convertLeadToClientAction(leadId: string) {
 
         if (profileError) throw profileError;
 
-        // 5. Create Client Record
+        // 5. Create Client Record with Intelligence Data Trace
         const { data: newClient, error: clientError } = await adminClient
             .from('clients')
             .insert({
@@ -72,6 +72,11 @@ export async function convertLeadToClientAction(leadId: string) {
                 full_name: lead.full_name,
                 email: lead.email,
                 phone: lead.phone,
+                budget_range: lead.capital_range, // Trace capital -> budget
+                purchase_goal: lead.objective,    // Trace objective -> goal
+                risk_tolerance: 'balanced',       // Initialized for advisory
+                holding_period: '3_7_years',      // Initialized for advisory
+                preferred_locations: [],           // Initialized for advisory
                 status: 'active'
             })
             .select()

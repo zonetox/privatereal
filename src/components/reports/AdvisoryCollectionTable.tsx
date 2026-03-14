@@ -1,6 +1,7 @@
 'use client';
 
-import { Building2, TrendingUp, User } from 'lucide-react';
+import { Building2, User } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface AdvisoryCollectionData {
     client_id: string;
@@ -13,6 +14,8 @@ interface AdvisoryCollectionData {
 }
 
 export default function AdvisoryCollectionTable({ data }: { data: AdvisoryCollectionData[] }) {
+    const t = useTranslations('ReportsOverview');
+    
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('vi-VN', {
             style: 'currency',
@@ -26,11 +29,11 @@ export default function AdvisoryCollectionTable({ data }: { data: AdvisoryCollec
             <table className="w-full text-left border-collapse">
                 <thead>
                     <tr className="border-b border-white/5 text-slate-500 text-xs uppercase tracking-widest font-bold">
-                        <th className="px-4 py-4">Client</th>
-                        <th className="px-4 py-4">Managed Budget</th>
-                        <th className="px-4 py-4">Property Count</th>
-                        <th className="px-4 py-4">Avg. Rental Return</th>
-                        <th className="px-4 py-4">Advisory Progress</th>
+                        <th className="px-4 py-4">{t('client')}</th>
+                        <th className="px-4 py-4">{t('managed_budget')}</th>
+                        <th className="px-4 py-4">{t('property_count')}</th>
+                        <th className="px-4 py-4">{t('avg_rental_return')}</th>
+                        <th className="px-4 py-4">{t('advisory_progress')}</th>
                     </tr>
                 </thead>
                 <tbody className="text-sm">

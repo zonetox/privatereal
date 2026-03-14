@@ -23,6 +23,7 @@ import AdvisorPanel from "@/components/projects/AdvisorPanel";
 import FitScorePanel from "@/components/projects/FitScorePanel";
 import InfoCard from "@/components/projects/InfoCard";
 import StrategicFitGauge from "@/components/projects/StrategicFitGauge";
+import WorkspaceToggle from "@/components/projects/WorkspaceToggle";
 
 interface ProjectDetailPageProps {
     params: {
@@ -131,8 +132,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         }
     }
 
-    // 3. Fetch Fit Score (Client Only)
+    // 3. Fetch Client Record, Fit Score, and Workspace State (Client Only)
     let fitData = null;
+    let clientId: string | null = null;
+    let isInWorkspace = false;
     if (!isAdmin) {
         const { data: clientRecord } = await supabase
             .from('clients')
@@ -141,14 +144,25 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             .single();
 
         if (clientRecord) {
-            const { data: rpcData } = await supabase.rpc('calculate_project_fit', {
-                p_client_id: clientRecord.id,
-                p_project_id: id
-            });
+            clientId = clientRecord.id;
 
-            if (rpcData) {
-                fitData = Array.isArray(rpcData) ? rpcData[0] : rpcData;
+            const [rpcResult, wsResult] = await Promise.all([
+                supabase.rpc('calculate_project_fit', {
+                    p_client_id: clientRecord.id,
+                    p_project_id: id
+                }),
+                supabase
+                    .from('client_workspace_selections')
+                    .select('id')
+                    .eq('client_id', clientRecord.id)
+                    .eq('project_id', id)
+                    .maybeSingle()
+            ]);
+
+            if (rpcResult.data) {
+                fitData = Array.isArray(rpcResult.data) ? rpcResult.data[0] : rpcResult.data;
             }
+            isInWorkspace = !!wsResult.data;
         }
     }
 
@@ -175,6 +189,14 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                             <span className="px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-500 text-[10px] font-black uppercase tracking-[0.2em] border border-yellow-500/20">
                                 PREIO Advisory Dashboard
                             </span>
+                            {/* Client: Add to Workspace directly from Detail page */}
+                            {!isAdmin && clientId && (
+                                <WorkspaceToggle
+                                    projectId={id}
+                                    clientId={clientId}
+                                    initialState={isInWorkspace}
+                                />
+                            )}
                         </div>
                         
                         <div className="space-y-4">

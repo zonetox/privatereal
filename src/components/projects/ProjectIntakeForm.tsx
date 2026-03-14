@@ -149,12 +149,12 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                                 <input name="distance_to_cbd" type="number" step="0.1" defaultValue={project.distance_to_cbd} className="form-input" />
                             </div>
                             <div>
-                                <FormLabel label="Điểm Hạ tầng Tuyến tính (0-100)" />
-                                <input name="infrastructure_score" type="number" defaultValue={project.infrastructure_score} className="form-input" />
+                                <FormLabel label="Điểm Hạ tầng Tuyến tính (0-100) *" />
+                                <input name="infrastructure_score" type="number" min="0" max="100" defaultValue={project.infrastructure_score} className="form-input" required />
                             </div>
                             <div>
-                                <FormLabel label="Điểm Vị trí Chiến lược (0-100)" />
-                                <input name="location_score" type="number" defaultValue={project.location_score} className="form-input" />
+                                <FormLabel label="Điểm Vị trí Chiến lược (0-100) *" />
+                                <input name="location_score" type="number" min="0" max="100" defaultValue={project.location_score} className="form-input" required />
                             </div>
                             <div className="md:col-span-2">
                                 <FormLabel label="Điểm nhấn Phát triển Khu vực" />
@@ -177,6 +177,11 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                                 <input name="price_per_m2" type="number" defaultValue={project.price_per_m2} className="form-input" />
                             </div>
                             <div>
+                                <FormLabel label="Giá căn hộ tối thiểu — Min Unit Price (VNĐ) ★" />
+                                <input name="min_unit_price" type="number" defaultValue={project.min_unit_price} className="form-input" placeholder="VD: 3000000000 (3 Tỷ VNĐ)" />
+                                <p className="text-[9px] text-yellow-600/70 mt-1 uppercase tracking-widest font-bold">★ Dùng cho tính toán Budget Alignment & Advisory Brief</p>
+                            </div>
+                            <div>
                                 <FormLabel label="Tỷ suất cho thuê mục tiêu (%)" />
                                 <input name="avg_rental_yield" type="number" step="0.1" defaultValue={project.avg_rental_yield} className="form-input" />
                             </div>
@@ -189,12 +194,12 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                                 <input name="holding_period_recommendation" type="number" defaultValue={project.holding_period_recommendation} className="form-input" />
                             </div>
                             <div>
-                                <FormLabel label="Chỉ số Thanh khoản Dự kiến (0-100)" />
-                                <input name="liquidity_score" type="number" defaultValue={project.liquidity_score} className="form-input" />
+                                <FormLabel label="Chỉ số Thanh khoản Dự kiến (0-100) *" />
+                                <input name="liquidity_score" type="number" min="0" max="100" defaultValue={project.liquidity_score} className="form-input" required />
                             </div>
                             <div>
-                                <FormLabel label="Điểm Tăng trưởng Vốn (0-100)" />
-                                <input name="growth_score" type="number" defaultValue={project.growth_score} className="form-input" />
+                                <FormLabel label="Điểm Tăng trưởng Vốn (0-100) *" />
+                                <input name="growth_score" type="number" min="0" max="100" defaultValue={project.growth_score} className="form-input" required />
                             </div>
                             <div>
                                 <FormLabel label="Mức độ Nhu cầu Thuê" />
@@ -225,16 +230,16 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <FormLabel label="Điểm Khung Pháp lý (0-100)" />
-                                <input name="legal_score" type="number" defaultValue={project.legal_score} className="form-input" />
+                                <FormLabel label="Điểm Khung Pháp lý (0-100) *" />
+                                <input name="legal_score" type="number" min="0" max="100" defaultValue={project.legal_score} className="form-input" required />
                             </div>
                             <div>
-                                <FormLabel label="Chỉ số Rủi ro Tổng thể (0-100)" />
-                                <input name="risk_score" type="number" defaultValue={project.risk_score} className="form-input" />
+                                <FormLabel label="Chỉ số Rủi ro Tổng thể (0-100) *" />
+                                <input name="risk_score" type="number" min="0" max="100" defaultValue={project.risk_score} className="form-input" required />
                             </div>
                             <div>
-                                <FormLabel label="Xác suất Rủi ro Giảm giá (%)" />
-                                <input name="downside_risk_percent" type="number" step="0.1" defaultValue={project.downside_risk_percent} className="form-input" />
+                                <FormLabel label="Xác suất Rủi ro Giảm giá (%) *" />
+                                <input name="downside_risk_percent" type="number" step="0.1" min="0" max="100" defaultValue={project.downside_risk_percent} className="form-input" required />
                             </div>
                             <div>
                                 <FormLabel label="Trạng thái Xây dựng" />
@@ -282,8 +287,8 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <FormLabel label="Mức độ Tự tin của Chuyên gia (0-100)" />
-                                    <input name="analyst_confidence_level" type="number" defaultValue={project.analyst_confidence_level} className="form-input !bg-slate-900" />
+                                    <FormLabel label="Mức độ Tự tin của Chuyên gia (0-100) *" />
+                                    <input name="analyst_confidence_level" type="number" min="0" max="100" defaultValue={project.analyst_confidence_level} className="form-input !bg-slate-900" required />
                                 </div>
                                 <div>
                                     <FormLabel label="Trạng thái Hiển thị trên Cổng Thông tin" />

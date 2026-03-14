@@ -1,6 +1,7 @@
 'use client';
 
 import { MapPin, AlertTriangle, TrendingUp, BarChart3 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface MarketData {
     project_id: string;
@@ -15,6 +16,8 @@ interface MarketData {
 }
 
 export default function MarketAdvisoryGrid({ data }: { data: MarketData[] }) {
+    const t = useTranslations('ReportsOverview');
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {data.map((item) => (
@@ -28,18 +31,18 @@ export default function MarketAdvisoryGrid({ data }: { data: MarketData[] }) {
                         </div>
                         <div className="flex items-center gap-2 text-xs text-slate-400">
                             <MapPin size={12} className="text-slate-500" />
-                            Location Score: <span className="text-slate-200 font-medium">{(item.overall_location_score * 10).toFixed(0)}/100</span>
+                            {t('location_score')}: <span className="text-slate-200 font-medium">{(item.overall_location_score * 10).toFixed(0)}/100</span>
                         </div>
                     </div>
 
                     <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-                                <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Rental Return</p>
+                                <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">{t('rental_return')}</p>
                                 <p className="text-sm font-bold text-slate-200">{item.avg_rental_yield}%</p>
                             </div>
                             <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-                                <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Appreciation</p>
+                                <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">{t('appreciation')}</p>
                                 <p className="text-sm font-bold text-green-500">+{item.appreciation_potential}%</p>
                             </div>
                         </div>
@@ -48,7 +51,7 @@ export default function MarketAdvisoryGrid({ data }: { data: MarketData[] }) {
                             <div className="flex justify-between items-center text-xs">
                                 <div className="flex items-center gap-1.5 text-slate-400">
                                     <BarChart3 size={12} className="text-slate-500" />
-                                    Demand Level
+                                    {t('demand_level')}
                                 </div>
                                 <span className={`font-bold uppercase ${
                                     item.demand_level === 'high' ? 'text-green-500' :
@@ -61,7 +64,7 @@ export default function MarketAdvisoryGrid({ data }: { data: MarketData[] }) {
                             <div className="flex justify-between items-center text-xs">
                                 <div className="flex items-center gap-1.5 text-slate-400">
                                     <AlertTriangle size={12} className="text-slate-500" />
-                                    Market Risk
+                                    {t('market_risk')}
                                 </div>
                                 <div className="w-24 h-1.5 bg-white/5 rounded-full overflow-hidden">
                                     <div 

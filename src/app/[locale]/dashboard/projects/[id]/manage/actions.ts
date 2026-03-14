@@ -27,6 +27,7 @@ export async function updateProjectAction(projectId: string, formData: FormData)
         target_segment: formData.get('target_segment') as string,
         launch_year: formData.get('launch_year') ? parseInt(formData.get('launch_year') as string) : null,
         price_per_m2: formData.get('price_per_m2') ? parseFloat(formData.get('price_per_m2') as string) : null,
+        min_unit_price: formData.get('min_unit_price') ? parseFloat(formData.get('min_unit_price') as string) : null,
         avg_rental_yield: formData.get('avg_rental_yield') ? parseFloat(formData.get('avg_rental_yield') as string) : null,
         expected_growth_rate: formData.get('expected_growth_rate') ? parseFloat(formData.get('expected_growth_rate') as string) : null,
         holding_period_recommendation: formData.get('holding_period_recommendation') ? parseInt(formData.get('holding_period_recommendation') as string) : null,

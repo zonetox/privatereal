@@ -16,10 +16,7 @@ export default function ConvertLeadButton({ leadId, leadName, disabled }: Conver
     const router = useRouter();
 
     const handleConvert = async () => {
-        if (!confirm(`Are you sure you want to convert ${leadName} to a Client? This will create a new user account.`)) {
-            return;
-        }
-
+        if (loading) return;
         setLoading(true);
         const result = await convertLeadToClientAction(leadId);
         setLoading(false);
