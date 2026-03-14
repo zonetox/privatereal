@@ -11,10 +11,15 @@ interface AdvisoryCollectionData {
     asset_count: number;
     avg_expected_roi: number;
     portfolio_lifecycle_status: string;
+    // New enriched fields
+    capital_range?: string;
+    workspace_project_count?: number;
+    active_directives_count?: number;
 }
 
 export default function AdvisoryCollectionTable({ data }: { data: AdvisoryCollectionData[] }) {
     const t = useTranslations('ReportsOverview');
+    const tf = useTranslations('LeadForm'); // For capital range mapping
     
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('vi-VN', {
@@ -30,9 +35,10 @@ export default function AdvisoryCollectionTable({ data }: { data: AdvisoryCollec
                 <thead>
                     <tr className="border-b border-white/5 text-slate-500 text-[9px] md:text-xs uppercase tracking-widest font-bold">
                         <th className="px-3 md:px-4 py-3 md:py-4">{t('client')}</th>
+                        <th className="px-3 md:px-4 py-3 md:py-4">{t('col_capital_range')}</th>
                         <th className="px-3 md:px-4 py-3 md:py-4">{t('managed_budget')}</th>
-                        <th className="px-3 md:px-4 py-3 md:py-4">{t('property_count')}</th>
-                        <th className="px-3 md:px-4 py-3 md:py-4">{t('avg_rental_return')}</th>
+                        <th className="px-3 md:px-4 py-3 md:py-4">{t('col_selected_projects')}</th>
+                        <th className="px-3 md:px-4 py-3 md:py-4">{t('col_active_directives')}</th>
                         <th className="px-3 md:px-4 py-3 md:py-4">{t('advisory_progress')}</th>
                     </tr>
                 </thead>
@@ -50,18 +56,20 @@ export default function AdvisoryCollectionTable({ data }: { data: AdvisoryCollec
                                     </div>
                                 </div>
                             </td>
-                            <td className="px-3 md:px-4 py-3 md:py-4 font-medium text-slate-300 whitespace-nowrap">
+                            <td className="px-3 md:px-4 py-3 md:py-4 whitespace-nowrap">
+                                <span className="px-2 py-0.5 bg-slate-800 text-slate-300 border border-slate-700 rounded text-[10px] font-bold">
+                                    {item.capital_range ? tf(item.capital_range) : "—"}
+                                </span>
+                            </td>
+                            <td className="px-3 md:px-4 py-3 md:py-4 font-medium text-slate-300 whitespace-nowrap text-emerald-500">
                                 {item.total_property_investment ? formatCurrency(item.total_property_investment) : "—"}
                             </td>
-                            <td className="px-3 md:px-4 py-3 md:py-4">
-                                <div className="flex items-center gap-1.5 md:gap-2 text-slate-400">
-                                    <Building2 size={12} className="md:w-3.5 md:h-3.5 text-slate-500" />
-                                    {item.asset_count ?? 0}
-                                </div>
+                            <td className="px-3 md:px-4 py-3 md:py-4 text-center">
+                                <span className="text-slate-200 font-bold">{item.workspace_project_count ?? 0}</span>
                             </td>
-                            <td className="px-3 md:px-4 py-3 md:py-4">
-                                <span className="text-emerald-500 font-bold">
-                                    {(item.avg_expected_roi || 0).toFixed(1)}%
+                            <td className="px-3 md:px-4 py-3 md:py-4 text-center">
+                                <span className={item.active_directives_count ? "text-yellow-500 font-black" : "text-slate-500"}>
+                                    {item.active_directives_count ?? 0}
                                 </span>
                             </td>
                             <td className="px-3 md:px-4 py-3 md:py-4">

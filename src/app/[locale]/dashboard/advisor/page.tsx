@@ -37,7 +37,14 @@ export default async function AdvisorDashboardPage({ params: { locale } }: { par
         .select('*, clients(full_name)')
         .order('created_at', { ascending: false });
 
-    // 3. Fetch Projects Count for Intelligence Block
+    // 3. Calculate Stats
+    const totalClients = clients?.length || 0;
+    const avgRiskScore = totalClients > 0
+        ? Math.round(clients!.reduce((acc, client) => acc + (client.risk_score || 0), 0) / totalClients)
+        : 0;
+    const actionItems = notes?.filter(note => note.action_items && note.action_items.length > 0) || [];
+
+    // 4. Fetch Projects Count for Intelligence Block
     const { count: projectCount } = await supabase.from('projects').select('*', { count: 'exact', head: true });
 
     return (
