@@ -49,6 +49,7 @@ type ProjectComparisonData = Project & FitResult;
 
 export default async function ProjectComparison({ searchParams, params }: ComparePageProps) {
     const t = await getTranslations('Comparison');
+    const commonT = await getTranslations('Common');
     const { locale } = await Promise.resolve(params);
     const { ids: idsParam } = await Promise.resolve(searchParams);
     const supabase = createClient();
@@ -175,7 +176,7 @@ export default async function ProjectComparison({ searchParams, params }: Compar
                                 projects={projects}
                                 render={p => (
                                     <div className="space-y-4">
-                                        <MetricValue label={t('price_from')} value={p.min_unit_price ? formatter.format(p.min_unit_price) : await (await getTranslations('Common'))('contact')} color="text-emerald-400" />
+                                        <MetricValue label={t('price_from')} value={p.min_unit_price ? formatter.format(p.min_unit_price) : commonT('contact')} color="text-emerald-400" />
                                         <MetricValue label={t('developer')} value={p.developer || '—'} />
                                         <MetricValue label={t('location')} value={p.location} />
                                     </div>
