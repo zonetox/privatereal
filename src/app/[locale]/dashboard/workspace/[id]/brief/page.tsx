@@ -28,7 +28,10 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
 
     // 1. Auth & Client
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect({ href: '/login', locale });
+    if (!user) {
+        redirect({ href: '/login', locale });
+        return null;
+    }
 
     const { data: clientRecord } = await supabase
         .from('clients')
@@ -36,7 +39,7 @@ export default async function ClientAdvisoryBrief({ params }: BriefPageProps) {
             *,
             profiles(full_name)
         `)
-        .eq('user_id', user?.id)
+        .eq('user_id', user.id)
         .single();
     
     if (!clientRecord) redirect({ href: '/dashboard', locale });

@@ -67,26 +67,29 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
     return (
         <div className="space-y-8">
             {/* Step Navigation */}
-            <div className="flex items-center justify-between gap-2 overflow-x-auto pb-4 no-scrollbar">
-                {sections.map((s) => (
-                    <button
-                        key={s.id}
-                        onClick={() => setStep(s.id)}
-                        className={`flex-1 min-w-[140px] flex items-center gap-3 p-4 rounded-2xl border transition-all ${
-                            step === s.id 
-                            ? 'bg-yellow-500/10 border-yellow-500/30 text-yellow-500' 
-                            : 'bg-slate-900/40 border-white/5 text-slate-500 hover:bg-slate-800/40'
-                        }`}
-                    >
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${step === s.id ? 'bg-yellow-500 text-slate-950' : 'bg-slate-800 text-slate-400'}`}>
-                            {s.icon}
-                        </div>
-                        <div className="text-left">
-                            <p className="text-[10px] uppercase tracking-widest font-bold opacity-60">Bước 0{s.id}</p>
-                            <p className="text-xs font-bold whitespace-nowrap">{s.title}</p>
-                        </div>
-                    </button>
-                ))}
+            {/* Step Navigation */}
+            <div className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl -mx-4 px-4 py-4 md:static md:bg-transparent md:backdrop-blur-none md:p-0 border-b border-white/5 md:border-0 overflow-x-auto no-scrollbar">
+                <div className="flex items-center gap-2 md:grid md:grid-cols-5 md:gap-4">
+                    {sections.map((s) => (
+                        <button
+                            key={s.id}
+                            onClick={() => setStep(s.id)}
+                            className={`flex flex-row md:flex-row items-center gap-3 p-3 md:p-4 rounded-xl md:rounded-2xl border transition-all flex-shrink-0 md:flex-shrink-1 ${
+                                step === s.id 
+                                ? 'bg-yellow-500/10 border-yellow-500/30 text-yellow-500' 
+                                : 'bg-slate-900/40 border-white/5 text-slate-500 hover:bg-slate-800/40'
+                            }`}
+                        >
+                            <div className={`w-7 h-7 md:w-8 md:h-8 rounded-lg flex items-center justify-center ${step === s.id ? 'bg-yellow-500 text-slate-950' : 'bg-slate-800 text-slate-400'}`}>
+                                {s.icon}
+                            </div>
+                            <div className="text-left">
+                                <p className="text-[8px] md:text-[9px] uppercase tracking-widest font-bold opacity-60">Bước 0{s.id}</p>
+                                <p className="text-[10px] md:text-xs font-bold whitespace-nowrap">{s.title}</p>
+                            </div>
+                        </button>
+                    ))}
+                </div>
             </div>
 
             {message && (
@@ -100,10 +103,10 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
             <form action={handleSubmit} className="space-y-8 pb-24">
                 {/* STEP 1 — IDENTITY */}
                 {step === 1 && (
-                    <div className="glass p-8 rounded-3xl border border-white/5 space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+                    <div className="glass p-5 md:p-8 rounded-2xl md:rounded-3xl border border-white/5 space-y-5 md:space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-white/5 pb-4">
-                            <h1 className="text-4xl font-black gold-text-gradient uppercase tracking-tighter">Nhập liệu Tư vấn Dự án</h1>
-                        <p className="text-slate-500 text-sm font-medium tracking-widest mt-1">KHÓA DỮ LIỆU CHIẾN LƯỢC — PREIO ELITE</p>
+                            <h1 className="text-2xl md:text-4xl font-black gold-text-gradient uppercase tracking-tighter">Nhập liệu Tư vấn Dự án</h1>
+                        <p className="text-[11px] md:text-sm text-slate-500 font-medium tracking-widest mt-1">KHÓA DỮ LIỆU CHIẾN LƯỢC — PREIO ELITE</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="md:col-span-2">
@@ -327,33 +330,33 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                 )}
 
                 {/* Navigation Buttons */}
-                <div className="fixed bottom-0 left-0 right-0 p-6 bg-slate-950/80 backdrop-blur-xl border-t border-white/5 z-50">
-                    <div className="max-w-5xl mx-auto flex items-center justify-between">
-                        <div className="flex items-center gap-3">
+                <div className="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-slate-950/80 backdrop-blur-xl border-t border-white/5 z-50">
+                    <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div className="flex items-center gap-3 w-full md:w-auto">
                             <button
                                 type="button"
                                 onClick={prevStep}
                                 disabled={step === 1}
-                                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 border border-white/10 text-slate-300 text-xs font-bold uppercase tracking-widest hover:bg-slate-800 disabled:opacity-30 transition-all"
+                                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-2.5 md:py-3 rounded-xl bg-slate-900 border border-white/10 text-slate-300 text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-slate-800 disabled:opacity-30 transition-all"
                             >
-                                <ChevronLeft size={16} /> Quay lại
+                                <ChevronLeft size={16} /> <span className="hidden xs:inline">Quay lại</span>
                             </button>
                             <button
                                 type="button"
                                 onClick={nextStep}
                                 disabled={step === 5}
-                                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 border border-white/10 text-slate-300 text-xs font-bold uppercase tracking-widest hover:bg-slate-800 disabled:opacity-30 transition-all"
+                                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-2.5 md:py-3 rounded-xl bg-slate-900 border border-white/10 text-slate-300 text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-slate-800 disabled:opacity-30 transition-all"
                             >
-                                Tiếp tục <ChevronRight size={16} />
+                                <span className="hidden xs:inline">Tiếp tục</span> <ChevronRight size={16} />
                             </button>
                         </div>
 
                         <button
                             type="submit"
                             disabled={isSaving}
-                            className="flex items-center gap-2 px-10 py-3 rounded-xl bg-yellow-500 text-slate-950 text-xs font-black uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-[1.05] active:scale-95 disabled:opacity-50 transition-all shadow-xl shadow-yellow-500/20"
+                            className="w-full md:w-auto flex items-center justify-center gap-2 px-8 md:px-10 py-3 md:py-3 rounded-xl bg-yellow-500 text-slate-950 text-[11px] md:text-xs font-black uppercase tracking-[0.2em] hover:bg-yellow-400 hover:scale-[1.02] active:scale-95 disabled:opacity-50 transition-all shadow-xl shadow-yellow-500/20"
                         >
-                            {isSaving ? 'Đang lưu...' : <><Save size={16} /> Lưu Thông tin Tư vấn</>}
+                            {isSaving ? 'Đang lưu...' : <><Save size={16} /><span className="inline md:hidden">Lưu</span><span className="hidden md:inline">Lưu Thông tin Tư vấn</span></>}
                         </button>
                     </div>
                 </div>

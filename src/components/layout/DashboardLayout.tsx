@@ -18,10 +18,13 @@ import {
     Building2,
     ShieldCheck,
     CheckSquare,
-    Scale
+    Scale,
+    Menu,
+    X
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { useState, useEffect } from 'react';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -67,6 +70,7 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
     const pathname = usePathname();
     const currentLocale = useLocale();
     const router = useRouter();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleLogout = async () => {
         const supabase = createClient();
@@ -74,14 +78,18 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
         router.push('/login');
     };
 
+    // Close mobile menu on route change
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+    }, [pathname]);
 
     // Use role-specific navigation arrays
     const filteredNavItems = user?.role === 'admin' ? adminNavItems : clientNavItems;
 
     return (
         <div className="flex min-h-screen bg-background text-foreground">
-            {/* Sidebar */}
-            <aside className="w-64 border-r border-border flex flex-col glass sticky top-0 h-screen">
+            {/* Sidebar - Desktop */}
+            <aside className="hidden lg:flex w-64 border-r border-border flex-col glass sticky top-0 h-screen z-20">
                 <div className="p-6 border-b border-border">
                     <Link href="/" className="text-xl font-bold gold-text-gradient tracking-tighter">
                         PREIO
@@ -125,30 +133,95 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
                 </div>
             </aside>
 
+            {/* Mobile Menu Overlay */}
+            {isMobileMenuOpen && (
+                <div 
+                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] lg:hidden animate-in fade-in duration-300"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                />
+            )}
+
+            {/* Mobile Sidebar - Drawer */}
+            <aside className={cn(
+                "fixed inset-y-0 left-0 w-72 bg-slate-950 border-r border-border z-[101] lg:hidden transition-transform duration-500 ease-out flex flex-col",
+                isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+            )}>
+                <div className="p-6 border-b border-border flex items-center justify-between">
+                    <Link href="/" className="text-xl font-bold gold-text-gradient tracking-tighter">
+                        PREIO
+                    </Link>
+                    <button 
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="p-2 -mr-2 text-slate-400 hover:text-white touch-target"
+                    >
+                        <X size={20} />
+                    </button>
+                </div>
+
+                <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+                    {filteredNavItems.map((item) => {
+                        const isActive = pathname === item.href;
+                        const Icon = item.icon;
+
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                className={cn(
+                                    "flex items-center gap-4 px-4 py-4 rounded-xl transition-all duration-200",
+                                    isActive
+                                        ? "bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/10"
+                                        : "text-slate-400 active:bg-slate-900 active:text-white"
+                                )}
+                            >
+                                <Icon size={20} className={cn(isActive ? "text-primary-foreground" : "text-primary")} />
+                                <span className="text-sm tracking-wide">{t(item.label)}</span>
+                            </Link>
+                        );
+                    })}
+                </nav>
+
+                <div className="p-6 border-t border-border">
+                    <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-4 w-full px-5 py-4 text-sm font-bold text-rose-500 bg-rose-500/5 rounded-xl border border-rose-500/10 active:bg-rose-500/20 transition-all"
+                    >
+                        <LogOut size={20} />
+                        <span>{t('logout')}</span>
+                    </button>
+                </div>
+            </aside>
+
             {/* Main Content */}
-            <main className="flex-1 flex flex-col">
+            <main className="flex-1 flex flex-col min-w-0">
                 {/* Header */}
-                <header className="h-16 border-b border-border flex items-center justify-between px-8 sticky top-0 bg-background/80 backdrop-blur-md z-10">
-                    <div>
-                        {/* Breadcrumbs or Page Title could go here */}
+                <header className="h-20 md:h-16 border-b border-border flex items-center justify-between px-4 md:px-8 sticky top-0 bg-background/80 backdrop-blur-md z-40">
+                    <div className="flex items-center gap-4">
+                        <button 
+                            onClick={() => setIsMobileMenuOpen(true)}
+                            className="lg:hidden p-2 -ml-2 text-slate-400 hover:text-white touch-target"
+                        >
+                            <Menu size={24} />
+                        </button>
+                        <Link href="/" className="lg:hidden text-lg font-black gold-text-gradient tracking-tighter">
+                            PREIO.
+                        </Link>
                     </div>
 
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-3 md:gap-6">
                         {/* Language Switcher */}
-                        <div className="flex items-center gap-2 border-r border-border pr-6">
+                        <div className="flex items-center gap-1.5 md:gap-2 border-r border-border pr-3 md:pr-6">
                             {locales.map((l) => (
                                 <button
                                     key={l}
                                     onClick={() => {
-                                        // next-intl's router.push with locale option handles prefixing.
-                                        // We ensure we pass the base pathname.
                                         router.push(pathname, { locale: l as 'en' | 'vi' | 'zh' });
                                     }}
                                     className={cn(
-                                        "px-2 py-1 text-[10px] font-bold uppercase tracking-tighter rounded transition-all",
+                                        "px-2 py-1 text-[9px] md:text-[10px] font-bold uppercase tracking-tighter rounded transition-all",
                                         currentLocale === l
                                             ? "bg-primary text-primary-foreground"
-                                            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                                            : "text-muted-foreground hover:text-white"
                                     )}
                                 >
                                     {l === 'vi' ? 'VN' : l === 'en' ? 'EN' : 'CN'}
@@ -156,19 +229,19 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
                             ))}
                         </div>
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-3 md:gap-4">
                             <div className="hidden sm:flex flex-col items-end">
-                                <span className="text-xs text-muted-foreground font-medium uppercase tracking-widest">{user?.role}</span>
-                                <span className="text-sm font-semibold">{user?.email || 'investor@preio.vn'}</span>
+                                <span className="text-[10px] text-muted-foreground font-black uppercase tracking-[0.2em]">{user?.role}</span>
+                                <span className="text-xs font-bold leading-none">{user?.email?.split('@')[0] || 'investor'}</span>
                             </div>
-                            <div className="w-10 h-10 rounded-full border border-primary/20 bg-muted flex items-center justify-center overflow-hidden">
-                                <span className="text-primary font-bold">{user?.email?.[0].toUpperCase() || 'P'}</span>
+                            <div className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-primary/20 bg-muted flex items-center justify-center overflow-hidden flex-shrink-0">
+                                <span className="text-primary font-black text-xs md:text-sm">{user?.email?.[0].toUpperCase() || 'P'}</span>
                             </div>
                         </div>
                     </div>
                 </header>
 
-                <section className="flex-1 overflow-auto bg-slate-950/50 backdrop-blur-sm p-4">
+                <section className="flex-1 overflow-auto bg-slate-950/50 backdrop-blur-sm p-3 md:p-8">
                     <div className="max-w-7xl mx-auto h-full">
                         {children}
                     </div>

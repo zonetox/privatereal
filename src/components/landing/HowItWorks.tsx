@@ -27,7 +27,7 @@ export default function HowItWorks() {
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-[50px] md:text-[80px] font-black tracking-tighter leading-none italic"
+                        className="text-[40px] md:text-[80px] font-black tracking-tighter leading-[0.9] md:leading-none italic"
                     >
                         Quy trình tại PREIO.
                     </motion.h2>
@@ -44,15 +44,15 @@ export default function HowItWorks() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.15, duration: 0.8 }}
-                            className="flex md:flex-col items-center md:items-start gap-8 md:gap-12 flex-1"
+                            className="flex flex-col md:flex-col items-center md:items-start gap-6 md:gap-12 flex-1 text-center md:text-left"
                         >
-                            <div className="w-20 h-20 rounded-full bg-slate-900 border-4 border-slate-950 flex items-center justify-center text-3xl font-black text-yellow-500 shadow-2xl relative">
+                            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-slate-900 border-4 border-slate-950 flex items-center justify-center text-2xl md:text-3xl font-black text-yellow-500 shadow-2xl relative">
                                 {step.id}
                                 <div className="absolute inset-0 rounded-full border border-yellow-500/20 animate-pulse" />
                             </div>
-                            <div className="space-y-3 text-left">
-                                <h3 className="text-xl font-bold tracking-tight text-slate-100">{step.title}</h3>
-                                <p className="text-sm text-slate-500 leading-relaxed font-medium max-w-[200px]">{step.desc}</p>
+                            <div className="space-y-2 md:space-y-3">
+                                <h3 className="text-lg md:text-xl font-bold tracking-tight text-slate-100">{step.title}</h3>
+                                <p className="text-xs md:text-sm text-slate-500 leading-relaxed font-medium max-w-[240px] md:max-w-[200px]">{step.desc}</p>
                             </div>
                         </motion.div>
                     ))}

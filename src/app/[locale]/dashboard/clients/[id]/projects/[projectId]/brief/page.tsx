@@ -32,10 +32,16 @@ export default async function AdminBriefPreviewPage({ params }: AdminBriefPagePr
 
     // 1. Auth — Admin only
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect({ href: '/login', locale });
+    if (!user) {
+        redirect({ href: '/login', locale });
+        return null;
+    }
 
     const { data: profile } = await supabase.from('profiles').select('role').eq('id', user!.id).single();
-    if (profile?.role !== 'admin') redirect({ href: '/dashboard', locale });
+    if (profile?.role !== 'admin') {
+        redirect({ href: '/dashboard', locale });
+        return null;
+    }
 
     // 2. Fetch client record
     const { data: clientRecord, error: clientError } = await supabase

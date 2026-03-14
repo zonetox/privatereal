@@ -12,7 +12,7 @@ export default function RealitySection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="text-[60px] md:text-[90px] font-black tracking-tighter leading-[0.9] italic"
+                        className="text-[40px] md:text-[90px] font-black tracking-tighter leading-[1] md:leading-[0.9] italic"
                     >
                         Mua bất động sản <br />
                         là một quyết định lớn.
@@ -25,7 +25,7 @@ export default function RealitySection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-2xl md:text-3xl font-medium leading-normal tracking-tight text-slate-600"
+                        className="text-xl md:text-3xl font-medium leading-normal tracking-tight text-slate-600"
                     >
                         Nhưng phần lớn người mua nhà phải đưa ra quyết định khi chưa thật sự hiểu dự án.
                     </motion.p>

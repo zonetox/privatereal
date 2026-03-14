@@ -126,17 +126,17 @@ export default async function ProjectsPage({ params }: ProjectsPageProps) {
     <div className="space-y-8 animate-in fade-in duration-500">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div className="space-y-1">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-yellow-600/70 font-medium">
+        <div className="space-y-1 overflow-hidden">
+          <p className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-yellow-600/70 font-medium">
             Admin Control
           </p>
-          <h1 className="text-3xl font-black tracking-tighter text-slate-100">
+          <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-slate-100 truncate">
             Project{' '}
             <span className="bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent">
               Advisory
             </span>
           </h1>
-          <p className="text-sm text-slate-500">
+          <p className="text-[12px] md:text-sm text-slate-500">
             {allProjects.length} project{allProjects.length !== 1 ? 's' : ''} in system
           </p>
         </div>
@@ -166,13 +166,13 @@ export default async function ProjectsPage({ params }: ProjectsPageProps) {
           <table className="w-full border-collapse">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Project</th>
-                <th className="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Status</th>
-                <th className="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Visibility</th>
-                <th className="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Confidence</th>
-                <th className="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Score</th>
-                <th className="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Grade</th>
-                <th className="px-5 py-3 text-right text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Actions</th>
+                <th className="sticky left-0 bg-slate-900/90 backdrop-blur-md z-20 px-4 md:px-5 py-3 text-left text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Project</th>
+                <th className="px-4 md:px-5 py-3 text-left text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Status</th>
+                <th className="px-4 md:px-5 py-3 text-center text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Visibility</th>
+                <th className="px-4 md:px-5 py-3 text-center text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Confidence</th>
+                <th className="px-4 md:px-5 py-3 text-center text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Score</th>
+                <th className="px-4 md:px-5 py-3 text-center text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Grade</th>
+                <th className="px-4 md:px-5 py-3 text-right text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60">
@@ -184,85 +184,84 @@ export default async function ProjectsPage({ params }: ProjectsPageProps) {
                 return (
                   <tr key={project.id} className="group hover:bg-slate-800/30 transition-all duration-150">
                     {/* Project Name & Location */}
-                    <td className="px-5 py-4">
-                      <div className="space-y-0.5">
-                        <p className="text-sm font-semibold text-slate-100 group-hover:text-yellow-400 transition-colors">
+                    <td className="sticky left-0 bg-slate-900/90 backdrop-blur-md z-10 px-4 md:px-5 py-4">
+                      <div className="space-y-0.5 min-w-[140px] md:min-w-0">
+                        <p className="text-[13px] md:text-sm font-semibold text-slate-100 group-hover:text-yellow-400 transition-colors truncate">
                           {project.name ?? '—'}
                         </p>
-                        <p className="text-xs text-slate-500 truncate max-w-[200px]">
+                        <p className="text-[11px] md:text-xs text-slate-500 truncate max-w-[150px] md:max-w-[200px]">
                           {project.location ?? project.developer ?? '—'}
                         </p>
                       </div>
                     </td>
 
                     {/* Status */}
-                    <td className="px-5 py-4">
+                    <td className="px-4 md:px-5 py-4">
                       <StatusBadge status={project.status} />
                     </td>
 
                     {/* Visibility */}
-                    <td className="px-5 py-4 text-center">
+                    <td className="px-4 md:px-5 py-4 text-center">
                       <VisibleBadge visible={project.visible_to_clients} />
                     </td>
 
                     {/* Confidence */}
-                    <td className="px-5 py-4 text-center">
+                    <td className="px-4 md:px-5 py-4 text-center">
                       {project.analyst_confidence_level !== null ? (
-                        <div className="inline-flex items-center gap-1.5">
+                        <div className="inline-flex items-center gap-1 md:gap-1.5">
                           <BarChart2 size={12} className="text-yellow-600/60" />
-                          <span className="text-sm font-bold text-slate-300">
+                          <span className="text-[13px] md:text-sm font-bold text-slate-300">
                             {project.analyst_confidence_level}
                           </span>
                         </div>
                       ) : (
-                        <span className="text-slate-600 text-xs">—</span>
+                        <span className="text-slate-600 text-[11px] md:text-xs">—</span>
                       )}
                     </td>
 
                     {/* Final Score */}
-                    <td className="px-5 py-4 text-center">
-                      <span className="text-sm font-bold text-slate-300">
+                    <td className="px-4 md:px-5 py-4 text-center">
+                      <span className="text-[13px] md:text-sm font-bold text-slate-300">
                         {project.final_score !== null ? project.final_score.toFixed(1) : '—'}
                       </span>
                     </td>
 
                     {/* Investment Grade */}
-                    <td className="px-5 py-4 text-center">
+                    <td className="px-4 md:px-5 py-4 text-center">
                       <GradeBadge grade={project.investment_grade} />
-                    </td>
-
-                    {/* Actions */}
-                    <td className="px-5 py-4">
-                      <div className="flex items-center justify-end gap-2">
+                                       {/* Actions */}
+                    <td className="px-4 md:px-5 py-4">
+                      <div className="flex items-center justify-end gap-1.5 md:gap-2">
                         {/* Publish / Unpublish toggle */}
                         {(canPublish || canUnpublish) && (
                           <form action={toggleWithId}>
                             <button
                               type="submit"
-                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all duration-200 ${canUnpublish
+                              className={`inline-flex items-center gap-1 md:gap-1.5 px-2 md:px-3 py-1.5 rounded-lg text-[9px] md:text-[10px] font-bold uppercase tracking-wider transition-all duration-200 ${canUnpublish
                                   ? 'bg-rose-950 text-rose-400 border border-rose-800/50 hover:bg-rose-900/40'
                                   : 'bg-emerald-950 text-emerald-400 border border-emerald-800/50 hover:bg-emerald-900/40'
                                 }`}
                             >
                               {canUnpublish ? (
-                                <><EyeOff size={10} /> Unpublish</>
+                                <><EyeOff size={10} className="hidden xs:inline" /> Unpublish</>
                               ) : (
-                                <><Eye size={10} /> Publish</>
+                                <><Eye size={10} className="hidden xs:inline" /> Publish</>
                               )}
                             </button>
                           </form>
                         )}
-
+ 
                         {/* Manage link */}
                         <Link
                           href={`/dashboard/projects/${project.id}/manage`}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 hover:text-white transition-all duration-200"
+                          className="inline-flex items-center gap-1 md:gap-1.5 px-2 md:px-3 py-1.5 rounded-lg text-[9px] md:text-[10px] font-bold uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 hover:text-white transition-all duration-200"
                         >
-                          <Settings2 size={10} />
+                          <Settings2 size={10} className="hidden xs:inline" />
                           Manage
                         </Link>
                       </div>
                     </td>
+   </td>
                   </tr>
                 );
               })}

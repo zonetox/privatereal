@@ -1,4 +1,4 @@
-import { AlertTriangle, ShieldCheck, Target, TrendingUp } from 'lucide-react';
+import { AlertTriangle, ShieldCheck, TrendingUp } from 'lucide-react';
 import InfoCard from './InfoCard';
 
 interface RiskPanelProps {
@@ -18,8 +18,8 @@ export default function RiskPanel({ risk }: RiskPanelProps) {
     return (
         <div className="space-y-8 h-full flex flex-col">
             <div className="flex items-center gap-2">
-                <ShieldCheck size={18} className="text-yellow-500" />
-                <h2 className="text-lg font-bold tracking-tight text-slate-100 uppercase tracking-widest">Kiểm soát Rủi ro</h2>
+                <ShieldCheck size={16} className="md:w-4.5 md:h-4.5 text-yellow-500" />
+                <h2 className="text-base md:text-lg font-bold tracking-tight text-slate-100 uppercase tracking-widest">Kiểm soát Rủi ro</h2>
             </div>
 
             <div className="flex-1 space-y-6">
@@ -34,12 +34,12 @@ export default function RiskPanel({ risk }: RiskPanelProps) {
                     <InfoCard icon={TrendingUp} label="Trạng thái Xây dựng" value={risk.construction_status ?? 'Đã phê duyệt'} />
                 </div>
 
-                <div className="glass p-6 rounded-2xl border border-white/5 space-y-3 bg-white/[0.02]">
-                    <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Ghi chú Kiểm soát</h3>
+                <div className="glass p-4 md:p-6 rounded-xl md:rounded-2xl border border-white/5 space-y-2 md:space-y-3 bg-white/[0.02]">
+                    <h3 className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-500">Ghi chú Kiểm soát</h3>
                     <div className="space-y-4">
-                        <div className="border-l-2 border-sky-500/30 pl-4">
-                            <p className="text-[9px] uppercase font-bold text-slate-600 mb-1">Pháp lý:</p>
-                            <p className="text-[13px] text-slate-400">{risk.legal_notes || 'Đã thẩm định.'}</p>
+                        <div className="border-l-2 border-sky-500/30 pl-3 md:pl-4">
+                            <p className="text-[8px] md:text-[9px] uppercase font-bold text-slate-600 mb-0.5 md:mb-1">Pháp lý:</p>
+                            <p className="text-[12px] md:text-[13px] text-slate-400">{risk.legal_notes || 'Đã thẩm định.'}</p>
                         </div>
                     </div>
                 </div>

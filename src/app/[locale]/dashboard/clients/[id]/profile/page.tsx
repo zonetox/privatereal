@@ -19,8 +19,10 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
     const { data: { user } } = await supabase.auth.getUser();
     const { locale } = params;
 
-    if (!user) redirect({ href: '/login', locale });
-    if (!user) return null;
+    if (!user) {
+        redirect({ href: '/login', locale });
+        return null;
+    }
 
     const { data: profile } = await supabase
         .from('profiles')
@@ -30,6 +32,7 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
 
     if (profile?.role !== 'admin') {
         redirect({ href: '/dashboard', locale });
+        return null;
     }
 
     // 2. Fetch Client Data (Aggregated from Domain Tables)

@@ -28,8 +28,10 @@ export default async function LeadsPage({ searchParams, params }: LeadsPageProps
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) redirect({ href: '/login', locale });
-  if (!user) return null;
+  if (!user) {
+    redirect({ href: '/login', locale });
+    return null;
+  }
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -143,7 +145,7 @@ export default async function LeadsPage({ searchParams, params }: LeadsPageProps
                   </span>
                 </td>
                 <td className="p-4 text-right">
-                  <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex justify-end gap-2 lg:opacity-0 group-hover:opacity-100 transition-opacity">
                     {lead.status !== 'converted' && (
                       <ConvertLeadButton
                         leadId={lead.id}

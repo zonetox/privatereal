@@ -14,9 +14,9 @@ export default function FinalStatement() {
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="space-y-4"
+                    className="space-y-4 px-4"
                 >
-                    <h2 className="text-[70px] md:text-[120px] font-black tracking-tighter leading-[0.8] italic uppercase">
+                    <h2 className="text-[42px] md:text-[120px] font-black tracking-tighter leading-[0.9] md:leading-[0.8] italic uppercase">
                         Hiểu rõ dự án. <br />
                         <span className="text-slate-200 group-hover:text-slate-300 transition-colors">Quyết định tự tin.</span>
                     </h2>
@@ -27,14 +27,14 @@ export default function FinalStatement() {
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.5 }}
-                    className="flex flex-col items-center gap-12"
+                    className="flex flex-col items-center gap-12 px-6"
                 >
                     <Link
                         href="/login"
-                        className="group flex items-center gap-6 px-16 py-8 rounded-full bg-slate-950 text-white text-xl font-black uppercase tracking-[0.3em] hover:bg-yellow-500 hover:text-slate-950 transition-all duration-500 shadow-2xl"
+                        className="group flex items-center gap-4 md:gap-6 px-10 py-6 md:px-16 md:py-8 rounded-full bg-slate-950 text-white text-base md:text-xl font-black uppercase tracking-[0.3em] hover:bg-yellow-500 hover:text-slate-950 transition-all duration-500 shadow-2xl"
                     >
                         Đăng nhập hệ thống PREIO
-                        <ArrowUpRight size={24} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        <ArrowUpRight size={20} className="md:w-6 md:h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </Link>
 
                     <div className="flex flex-col items-center gap-4 opacity-30">

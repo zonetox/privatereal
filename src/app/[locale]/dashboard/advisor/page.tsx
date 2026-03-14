@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
+import { redirect } from '@/navigation';
 import { getTranslations } from 'next-intl/server';
 import { ShieldCheck, Users, Target, Activity } from 'lucide-react';
 
@@ -7,6 +8,23 @@ export const dynamic = 'force-dynamic';
 export default async function AdvisorDashboardPage({ params: { locale } }: { params: { locale: string } }) {
     const t = await getTranslations({ locale });
     const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        redirect({ href: '/login', locale });
+        return null;
+    }
+
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    if (profile?.role !== 'admin') {
+        redirect({ href: '/dashboard', locale });
+        return null;
+    }
 
     // 1. Fetch Clients
     const { data: clients } = await supabase

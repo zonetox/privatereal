@@ -20,7 +20,7 @@ export default function IntelligenceSection() {
                             initial={{ opacity: 0, x: -50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="text-[50px] md:text-[80px] font-black tracking-tighter leading-[0.9] italic"
+                            className="text-[40px] md:text-[80px] font-black tracking-tighter leading-[0.9] italic"
                         >
                             Không chỉ là thông tin. <br />
                             <span className="text-slate-300">Đó là phân tích.</span>
@@ -30,14 +30,14 @@ export default function IntelligenceSection() {
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             viewport={{ once: true }}
-                            className="text-2xl font-medium leading-relaxed text-slate-500 max-w-xl"
+                            className="text-lg md:text-2xl font-medium leading-relaxed text-slate-500 max-w-xl"
                         >
                             Mỗi dự án được trình bày giống như khi môi giới tư vấn trực tiếp cho bạn.
                         </motion.p>
                     </div>
 
                     <div className="lg:col-span-6">
-                        <div className="grid grid-cols-2 gap-6 p-8 rounded-[4rem] bg-slate-50 border border-slate-100 shadow-2xl relative overflow-hidden group">
+                        <div className="grid grid-cols-2 gap-4 md:gap-6 p-6 md:p-8 rounded-[3rem] md:rounded-[4rem] bg-slate-50 border border-slate-100 shadow-2xl relative overflow-hidden group">
                             <div className="absolute -top-24 -right-24 w-64 h-64 bg-yellow-500/5 blur-[100px] rounded-full group-hover:scale-150 transition-transform duration-1000" />
                             
                             {ANALYSIS_ITEMS.map((item, i) => {
@@ -49,12 +49,12 @@ export default function IntelligenceSection() {
                                         whileInView={{ opacity: 1, scale: 1 }}
                                         viewport={{ once: true }}
                                         transition={{ delay: i * 0.15 }}
-                                        className="p-10 rounded-3xl bg-white shadow-sm border border-slate-100 flex flex-col items-center gap-6 text-center group/card hover:-translate-y-2 transition-transform duration-500"
+                                        className="p-6 md:p-10 rounded-2xl md:rounded-3xl bg-white shadow-sm border border-slate-100 flex flex-col items-center gap-4 md:gap-6 text-center group/card hover:-translate-y-2 transition-transform duration-500"
                                     >
-                                        <div className={`w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center ${item.color}`}>
-                                            <Icon size={32} />
+                                        <div className={`w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-slate-50 flex items-center justify-center ${item.color}`}>
+                                            <Icon size={24} className="md:w-8 md:h-8" />
                                         </div>
-                                        <span className="text-[12px] font-black uppercase tracking-[0.2em]">{item.label}</span>
+                                        <span className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.2em]">{item.label}</span>
                                     </motion.div>
                                 );
                             })}

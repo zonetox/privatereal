@@ -13,19 +13,19 @@ export default function HeroSection() {
                 <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black" />
             </div>
 
-            <div className="relative z-10 max-w-6xl px-6 space-y-12">
+            <div className="relative z-10 max-w-6xl px-4 md:px-6 space-y-8 md:y-12">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                    className="space-y-6"
+                    className="space-y-4 md:space-y-6"
                 >
-                    <h1 className="text-[70px] md:text-[110px] font-black tracking-tighter leading-[0.85] text-white italic">
-                        Hiểu dự án <br />
+                    <h1 className="text-4xl sm:text-5xl md:text-[110px] font-black tracking-tighter leading-[0.9] md:leading-[0.85] text-white italic">
+                        Hiểu dự án <br className="sm:hidden" />
                         <span className="text-yellow-500">trước khi quyết định.</span>
                     </h1>
                     
-                    <p className="max-w-3xl mx-auto text-xl md:text-2xl text-slate-300 font-medium leading-relaxed tracking-tight">
+                    <p className="max-w-3xl mx-auto text-base sm:text-lg md:text-2xl text-slate-300 font-medium leading-relaxed tracking-tight px-4 md:px-0">
                         PREIO là một văn phòng tư vấn bất động sản số hóa <br className="hidden md:block" />
                         giúp bạn hiểu rõ dự án phù hợp với mình.
                     </p>

@@ -106,8 +106,10 @@ export default async function MyPropertiesPage({ params }: MyPropertiesPageProps
     // 1. Auth check
     const { data: { user } } = await supabase.auth.getUser();
 
-    if (!user) redirect({ href: '/login', locale });
-    if (!user) return null;
+    if (!user) {
+        redirect({ href: '/login', locale });
+        return null;
+    }
 
     // 2. Get client_id
     const { data: clientRecord } = await supabase

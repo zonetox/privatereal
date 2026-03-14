@@ -27,6 +27,7 @@ export default async function ReportsPage({ params }: { params: { locale: string
 
   if (profile?.role !== 'admin') {
     redirect({ href: '/dashboard', locale });
+    return null;
   }
 
   // Fetch Reporting Data from Views
@@ -48,10 +49,10 @@ export default async function ReportsPage({ params }: { params: { locale: string
   });
 
   return (
-    <div className="p-8 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div>
-        <h1 className="text-4xl font-extrabold tracking-tight gold-text-gradient mb-3">{t('ReportsOverview.title')}</h1>
-        <p className="text-slate-400 max-w-2xl">{t('ReportsOverview.subtitle')}</p>
+    <div className="p-4 md:p-8 space-y-8 md:space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="space-y-2">
+        <h1 className="text-3xl md:text-4xl font-black tracking-tight gold-text-gradient italic uppercase">{t('ReportsOverview.title')}</h1>
+        <p className="text-xs md:text-sm text-slate-400 max-w-2xl font-medium leading-relaxed">{t('ReportsOverview.subtitle')}</p>
       </div>
 
       <div className="space-y-12">

@@ -59,12 +59,15 @@ export default async function ProjectComparison({ searchParams, params }: Compar
 
     // 1. Auth & Client ID
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect({ href: '/login', locale });
+    if (!user) {
+        redirect({ href: '/login', locale });
+        return null;
+    }
 
     const { data: clientRecord } = await supabase
         .from('clients')
         .select('id')
-        .eq('user_id', user?.id)
+        .eq('user_id', user.id)
         .single();
     
     const clientId = clientRecord?.id;
@@ -113,17 +116,17 @@ export default async function ProjectComparison({ searchParams, params }: Compar
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-right-4 duration-700">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div className="flex items-center gap-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-1">
+                <div className="flex items-center gap-4 md:gap-6">
                     <Link 
                         href="/dashboard/workspace"
-                        className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-yellow-500 hover:bg-yellow-500/10 transition-all"
+                        className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-yellow-500 hover:bg-yellow-500/10 transition-all flex-shrink-0"
                     >
-                        <ArrowLeft size={20} />
+                        <ArrowLeft size={18} className="md:w-5 md:h-5" />
                     </Link>
                     <div className="space-y-1">
-                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-yellow-600/80 uppercase tracking-[0.3em]">{t('sub_header')}</p>
-                        <h1 className="text-4xl font-black tracking-tighter text-slate-100 italic">{t('title')} <span className="text-yellow-500">{t('subtitle')}</span></h1>
+                        <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] text-yellow-600/80">{t('sub_header')}</p>
+                        <h1 className="text-2xl md:text-4xl font-black tracking-tighter text-slate-100 italic leading-tight">{t('title')} <span className="text-yellow-500">{t('subtitle')}</span></h1>
                     </div>
                 </div>
             </div>
@@ -138,26 +141,26 @@ export default async function ProjectComparison({ searchParams, params }: Compar
                     <table className="w-full border-separate border-spacing-x-4">
                         <thead>
                             <tr>
-                                <th className="sticky left-0 bg-slate-950/80 backdrop-blur-md z-30 min-w-[200px] text-left p-6 align-bottom border-b border-white/5">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">{t('metric_alignment')}</span>
+                                <th className="sticky left-0 bg-slate-950/95 backdrop-blur-md z-30 min-w-[120px] md:min-w-[200px] text-left p-4 md:p-6 align-bottom border-b border-white/5">
+                                    <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">{t('metric_alignment')}</span>
                                 </th>
                                 {projects.map(p => (
-                                    <th key={p.id} className="min-w-[320px] p-6 text-left border-b border-white/5">
+                                    <th key={p.id} className="min-w-[240px] md:min-w-[320px] p-4 md:p-6 text-left border-b border-white/5">
                                         <div className="space-y-2">
                                             <div className="flex items-center gap-2">
-                                                <span className="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-500 text-[8px] font-black uppercase tracking-widest">{t('selected_asset')}</span>
+                                                <span className="px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-500 text-[7px] md:text-[8px] font-black uppercase tracking-widest">{t('selected_asset')}</span>
                                                 {p.investment_grade && (
-                                                    <div className={`px-2 py-0.5 rounded-full border text-[8px] font-black uppercase tracking-widest ${
+                                                    <div className={`px-2 py-0.5 rounded-full border text-[7px] md:text-[8px] font-black uppercase tracking-widest ${
                                                         p.investment_grade === 'A' ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5' : 'text-sky-400 border-sky-500/30'
                                                     }`}>
                                                         {t('grade')} {p.investment_grade}
                                                     </div>
                                                 )}
                                             </div>
-                                            <h3 className="text-2xl font-black text-slate-100 truncate">{p.name}</h3>
+                                            <h3 className="text-lg md:text-2xl font-black text-slate-100 truncate tracking-tight">{p.name}</h3>
                                             <div className="flex flex-col gap-1">
-                                                {p.developer && <p className="text-[11px] text-amber-500 font-black uppercase tracking-widest">{p.developer}</p>}
-                                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider italic">{p.location}</p>
+                                                {p.developer && <p className="text-[10px] md:text-[11px] text-amber-500 font-black uppercase tracking-widest">{p.developer}</p>}
+                                                <p className="text-[9px] md:text-[10px] text-slate-500 font-bold uppercase tracking-wider italic">{p.location}</p>
                                             </div>
                                         </div>
                                     </th>
@@ -181,20 +184,22 @@ export default async function ProjectComparison({ searchParams, params }: Compar
 
                             {/* Strategic Fit Group */}
                             <tr>
-                                <td className="sticky left-0 bg-slate-950/80 backdrop-blur-md z-20 py-8 px-6 font-black text-[11px] uppercase tracking-widest text-slate-400 flex items-center gap-2">
-                                    <Activity size={14} className="text-yellow-600" /> {t('strategic_fit')}
+                                <td className="sticky left-0 bg-slate-950/95 backdrop-blur-md z-20 py-6 md:py-8 px-4 md:px-6 font-black text-[8px] md:text-[11px] uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                                    <Activity size={10} className="md:w-3.5 md:h-3.5 text-yellow-600" /> {t('strategic_fit')}
                                 </td>
                                 {projects.map(p => (
-                                    <td key={p.id} className="py-8 px-6 bg-white/[0.01]">
-                                        <StrategicFitGauge 
-                                            fitScore={p.fit_score} 
-                                            fitLabel={p.fit_label}
-                                            budgetAlignment={p.budget_alignment}
-                                            riskAlignment={p.risk_alignment}
-                                            horizonAlignment={p.horizon_alignment}
-                                            locationAlignment={p.location_alignment}
-                                            goalAlignment={p.goal_alignment}
-                                        />
+                                    <td key={p.id} className="py-6 md:py-8 px-4 md:px-6 bg-white/[0.01]">
+                                        <div className="scale-90 md:scale-100 origin-center">
+                                            <StrategicFitGauge 
+                                                fitScore={p.fit_score} 
+                                                fitLabel={p.fit_label}
+                                                budgetAlignment={p.budget_alignment}
+                                                riskAlignment={p.risk_alignment}
+                                                horizonAlignment={p.horizon_alignment}
+                                                locationAlignment={p.location_alignment}
+                                                goalAlignment={p.goal_alignment}
+                                            />
+                                        </div>
                                     </td>
                                 ))}
                             </tr>
@@ -265,12 +270,12 @@ function ComparisonRow({ label, icon: Icon, projects, render }: {
 }) {
     return (
         <tr className="group hover:bg-white/[0.02] transition-all">
-            <td className="sticky left-0 bg-slate-950/80 backdrop-blur-md z-20 py-10 px-6 align-top">
-                <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-slate-500">
-                        <Icon size={14} />
+            <td className="sticky left-0 bg-slate-950/90 backdrop-blur-md z-20 py-8 md:py-10 px-4 md:px-6 align-top">
+                <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 flex-shrink-0">
+                        <Icon size={12} className="md:w-3.5 md:h-3.5" />
                     </div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-slate-300 transition-colors">{label}</span>
+                    <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-slate-300 transition-colors">{label}</span>
                 </div>
             </td>
             {projects.map(p => (

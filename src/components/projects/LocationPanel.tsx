@@ -16,8 +16,8 @@ export default function LocationPanel({ location }: LocationPanelProps) {
     return (
         <div className="space-y-8 h-full flex flex-col">
             <div className="flex items-center gap-2">
-                <MapPin size={18} className="text-yellow-500" />
-                <h2 className="text-lg font-bold tracking-tight text-slate-100 uppercase tracking-widest">Chiến lược Vị trí</h2>
+                <MapPin size={16} className="md:w-4.5 md:h-4.5 text-yellow-500" />
+                <h2 className="text-base md:text-lg font-bold tracking-tight text-slate-100 uppercase tracking-widest">Chiến lược Vị trí</h2>
             </div>
             
             <div className="flex-1 space-y-6">
@@ -32,9 +32,9 @@ export default function LocationPanel({ location }: LocationPanelProps) {
                 </div>
 
                 {location.market_trend_notes && (
-                    <div className="glass p-6 rounded-2xl border border-white/5 space-y-3 bg-white/[0.02]">
-                        <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Điểm nhấn Khu vực</h3>
-                        <p className="text-sm text-slate-400 leading-relaxed italic border-l-2 border-yellow-500/30 pl-4">
+                    <div className="glass p-4 md:p-6 rounded-xl md:rounded-2xl border border-white/5 space-y-2 md:space-y-3 bg-white/[0.02]">
+                        <h3 className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-500">Điểm nhấn Khu vực</h3>
+                        <p className="text-[13px] md:text-sm text-slate-400 leading-relaxed italic border-l-2 border-yellow-500/30 pl-3 md:pl-4">
                             {location.market_trend_notes}
                         </p>
                     </div>

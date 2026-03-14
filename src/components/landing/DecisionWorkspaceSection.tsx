@@ -15,7 +15,7 @@ export default function DecisionWorkspaceSection() {
                             initial={{ opacity: 0, x: -50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="text-[60px] md:text-[90px] font-black tracking-tighter leading-[0.9] italic"
+                            className="text-[40px] md:text-[90px] font-black tracking-tighter leading-[1] md:leading-[0.9] italic"
                         >
                             Không gian <br />
                             <span className="text-yellow-500">để bạn cân nhắc.</span>
@@ -33,12 +33,12 @@ export default function DecisionWorkspaceSection() {
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: i * 0.1 }}
-                                    className="flex items-center gap-6 group"
+                                    className="flex items-center gap-4 md:gap-6 group"
                                 >
-                                    <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-slate-500 group-hover:border-yellow-500 group-hover:text-yellow-500 transition-all">
-                                        <item.icon size={20} />
+                                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/10 flex items-center justify-center text-slate-500 group-hover:border-yellow-500 group-hover:text-yellow-500 transition-all">
+                                        <item.icon size={18} className="md:w-5 md:h-5" />
                                     </div>
-                                    <span className="text-xl font-medium tracking-tight text-slate-300 group-hover:text-white transition-colors">{item.text}</span>
+                                    <span className="text-lg md:text-xl font-medium tracking-tight text-slate-300 group-hover:text-white transition-colors">{item.text}</span>
                                 </motion.div>
                             ))}
                         </div>
@@ -49,23 +49,23 @@ export default function DecisionWorkspaceSection() {
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            className="p-10 rounded-[3rem] bg-slate-900 border border-white/5 shadow-2xl relative z-10"
+                            className="p-6 md:p-10 rounded-[2.5rem] md:rounded-[3rem] bg-slate-900 border border-white/5 shadow-2xl relative z-10"
                         >
-                            <div className="space-y-8">
-                                <div className="flex items-center justify-between border-b border-white/5 pb-6">
-                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Analysis Workspace</span>
-                                    <div className="flex gap-2">
-                                        <div className="w-3 h-3 rounded-full bg-rose-500/20" />
-                                        <div className="w-3 h-3 rounded-full bg-amber-500/20" />
-                                        <div className="w-3 h-3 rounded-full bg-emerald-500/20" />
+                            <div className="space-y-6 md:space-y-8">
+                                <div className="flex items-center justify-between border-b border-white/5 pb-4 md:pb-6">
+                                    <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-500">Analysis Workspace</span>
+                                    <div className="flex gap-1.5 md:gap-2">
+                                        <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-rose-500/20" />
+                                        <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-amber-500/20" />
+                                        <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-emerald-500/20" />
                                     </div>
                                 </div>
-                                <div className="space-y-4">
-                                    <div className="w-full h-12 rounded-xl bg-white/5 animate-pulse" />
-                                    <div className="w-[80%] h-12 rounded-xl bg-white/5 animate-pulse" />
-                                    <div className="w-full h-32 rounded-xl bg-white/5 animate-pulse" />
+                                <div className="space-y-3 md:space-y-4">
+                                    <div className="w-full h-10 md:h-12 rounded-lg md:rounded-xl bg-white/5 animate-pulse" />
+                                    <div className="w-[80%] h-10 md:h-12 rounded-lg md:rounded-xl bg-white/5 animate-pulse" />
+                                    <div className="w-full h-24 md:h-32 rounded-lg md:rounded-xl bg-white/5 animate-pulse" />
                                 </div>
-                                <p className="text-sm italic text-slate-500 text-center pt-4">PREIO giúp bạn hiểu rõ trước khi đưa ra quyết định.</p>
+                                <p className="text-xs md:text-sm italic text-slate-500 text-center pt-2 md:pt-4">PREIO giúp bạn hiểu rõ trước khi đưa ra quyết định.</p>
                             </div>
                         </motion.div>
                         {/* Decorative background blur */}

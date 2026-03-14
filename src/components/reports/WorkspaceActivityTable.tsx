@@ -48,11 +48,11 @@ export default function WorkspaceActivityTable({ data }: { data: WorkspaceActivi
             <table className="w-full border-collapse">
                 <thead>
                     <tr className="border-b border-slate-800">
-                        <th className="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{t('client')}</th>
-                        <th className="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{t('projects_under_consideration')}</th>
-                        <th className="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{t('grade')}</th>
-                        <th className="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{t('status')}</th>
-                        <th className="px-5 py-3 text-right text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{t('date_added')}</th>
+                        <th className="sticky left-0 bg-slate-900/90 backdrop-blur-md z-20 px-4 md:px-5 py-3 text-left text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{t('client')}</th>
+                        <th className="px-4 md:px-5 py-3 text-left text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 min-w-[180px] md:min-w-0">{t('projects_under_consideration')}</th>
+                        <th className="px-4 md:px-5 py-3 text-center text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{t('grade')}</th>
+                        <th className="px-4 md:px-5 py-3 text-center text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{t('status')}</th>
+                        <th className="px-4 md:px-5 py-3 text-right text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{t('date_added')}</th>
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/60">
@@ -62,27 +62,27 @@ export default function WorkspaceActivityTable({ data }: { data: WorkspaceActivi
                         return (
                             <tr key={`${row.client_id}-${row.project_id}-${idx}`} className="hover:bg-slate-800/30 transition-all duration-150">
                                 {/* Client */}
-                                <td className="px-5 py-4">
+                                <td className="sticky left-0 bg-slate-900/90 backdrop-blur-md z-10 px-4 md:px-5 py-4">
                                     <div className="flex items-center gap-2">
-                                        <div className="w-6 h-6 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
+                                        <div className="w-6 h-6 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center flex-shrink-0">
                                             <User size={10} className="text-slate-500" />
                                         </div>
-                                        <div>
-                                            <p className="text-sm font-semibold text-slate-200">{row.client_name}</p>
+                                        <div className="min-w-[100px] md:min-w-0">
+                                            <p className="text-[13px] md:text-sm font-semibold text-slate-200 truncate">{row.client_name}</p>
                                             {row.risk_profile && (
-                                                <p className="text-[10px] text-slate-500 capitalize">{row.risk_profile}</p>
+                                                <p className="text-[9px] md:text-[10px] text-slate-500 capitalize truncate">{row.risk_profile}</p>
                                             )}
                                         </div>
                                     </div>
                                 </td>
 
                                 {/* Project */}
-                                <td className="px-5 py-4">
-                                    <p className="text-sm font-semibold text-slate-200">
+                                <td className="px-4 md:px-5 py-4">
+                                    <p className="text-[13px] md:text-sm font-semibold text-slate-200 whitespace-nowrap md:whitespace-normal">
                                         {row.project_name ?? '—'}
                                     </p>
                                     {row.project_location && (
-                                        <p className="flex items-center gap-1 text-[10px] text-slate-500 mt-0.5">
+                                        <p className="flex items-center gap-1 text-[9px] md:text-[10px] text-slate-500 mt-0.5 truncate">
                                             <MapPin size={9} />
                                             {row.project_location}
                                         </p>
@@ -104,9 +104,9 @@ export default function WorkspaceActivityTable({ data }: { data: WorkspaceActivi
                                 </td>
 
                                 {/* Date */}
-                                <td className="px-5 py-4 text-right">
-                                    <div className="flex items-center justify-end gap-1 text-xs text-slate-500">
-                                        <Clock size={11} />
+                                <td className="px-4 md:px-5 py-4 text-right">
+                                    <div className="flex items-center justify-end gap-1 text-[11px] md:text-xs text-slate-500 whitespace-nowrap">
+                                        <Clock size={10} className="md:w-3" />
                                         {new Date(row.added_to_workspace_at).toLocaleDateString('vi-VN')}
                                     </div>
                                 </td>

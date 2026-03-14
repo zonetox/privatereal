@@ -105,13 +105,13 @@ export default function StrategicFitGauge({
     }
 
     return (
-        <div className="rounded-2xl border border-slate-700/50 bg-slate-900/60 backdrop-blur-sm p-6 flex flex-col items-center gap-5">
-            <p className="text-xs uppercase tracking-[0.2em] text-yellow-600/70 font-medium">
+        <div className="rounded-2xl border border-slate-700/50 bg-slate-900/60 backdrop-blur-sm p-4 md:p-6 flex flex-col items-center gap-4 md:gap-5 w-full">
+            <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-yellow-600/70 font-medium">
                 Fit Score
             </p>
 
             {/* Circular Gauge */}
-            <div className="relative" style={{ width: SIZE, height: SIZE }}>
+            <div className="relative scale-90 md:scale-100 origin-center" style={{ width: SIZE, height: SIZE }}>
                 <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} className="rotate-[-90deg]">
                     <defs>
                         <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
@@ -128,10 +128,10 @@ export default function StrategicFitGauge({
                     />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
-                    <span className="text-3xl font-bold text-slate-100 tabular-nums leading-none">
+                    <span className="text-2xl md:text-3xl font-bold text-slate-100 tabular-nums leading-none">
                         {animatedScore}%
                     </span>
-                    <span className="text-xs text-yellow-400 font-medium tracking-wide text-center px-2 leading-snug">
+                    <span className="text-[10px] md:text-xs text-yellow-400 font-medium tracking-wide text-center px-2 leading-snug">
                         {fitLabel}
                     </span>
                 </div>
@@ -139,8 +139,8 @@ export default function StrategicFitGauge({
 
             {/* 5-Pillar Breakdown */}
             {hasPillarData && (
-                <div className="w-full border-t border-slate-700/50 pt-4 flex flex-col gap-3">
-                    <p className="text-[9px] uppercase tracking-widest text-slate-600 font-bold text-center">Advisory 5-Pillar Analysis</p>
+                <div className="w-full border-t border-slate-700/50 pt-3 md:pt-4 flex flex-col gap-2.5 md:gap-3">
+                    <p className="text-[8px] md:text-[9px] uppercase tracking-widest text-slate-600 font-bold text-center">Advisory 5-Pillar Analysis</p>
                     <PillarBar label="Budget Compatibility" value={budgetAlignment} icon={DollarSign} />
                     <PillarBar label="Location Preference" value={locationAlignment} icon={MapPin} />
                     <PillarBar label="Goal Alignment" value={goalAlignment} icon={Target} />
@@ -151,8 +151,8 @@ export default function StrategicFitGauge({
 
             {/* Advisory Confidence */}
             {advisoryConfidence !== null && advisoryConfidence !== undefined && (
-                <div className="w-full border-t border-slate-700/50 pt-3">
-                    <p className="text-xs text-slate-400 text-center tracking-wide">
+                <div className="w-full border-t border-slate-700/50 pt-2.5 md:pt-3">
+                    <p className="text-[10px] md:text-xs text-slate-400 text-center tracking-wide">
                         Advisor Confidence:{' '}
                         <span className="text-slate-300 font-medium">{advisoryConfidence} / 100</span>
                     </p>

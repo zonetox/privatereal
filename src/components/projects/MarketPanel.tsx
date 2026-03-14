@@ -18,8 +18,8 @@ export default function MarketPanel({ market, locale = 'vi' }: MarketPanelProps)
     return (
         <div className="space-y-8 h-full flex flex-col">
             <div className="flex items-center gap-2">
-                <TrendingUp size={18} className="text-yellow-500" />
-                <h2 className="text-lg font-bold tracking-tight text-slate-100 uppercase tracking-widest">Bối cảnh Thị trường</h2>
+                <TrendingUp size={16} className="md:w-4.5 md:h-4.5 text-yellow-500" />
+                <h2 className="text-base md:text-lg font-bold tracking-tight text-slate-100 uppercase tracking-widest">Bối cảnh Thị trường</h2>
             </div>
 
             <div className="flex-1 space-y-6">
