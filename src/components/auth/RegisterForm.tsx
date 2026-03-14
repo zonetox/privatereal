@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Shield, Mail, Lock, User, ChevronRight, AlertCircle, Loader2, CheckCircle2 } from 'lucide-react';
 import { Link, useRouter } from '@/navigation';
 
 export default function RegisterForm() {
     const t = useTranslations('Auth');
+    const locale = useLocale();
     const router = useRouter();
     const supabase = createClient();
 
