@@ -52,8 +52,8 @@ export default async function AdvisorDashboardPage({ params: { locale } }: { par
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
                 <div>
-                    <h1 className="text-4xl font-black tracking-tighter gold-text-gradient italic uppercase">Advisor Command Center</h1>
-                    <p className="text-slate-400 font-medium tracking-wide mt-1">Strategic oversight and institutional directives.</p>
+                    <h1 className="text-4xl font-black tracking-tighter gold-text-gradient italic uppercase">Tư vấn Bất động sản Cá nhân hóa</h1>
+                    <p className="text-slate-400 font-medium tracking-wide mt-1">Hệ thống giám sát chiến lược và chỉ thị tư vấn cá nhân hóa.</p>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="px-4 py-2 bg-slate-900/80 border border-slate-800 rounded-xl">
@@ -69,28 +69,28 @@ export default async function AdvisorDashboardPage({ params: { locale } }: { par
             {/* Core Metrics Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <MetricBlock 
-                    title="Total Clients" 
+                    title="Tổng số Khách hàng" 
                     value={totalClients} 
                     icon={Users} 
-                    subtitle="Acquired HNW Profiles"
+                    subtitle="Hồ sơ khách hàng HNW"
                 />
                 <MetricBlock 
-                    title="Potential Lead Score" 
+                    title="Điểm Tiềm năng Hệ thống" 
                     value={`${avgRiskScore}/100`} 
                     icon={Target} 
-                    subtitle="Avg Strategic Rating"
+                    subtitle="Đánh giá chiến lược trung bình"
                 />
                 <MetricBlock 
-                    title="Project Intelligence" 
+                    title="Dữ liệu Dự án" 
                     value={projectCount || 0} 
                     icon={ShieldCheck} 
-                    subtitle="Audited Assets"
+                    subtitle="Dự án đã kiểm định"
                 />
                 <MetricBlock 
-                    title="Advisor Tasks" 
+                    title="Nhiệm vụ Tư vấn" 
                     value={actionItems.reduce((acc, curr) => acc + (curr.action_items?.length || 0), 0)} 
                     icon={Activity} 
-                    subtitle="Pending Directives"
+                    subtitle="Chỉ thị đang chờ"
                     highlight
                 />
             </div>
@@ -102,7 +102,7 @@ export default async function AdvisorDashboardPage({ params: { locale } }: { par
                     <div className="flex items-center justify-between">
                         <h2 className="text-xl font-black text-slate-100 uppercase tracking-widest flex items-center gap-3">
                             <Activity size={20} className="text-yellow-500" />
-                            Strategic Directives
+                            Chỉ thị Tư vấn Chiến lược
                         </h2>
                     </div>
                     
@@ -154,7 +154,7 @@ export default async function AdvisorDashboardPage({ params: { locale } }: { par
 
                 {/* Client Roster Sidebar */}
                 <div className="space-y-6">
-                    <h2 className="text-xl font-black text-slate-100 uppercase tracking-widest">Client Roster</h2>
+                    <h2 className="text-xl font-black text-slate-100 uppercase tracking-widest">Danh sách Khách hàng</h2>
                     <div className="space-y-4">
                         {clients?.map((client) => (
                             <a href={`/dashboard/clients/${client.id}/profile`} key={client.id} className="block glass p-5 rounded-2xl border border-white/5 hover:border-yellow-500/40 transition-all group">
@@ -164,7 +164,7 @@ export default async function AdvisorDashboardPage({ params: { locale } }: { par
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
-                                        <span className="text-slate-500">Tier Profile</span>
+                                        <span className="text-slate-500">Phân khúc Chiến lược</span>
                                         <span className={
                                             client.risk_profile === 'conservative' ? 'text-emerald-500' :
                                             client.risk_profile === 'balanced' ? 'text-sky-500' :

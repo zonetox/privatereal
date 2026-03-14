@@ -45,8 +45,8 @@ export default async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL(`/${locale}/login`, request.url))
         }
 
-        // 2. No profile or invalid role (pending/null)
-        if (!profile || profile.role === 'pending') {
+        // 2. Allow access even if role is pending (Temporary for evaluation)
+        if (!profile) {
             return NextResponse.redirect(new URL(`/${locale}/login`, request.url))
         }
     }

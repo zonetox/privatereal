@@ -1,13 +1,14 @@
 {
   "Common": {
-    "title": "PREIO - Private Real Estate Advisory Office",
-    "description": "Private real estate advisory system for high-net-worth clients.",
+    "title": "PREIO - Personalized Real Estate Advisory",
+    "description": "Personalized real estate advisory system for high-net-worth clients.",
     "login": "Login",
     "logout": "Logout",
     "dashboard": "Dashboard",
     "market": "Market",
     "insights": "Insights",
-    "consultation": "Consultation"
+    "consultation": "Advisory",
+    "contact": "Contact"
   },
   "Dashboard": {
     "overview": "Overview",
@@ -16,7 +17,7 @@
     "projects": "Projects",
     "recommendations": "Project Recommendations",
     "workspace": "Client Decisions",
-    "advisoryCollection": "Client Properties",
+    "advisoryCollection": "Property Portfolio",
     "reports": "Reports",
     "recommendationsClient": "Project Opportunities",
     "workspaceClient": "Projects Under Consideration",
@@ -35,10 +36,19 @@
     "title": "Private Strategic Advisory",
     "subtitle": "Secure your legacy through elite real estate advisory.",
     "cta": "Start Strategic Assessment",
-    "intro": "Personalized investment strategies for high-net-worth individuals."
+    "intro": "Personalized advisory strategies for high-value property owners.",
+    "p1_title": "Privatized Advisory",
+    "p1_desc": "Access off-market data and institutional-grade analytics usually reserved for global property funds.",
+    "p2_title": "Strategic Preservation",
+    "p2_desc": "Structure your real estate portfolio for long-term value preservation against market volatility.",
+    "p3_title": "Tactical Execution",
+    "p3_desc": "Precise execution of high-value transactions with complete discretion and professional oversight."
   },
   "LeadForm": {
-    "step1": "Financial Capacity",
+    "step": "Step",
+    "of": "of",
+    "complete": "Complete",
+    "step1": "Investment Budget",
     "step2": "Monthly Cashflow",
     "step3": "Primary Occupation",
     "step4": "Advisory Objective",
@@ -62,7 +72,7 @@
     "preserve": "Value Preservation",
     "diversify": "Strategy Balance",
     "income": "Rental Income Goals",
-    "growth": "Property Value Appreciation",
+    "growth": "Property Appreciation Potential",
     "fullName": "Full Name",
     "email": "Official Email",
     "phone": "Phone Number",
@@ -72,13 +82,23 @@
   "Auth": {
     "welcome": "Welcome back",
     "signIn": "Sign In",
+    "signUp": "Register Account",
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "fullName": "Full Name",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "registerTitle": "Create Partner Profile",
+    "registerSubtitle": "Join an elite network of personalized real estate advisory.",
+    "creatingAccount": "Creating profile...",
+    "successRegister": "Registration successful. Please check your email.",
+    "backToLogin": "Back to login"
   },
   "HomePage": {
     "hero": {
-      "title": "Strategic Private Advisory",
-      "subtitle": "Exclusive advisory for high-net-worth real estate legacies. Proactive. Private. Precise.",
+      "title": "Personalized Real Estate Advisory",
+      "subtitle": "Exclusive advisory for high-net-worth real estate portfolios. Proactive. Private. Precise.",
       "cta": "Start Strategic Assessment",
       "client_login": "Existing Client Access"
     },
@@ -98,7 +118,7 @@
       },
       "step4": {
         "title": "Activation",
-        "desc": "Full activation of the Elite Advisory Engine and property oversight."
+        "desc": "Full activation of the Elite Advisory Engine and property portfolio oversight."
       }
     },
     "engines": {
@@ -117,7 +137,7 @@
       },
       "engine4": {
         "title": "Advisory Fit Engine",
-        "desc": "Real-time algorithmic matching of properties to client profiles."
+        "desc": "Real-time algorithmic matching of projects to client profiles."
       },
       "engine5": {
         "title": "Executive Client Portal",
@@ -126,19 +146,22 @@
     },
     "methodology": {
       "title": "Our Methodology",
-      "text": "The PREIO framework eliminates retail speculation. Every property is audited across six institutional dimensions—Legal, Connectivity, Infrastructure, Liquidity, Growth, and Risk—to generate a definitive Advisory Grade."
+      "text": "The PREIO framework eliminates retail speculation. Every property is audited across six institutional dimensions—Legal, Connectivity, Infrastructure, Market Liquidity, Appreciation Potential, and Risk—to generate a definitive Advisory Grade."
     },
     "authority": {
       "title": "Strategic Authority",
-      "text": "PREIO operates as a Strategic Advisory Office, not a brokerage. We do not sell properties directamente; we aggregate advisory insights to ensure project suitability and maximize the strategic legacy of our partners."
+      "text": "PREIO operates as a Strategic Advisory Office, not a brokerage. We do not sell properties directly; we aggregate advisory insights to ensure project suitability and maximize the strategic legacy of our partners."
     },
     "footer": {
       "copyright": "© 2026 PREIO - Private Real Estate Advisory Office. All rights reserved."
     }
   },
   "Workspace": {
-    "title": "Decision",
-    "subtitle": "Workspace",
+    "title": "Client Decisions",
+    "subtitle": "Includes projects currently in the deep advisory pipeline.",
+    "header_badge": "Executive Center",
+    "header_title": "Decision",
+    "header_title_highlight": "Workspace",
     "explore_more": "Explore More Projects",
     "empty_title": "Your Workspace is Empty",
     "empty_desc": "Select projects from the Opportunity Board to begin your institutional evaluation.",
@@ -149,7 +172,10 @@
     "generate_brief": "Generate Advisory Brief",
     "advisor_insights": "Advisor Insights",
     "awaiting_feedback": "Awaiting Advisor Feedback",
-    "decision_items": "Decision Items"
+    "decision_items": "Decision Items",
+    "legal_audit": "Legal Audit",
+    "financial_verification": "Financial Verification",
+    "site_inspection": "Site Inspection"
   },
   "Comparison": {
     "title": "Project",
@@ -157,7 +183,7 @@
     "sub_header": "Institutional Analysis",
     "no_projects": "No Projects Selected for Analysis",
     "metric_alignment": "Metric Alignment",
-    "selected_asset": "Selected Asset",
+    "selected_asset": "Selected Project",
     "grade": "Grade",
     "overview": "Project Overview",
     "strategic_fit": "Strategic Fit",
@@ -172,8 +198,8 @@
     "growth_score": "Growth Score",
     "legal_score": "Legal Score",
     "price_per_m2": "Price/m²",
-    "yield": "Yield",
-    "expected_growth": "Expected Growth",
+    "yield": "Rental Yield",
+    "expected_growth": "Expected Appreciation",
     "risk_score": "Risk Score"
   },
   "AdvisoryBrief": {
@@ -194,7 +220,7 @@
     "market_context_title": "04. Market Context",
     "risk_review_title": "05. Risk Review",
     "analyst_conclusion_title": "06. Analyst Conclusion",
-    "conclusion_intro": "Based on the current institutional matching algorithm, this asset represents a {label} alignment with your investment profile.",
+    "conclusion_intro": "Based on the current institutional matching algorithm, this project represents a {label} alignment with your property advisory profile.",
     "risk_conclusion": "The project's risk rating of {score}/100 falls within your defined risk ceiling.",
     "location_conclusion": "Strategic location alignment of {score}% ensures long-term portfolio synergy.",
     "generated_by": "Generated by PREIO Advisory Engine v3.0",
@@ -216,28 +242,29 @@
     "highest_fit_title": "Highest Fit Score",
     "highest_fit_subtitle_high": "Maximum alignment achieved",
     "highest_fit_subtitle_low": "Analyzing availability",
-    "total_properties_title": "Total Properties",
+    "total_properties_title": "Managed Projects",
     "total_properties_subtitle": "Acquired through PREIO",
-    "latest_acquisition_title": "Latest Acquisition",
-    "latest_acquisition_subtitle": "Collection expansion history",
+    "latest_acquisition_title": "Latest Transaction",
+    "latest_acquisition_subtitle": "Property portfolio expansion history",
     "advisory_precision_title": "Advisory Precision",
-    "advisory_precision_desc": "Your investment metrics are computed by the Advisory Engine in real-time. Ensure your strategic profile is up to date.",
+    "advisory_precision_desc": "Your property evaluation metrics are computed by the Advisory Engine in real-time. Ensure your strategic profile is up to date.",
     "update_profile_cta": "Update Profile",
     "account_required_title": "Advisory Account Required",
-    "account_required_desc": "Please consult with an advisor to enable your strategic dashboard."
+    "account_required_desc": "Please consult with an advisor or complete the assessment to enable your strategic dashboard.",
+    "start_assessment_cta": "Start Onboarding Assessment"
   },
   "ReportsOverview": {
-    "title": "Institutional Reporting Hub",
-    "subtitle": "Executive oversight across client property collections, market location advisory, and advisory performance metrics.",
-    "collections_title": "Advisory Collections",
+    "title": "System Reporting Hub",
+    "subtitle": "Executive oversight across client property portfolios, market location advisory, and advisory performance metrics.",
+    "collections_title": "Property Portfolios",
     "market_title": "Market Location Advisory",
     "engagement_title": "Advisory Engagement Analysis",
     "workspace_activity_title": "Client Workspace Activity",
     "total_active": "Total Active",
     "client": "Client",
     "managed_budget": "Managed Budget",
-    "property_count": "Property Count",
-    "avg_rental_return": "Avg. Rental Return",
+    "property_count": "Project Count",
+    "avg_rental_return": "Avg. Rental Yield",
     "advisory_progress": "Advisory Progress",
     "col_capital_range": "Capital Range",
     "col_selected_projects": "Selected Projects",
@@ -264,7 +291,7 @@
     "status_rejected": "Rejected",
     "status_converted": "Converted",
     "col_name": "Client",
-    "col_capital": "Investment Capital",
+    "col_capital": "Investment Budget",
     "col_score": "Potential Score",
     "col_status": "Status",
     "col_date": "Date Submitted",

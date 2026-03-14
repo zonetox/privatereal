@@ -118,10 +118,10 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div className="space-y-2">
-                    <p className="text-xs uppercase tracking-[0.3em] text-yellow-600/80 font-bold">Decision Center</p>
-                    <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-100 italic">Decision <span className="text-yellow-500">Workspace</span></h1>
+                    <p className="text-xs uppercase tracking-[0.3em] text-yellow-600/80 font-bold">{t('header_badge')}</p>
+                    <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-100 italic">{t('header_title')} <span className="text-yellow-500">{t('header_title_highlight')}</span></h1>
                 </div>
-                <Link href="/dashboard/recommendations" className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 hover:bg-yellow-500 hover:text-slate-950 transition-all font-bold">Explore More Projects</Link>
+                <Link href="/dashboard/recommendations" className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 hover:bg-yellow-500 hover:text-slate-950 transition-all font-bold">{t('explore_more')}</Link>
             </div>
 
             {projects.length === 0 && (
@@ -212,10 +212,10 @@ export default async function DecisionWorkspace({ params }: WorkspacePageProps) 
                                     <div className="flex items-center gap-2"><CheckSquare size={14} className="md:w-4 md:h-4 text-emerald-500" /><h3 className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-slate-200">{t('decision_items')}</h3></div>
                                     <div className="space-y-2.5 md:space-y-3">
                                         {item.checklist.length === 0 ? (
-                                            ['Legal Audit', 'Financial Verification', 'Site Inspection'].map((t, i) => (
+                                            [t('legal_audit'), t('financial_verification'), t('site_inspection')].map((label, i) => (
                                                 <div key={i} className="flex items-center gap-2 md:gap-3 p-2.5 md:p-3 rounded-lg md:rounded-xl border border-white/5 bg-white/[0.02] opacity-30">
                                                     <div className="w-4 h-4 md:w-5 md:h-5 rounded border border-white/10" />
-                                                    <span className="text-[10px] md:text-[11px] font-bold text-slate-500 uppercase tracking-wider">{t}</span>
+                                                    <span className="text-[10px] md:text-[11px] font-bold text-slate-500 uppercase tracking-wider">{label}</span>
                                                 </div>
                                             ))
                                         ) : (

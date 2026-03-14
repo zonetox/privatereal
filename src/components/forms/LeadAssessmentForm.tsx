@@ -96,10 +96,10 @@ export default function LeadAssessmentForm() {
             <div className="mb-12">
                 <div className="flex justify-between mb-4">
                     <span className="text-xs font-bold uppercase tracking-widest text-primary">
-                        Step {step} of {STEPS}
+                        {t('step')} {step} {t('of')} {STEPS}
                     </span>
                     <span className="text-xs font-bold uppercase tracking-widest text-slate-500">
-                        {Math.round((step / STEPS) * 100)}% Complete
+                        {Math.round((step / STEPS) * 100)}% {t('complete')}
                     </span>
                 </div>
                 <div className="h-1 w-full bg-slate-800 rounded-full overflow-hidden">

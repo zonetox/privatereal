@@ -21,7 +21,7 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
         { id: 2, title: 'Vị trí & Khu vực', icon: <MapPin size={18} /> },
         { id: 3, title: 'Bối cảnh Thị trường', icon: <BarChart3 size={18} /> },
         { id: 4, title: 'Kiểm soát Rủi ro', icon: <ShieldAlert size={18} /> },
-        { id: 5, title: 'Ý kiến Chuyên gia', icon: <BookOpen size={18} /> },
+        { id: 5, title: 'Luận điểm Tư vấn', icon: <BookOpen size={18} /> },
     ];
 
     async function handleSubmit(formData: FormData) {
@@ -106,7 +106,7 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                     <div className="glass p-5 md:p-8 rounded-2xl md:rounded-3xl border border-white/5 space-y-5 md:space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-white/5 pb-4">
                             <h1 className="text-2xl md:text-4xl font-black gold-text-gradient uppercase tracking-tighter">Nhập liệu Tư vấn Dự án</h1>
-                        <p className="text-[11px] md:text-sm text-slate-500 font-medium tracking-widest mt-1">KHÓA DỮ LIỆU CHIẾN LƯỢC — PREIO ELITE</p>
+                        <p className="text-[11px] md:text-sm text-slate-500 font-medium tracking-widest mt-1">DỮ LIỆU TƯ VẤN CÁ NHÂN HÓA — PREIO ELITE</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="md:col-span-2">
@@ -199,16 +199,16 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                                 <input name="price_per_m2" type="number" defaultValue={project.price_per_m2} className="form-input" />
                             </div>
                             <div>
-                                <FormLabel label="Giá căn hộ tối thiểu (VND) ★" />
+                                <FormLabel label="Giá dự án tối thiểu (VND) ★" />
                                 <input name="min_unit_price" type="number" defaultValue={project.min_unit_price} className="form-input" placeholder="VD: 3000000000" />
-                                <p className="text-[9px] text-yellow-600/70 mt-1 uppercase tracking-widest font-bold">★ Dùng cho tính toán Budget Alignment</p>
+                                <p className="text-[9px] text-yellow-600/70 mt-1 uppercase tracking-widest font-bold">★ Dùng cho tính toán Ngân sách (Budget Alignment)</p>
                             </div>
                             <div>
                                 <FormLabel label="Tỷ suất cho thuê mục tiêu (%)" />
                                 <input name="avg_rental_yield" type="number" step="0.1" defaultValue={project.avg_rental_yield} className="form-input" />
                             </div>
                             <div>
-                                <FormLabel label="Tăng trưởng giá kỳ vọng (% năm)" />
+                                <FormLabel label="Dư địa tăng giá kỳ vọng (% năm)" />
                                 <input name="expected_growth_rate" type="number" step="0.1" defaultValue={project.expected_growth_rate} className="form-input" />
                             </div>
                             <div>
@@ -216,11 +216,11 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                                 <input name="holding_period_recommendation" type="number" defaultValue={project.holding_period_recommendation} className="form-input" />
                             </div>
                             <div>
-                                <FormLabel label="Chỉ số Thanh khoản Dự kiến (0-100) *" />
+                                <FormLabel label="Thanh khoản Thị trường Dự kiến (0-100) *" />
                                 <input name="liquidity_score" type="number" min="0" max="100" defaultValue={project.liquidity_score} className="form-input" required />
                             </div>
                             <div>
-                                <FormLabel label="Điểm Tăng trưởng Vốn (0-100) *" />
+                                <FormLabel label="Điểm Dư địa Tăng giá (0-100) *" />
                                 <input name="growth_score" type="number" min="0" max="100" defaultValue={project.growth_score} className="form-input" required />
                             </div>
                             <div>
@@ -287,8 +287,8 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                 {step === 5 && (
                     <div className="glass p-8 rounded-3xl border border-yellow-500/10 border-yellow-500/20 bg-yellow-500/5 space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-yellow-500/10 pb-4">
-                            <h2 className="text-xl font-bold text-yellow-500">Bước 5 — Luận điểm Chuyên gia Broker</h2>
-                            <p className="text-xs text-yellow-600/70 mt-1 uppercase tracking-widest">The Advisor Edge — Thông tin chuyên môn độc quyền</p>
+                            <h2 className="text-xl font-bold text-yellow-500">Bước 5 — Luận điểm Tư vấn Cá nhân hóa</h2>
+                            <p className="text-xs text-yellow-600/70 mt-1 uppercase tracking-widest">The Advisory Edge — Thông tin tư vấn chuyên biệt</p>
                         </div>
                         <div className="space-y-6">
                             <div>
@@ -309,8 +309,8 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                                 />
                             </div>
                             <div>
-                                <FormLabel label="Luận điểm Đầu tư chính (Investment Thesis)" />
-                                <textarea name="evaluation_notes" defaultValue={project.evaluation_notes} rows={4} className="form-input !bg-slate-900" placeholder="Tổng hợp phân tích chuyên gia cho dự án này..." />
+                                <FormLabel label="Luận điểm Tư vấn chính (Advisory Thesis)" />
+                                <textarea name="evaluation_notes" defaultValue={project.evaluation_notes} rows={4} className="form-input !bg-slate-900" placeholder="Tổng hợp phân tích từ hệ thống tư vấn cho dự án này..." />
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>

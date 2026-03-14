@@ -26,7 +26,7 @@ export default function MarketAdvisoryGrid({ data }: { data: MarketData[] }) {
                         <div className="flex justify-between items-start mb-2">
                             <h3 className="text-lg font-bold text-slate-100">{item.project_name}</h3>
                             <span className="bg-primary/20 text-primary-foreground text-[10px] font-black px-2 py-0.5 rounded border border-primary/30 uppercase tracking-widest whitespace-nowrap">
-                                ADVISORY {item.investment_grade}
+                                TƯ VẤN {item.investment_grade}
                             </span>
                         </div>
                         <div className="flex items-center gap-2 text-xs text-slate-400">

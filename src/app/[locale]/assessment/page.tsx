@@ -25,21 +25,21 @@ export default function AssessmentPage() {
                 <div className="grid md:grid-cols-3 gap-8 mb-20">
                     {[
                         {
-                            title: "Private Advisory",
-                            desc: "Access off-market data and institutional-grade analytics usually reserved for global property funds."
+                            title: t('p1_title'),
+                            desc: t('p1_desc')
                         },
                         {
-                            title: "Strategic Preservation",
-                            desc: "Structure your real estate portfolio for long-term capital preservation against market volatility."
+                            title: t('p2_title'),
+                            desc: t('p2_desc')
                         },
                         {
-                            title: "Tactical Execution",
-                            desc: "Precise execution of high-value transactions with complete discretion and professional oversight."
+                            title: t('p3_title'),
+                            desc: t('p3_desc')
                         }
                     ].map((item, idx) => (
                         <div key={idx} className="glass p-8 border border-white/5 rounded-2xl hover:border-primary/20 transition-all duration-300">
                             <h3 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">{item.title}</h3>
-                            <p className="text-slate-300 leading-relaxed">{item.desc}</p>
+                            <p className="text-slate-300 leading-relaxed font-medium">{item.desc}</p>
                         </div>
                     ))}
                 </div>

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { Shield, Mail, Lock, ChevronRight, AlertCircle, Loader2 } from 'lucide-react';
-import { useRouter } from '@/navigation';
+import { useRouter, Link } from '@/navigation';
 
 export default function LoginForm() {
     const t = useTranslations('Auth');
@@ -23,7 +23,7 @@ export default function LoginForm() {
         setError(null);
 
         try {
-            const { error: signInError } = await supabase.auth.signInWithPassword({
+            const { data, error: signInError } = await supabase.auth.signInWithPassword({
                 email,
                 password,
             });
@@ -34,8 +34,20 @@ export default function LoginForm() {
                 return;
             }
 
-            // Success - Redirect to dashboard
-            router.push('/dashboard');
+            // Check role and redirect
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('role')
+                .eq('id', data.user.id)
+                .single();
+
+            if (profile?.role === 'admin') {
+                router.push('/dashboard/advisor');
+            } else {
+                router.push('/dashboard');
+            }
+            
+            router.refresh();
         } catch {
             setError('An unexpected error occurred. Please try again.');
             setIsLoading(false);
@@ -45,15 +57,10 @@ export default function LoginForm() {
     return (
         <div className="w-full max-w-md mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="text-center space-y-3">
-                <div className="flex justify-center mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shadow-2xl shadow-primary/5">
-                        <Shield className="text-primary w-8 h-8" />
-                    </div>
-                </div>
-                <h1 className="text-3xl font-black tracking-tight text-white uppercase">
+                <h1 className="text-3xl font-black tracking-tight text-white uppercase italic">
                     {t('welcome')}
                 </h1>
-                <p className="text-slate-500 text-sm font-medium tracking-wide">
+                <p className="text-slate-500 text-[11px] font-bold tracking-[0.1em] uppercase">
                     ACCESS TO PRIVATE ADVISORY INFRASTRUCTURE
                 </p>
             </div>
@@ -79,7 +86,7 @@ export default function LoginForm() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="block w-full pl-11 pr-4 py-4 bg-slate-900/50 border border-slate-800 rounded-2xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all duration-300"
+                            className="block w-full pl-11 pr-4 py-4 bg-slate-900/40 border border-slate-800 rounded-2xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all duration-300"
                             placeholder="executive@preio.office"
                         />
                     </div>
@@ -98,7 +105,7 @@ export default function LoginForm() {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="block w-full pl-11 pr-4 py-4 bg-slate-900/50 border border-slate-800 rounded-2xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all duration-300"
+                            className="block w-full pl-11 pr-4 py-4 bg-slate-900/40 border border-slate-800 rounded-2xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all duration-300"
                             placeholder="••••••••"
                         />
                     </div>
@@ -108,24 +115,27 @@ export default function LoginForm() {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full bg-primary text-primary-foreground font-black py-4 rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:hover:scale-100"
+                        className="w-full bg-primary text-primary-foreground font-black py-4 rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:hover:scale-100 uppercase tracking-widest text-xs"
                     >
                         {isLoading ? (
                             <Loader2 className="w-5 h-5 animate-spin" />
                         ) : (
                             <>
                                 {t('signIn')}
-                                <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
                             </>
                         )}
                     </button>
                 </div>
             </form>
 
-            <div className="text-center">
-                <p className="text-[10px] text-slate-600 font-bold uppercase tracking-[0.2em]">
-                    STRICT CONFIDENTIALITY • INSTITUTIONAL ACCESS ONLY
-                </p>
+            <div className="text-center pt-2">
+                <Link 
+                    href="/register" 
+                    className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em] hover:text-white transition-all underline underline-offset-4 decoration-slate-800 hover:decoration-primary"
+                >
+                    {t('noAccount')} <span className="text-primary italic">{t('signUp')}</span>
+                </Link>
             </div>
         </div>
     );

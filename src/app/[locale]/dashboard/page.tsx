@@ -82,7 +82,13 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
           <Shield size={32} className="text-slate-600" />
         </div>
         <h1 className="text-xl font-bold text-slate-200">{t('DashboardOverview.account_required_title')}</h1>
-        <p className="text-slate-500 max-w-sm">{t('DashboardOverview.account_required_desc')}</p>
+        <p className="text-slate-500 max-w-sm mb-4">{t('DashboardOverview.account_required_desc')}</p>
+        <Link 
+          href="/assessment" 
+          className="px-8 py-3 rounded-xl bg-yellow-500 text-slate-950 text-xs font-black uppercase tracking-widest hover:bg-yellow-400 transition-all shadow-xl shadow-yellow-500/10"
+        >
+          {t('DashboardOverview.start_assessment_cta') || 'Start Onboarding Assessment'}
+        </Link>
       </div>
     );
   }

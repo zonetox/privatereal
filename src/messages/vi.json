@@ -1,13 +1,14 @@
 {
     "Common": {
-        "title": "PREIO - Văn phòng Tư vấn Bất động sản Tư nhân",
-        "description": "Hệ thống tư vấn bất động sản cá nhân cho khách hàng cao phân khúc cao cấp.",
+        "title": "PREIO - Tư vấn Bất động sản Cá nhân hóa",
+        "description": "Hệ thống tư vấn bất động sản cá nhân hóa cho khách hàng thuộc phân khúc cao cấp.",
         "login": "Đăng nhập",
         "logout": "Đăng xuất",
         "dashboard": "Bảng điều khiển",
         "market": "Thị trường",
         "insights": "Phân tích",
-        "consultation": "Tư vấn"
+        "consultation": "Tư vấn",
+        "contact": "Liên hệ"
     },
     "Dashboard": {
         "overview": "Tổng quan",
@@ -16,7 +17,7 @@
         "projects": "Dự án",
         "recommendations": "Khuyến nghị Dự án",
         "workspace": "Quyết định Khách hàng",
-        "advisoryCollection": "Bất động sản Khách hàng",
+        "advisoryCollection": "Danh mục Bất động sản",
         "reports": "Báo cáo",
         "recommendationsClient": "Cơ hội Dự án",
         "workspaceClient": "Dự án đang Cân nhắc",
@@ -35,10 +36,19 @@
         "title": "Tư vấn Chiến lược Cá nhân",
         "subtitle": "Bảo vệ di sản của bạn thông qua tư vấn bất động sản ưu tú.",
         "cta": "Bắt đầu Đánh giá Chiến lược",
-        "intro": "Chiến lược tư vấn cá nhân hóa cho khách hàng tài sản lớn."
+        "intro": "Chiến lược tư vấn cá nhân hóa cho khách hàng sở hữu bất động sản giá trị cao.",
+        "p1_title": "Tư vấn Đặc quyền",
+        "p1_desc": "Truy cập dữ liệu ngoài thị trường và phân tích chuyên sâu thường dành cho các quỹ bất động sản quốc tế.",
+        "p2_title": "Bảo toàn Chiến lược",
+        "p2_desc": "Cấu trúc danh mục bất động sản để bảo toàn vốn dài hạn trước sự biến động của thị trường.",
+        "p3_title": "Thực thi Chiến thuật",
+        "p3_desc": "Thực thi chính xác các giao dịch giá trị cao với sự bảo mật tuyệt đối và giám sát chuyên nghiệp."
     },
     "LeadForm": {
-        "step1": "Khả năng tài chính",
+        "step": "Bước",
+        "of": "trên",
+        "complete": "Hoàn thành",
+        "step1": "Ngân sách tối đa",
         "step2": "Dòng tiền Hàng tháng",
         "step3": "Nghề nghiệp Chính",
         "step4": "Mục tiêu Tư vấn",
@@ -62,7 +72,7 @@
         "preserve": "Gìn giữ giá trị",
         "diversify": "Cân bằng Chiến lược",
         "income": "Thu nhập từ cho thuê",
-        "growth": "Tăng trưởng giá trị",
+        "growth": "Tăng trưởng giá trị BĐS",
         "fullName": "Họ và Tên",
         "email": "Email chính thức",
         "phone": "Số điện thoại",
@@ -72,13 +82,23 @@
     "Auth": {
         "welcome": "Chào mừng quay trở lại",
         "signIn": "Đăng nhập",
+        "signUp": "Đăng ký hồ sơ",
         "email": "Email",
-        "password": "Mật khẩu"
+        "password": "Mật khẩu",
+        "confirmPassword": "Xác nhận mật khẩu",
+        "fullName": "Họ và tên",
+        "noAccount": "Chưa có tài khoản?",
+        "hasAccount": "Đã có tài khoản?",
+        "registerTitle": "Khởi tạo Hồ sơ Đối tác",
+        "registerSubtitle": "Tham gia mạng lưới tư vấn bất động sản cá nhân hóa ưu tú.",
+        "creatingAccount": "Đang khởi tạo hồ sơ...",
+        "successRegister": "Đăng ký thành công. Vui lòng xác nhận email.",
+        "backToLogin": "Quay lại đăng nhập"
     },
     "HomePage": {
         "hero": {
-            "title": "Cố vấn Chiến lược Cá nhân",
-            "subtitle": "Tư vấn độc quyền cho di sản bất động sản của khách hàng cao cấp. Chủ động. Riêng tư. Chính xác.",
+            "title": "Tư vấn Bất động sản Cá nhân hóa",
+            "subtitle": "Giải pháp tư vấn độc quyền cho danh mục bất động sản của khách hàng cao cấp. Chủ động. Riêng tư. Chính xác.",
             "cta": "Bắt đầu Đánh giá Chiến lược",
             "client_login": "Truy cập Khách hàng Hiện tại"
         },
@@ -86,7 +106,7 @@
             "title": "Mô hình Tiếp cận Chiến lược",
             "step1": {
                 "title": "Đánh giá Chiến lược",
-                "desc": "Xác định ban đầu về định hướng đầu tư và mục tiêu bảo toàn vốn."
+                "desc": "Xác định định hướng và mục tiêu bảo toàn ngân sách đầu tư."
             },
             "step2": {
                 "title": "Xem xét Tổ chức",
@@ -126,19 +146,22 @@
         },
         "methodology": {
             "title": "Phương pháp luận",
-            "text": "Khung PREIO loại bỏ các suy đoán bán lẻ. Mọi bất động sản đều được kiểm toán qua sáu khía cạnh tổ chức—Pháp lý, Kết nối, Hạ tầng, Thanh khoản, Tăng trưởng và Rủi ro—để tạo ra cấp độ Tư vấn cuối cùng."
+            "text": "Khung PREIO loại bỏ các suy đoán bán lẻ. Mọi bất động sản đều được kiểm toán qua sáu khía cạnh tổ chức—Pháp lý, Kết nối, Hạ tầng, Thanh khoản thị trường, Dư địa tăng giá và Rủi ro—để tạo ra cấp độ Tư vấn cuối cùng."
         },
         "authority": {
             "title": "Thẩm quyền Tư vấn",
-            "text": "PREIO hoạt động như một Văn phòng Cố vấn Chiến lược số hóa. Chúng tôi không phải sàn giao dịch; chúng tôi tổng hợp thông tin tư vấn để bảo vệ tài sản và tối ưu hóa di sản cho các đối tác."
+            "text": "PREIO hoạt động như một hệ thống Tư vấn Bất động sản Cá nhân hóa số hóa. Chúng tôi không phải sàn giao dịch; chúng tôi tổng hợp thông tin tư vấn để đảm bảo sự phù hợp dự án và tối ưu hóa danh mục cho các đối tác."
         },
         "footer": {
-            "copyright": "© 2026 PREIO - Văn phòng Tư vấn Bất động sản Tư nhân. Bảo lưu mọi quyền."
+            "copyright": "© 2026 PREIO - Tư vấn Bất động sản Cá nhân hóa. Bảo lưu mọi quyền."
         }
     },
     "Workspace": {
         "title": "Quyết định Khách hàng",
-        "subtitle": "Khu vực Quyết định",
+        "subtitle": "Bao gồm các dự án đang trong lộ trình tư vấn chuyên sâu.",
+        "header_badge": "Trung tâm Điều hành",
+        "header_title": "Workspace",
+        "header_title_highlight": "Quyết định",
         "explore_more": "Khám phá thêm dự án",
         "empty_title": "Workspace hiện đang trống",
         "empty_desc": "Chọn dự án từ Bảng Cơ hội để bắt đầu đánh giá tổ chức.",
@@ -149,7 +172,10 @@
         "generate_brief": "Tạo Báo cáo Tư vấn",
         "advisor_insights": "Thông tin từ Cố vấn",
         "awaiting_feedback": "Đang chờ ý kiến tư vấn",
-        "decision_items": "Hạng mục Quyết định"
+        "decision_items": "Hạng mục Quyết định",
+        "legal_audit": "Kiểm toán Pháp lý",
+        "financial_verification": "Thẩm định Tài chính",
+        "site_inspection": "Kiểm tra Thực địa"
     },
     "Comparison": {
         "title": "So sánh",
@@ -157,7 +183,7 @@
         "sub_header": "Phân tích Tổ chức",
         "no_projects": "Chưa chọn dự án để phân tích",
         "metric_alignment": "Khớp chỉ số",
-        "selected_asset": "Tài sản được chọn",
+        "selected_asset": "Dự án được chọn",
         "grade": "Cấp độ",
         "overview": "Tổng quan Dự án",
         "strategic_fit": "Mức độ Phù hợp Chiến lược",
@@ -167,13 +193,13 @@
         "price_from": "Giá từ",
         "developer": "Chủ đầu tư",
         "location": "Khu vực",
-        "location_score": "Vị trí",
-        "liquidity_score": "Thanh khoản",
-        "growth_score": "Tiềm năng tăng giá",
+        "location_score": "Vị trí Chiến lược",
+        "liquidity_score": "Thanh khoản Thị trường",
+        "growth_score": "Dư địa Tăng giá",
         "legal_score": "Pháp lý",
         "price_per_m2": "Đơn giá",
-        "yield": "Lợi suất",
-        "expected_growth": "Tăng trưởng dự kiến",
+        "yield": "Lợi suất cho thuê",
+        "expected_growth": "Dư địa tăng giá kỳ vọng",
         "risk_score": "Điểm rủi ro"
     },
     "AdvisoryBrief": {
@@ -194,9 +220,9 @@
         "market_context_title": "04. Bối cảnh Thị trường",
         "risk_review_title": "05. Kiểm soát Rủi ro",
         "analyst_conclusion_title": "06. Kết luận của Chuyên gia",
-        "conclusion_intro": "Dựa trên thuật toán khớp lệnh tổ chức hiện tại, tài sản này thể hiện mức độ phù hợp {label} với hồ sơ đầu tư của bạn.",
+        "conclusion_intro": "Dựa trên thuật toán khớp lệnh tổ chức hiện tại, tài sản này thể hiện mức độ phù hợp {label} với hồ sơ tư vấn bất động sản của bạn.",
         "risk_conclusion": "Điểm rủi ro dự án {score}/100 nằm trong giới hạn cho phép của bạn.",
-        "location_conclusion": "Mức độ phù hợp vị trí chiến lược đạt {score}% đảm bảo sự cộng hưởng lâu dài cho danh mục.",
+        "location_conclusion": "Mức độ phù hợp vị trí chiến lược đạt {score}% đảm bảo sự cộng hưởng lâu dài cho danh mục bất động sản.",
         "generated_by": "Được tạo bởi PREIO Advisory Engine v3.0",
         "contact_advisor": "Liên hệ Cố vấn",
         "not_available": "Chưa có ghi chú phân tích cho dự án này. Vui lòng liên hệ cố vấn để biết thêm chi tiết."
@@ -216,27 +242,28 @@
         "highest_fit_title": "Điểm Phù hợp nhất",
         "highest_fit_subtitle_high": "Đã đạt tương thích tối đa",
         "highest_fit_subtitle_low": "Đang phân tích sự phù hợp",
-        "total_properties_title": "Tổng số Tài sản",
-        "total_properties_subtitle": "Sở hữu qua PREIO",
+        "total_properties_title": "Dự án sở hữu",
+        "total_properties_subtitle": "Đã sở hữu qua PREIO",
         "latest_acquisition_title": "Giao dịch gần nhất",
-        "latest_acquisition_subtitle": "Lịch sử mở rộng danh mục",
-        "advisory_precision_title": "Độ chính xác Cố vấn",
-        "advisory_precision_desc": "Các chỉ số đầu tư của bạn được tính toán bởi Advisory Engine trong thời gian thực. Hãy đảm bảo hồ sơ chiến lược luôn cập nhật.",
+        "latest_acquisition_subtitle": "Lịch sử mở rộng danh mục bất động sản",
+        "advisory_precision_title": "Độ chính xác Tư vấn",
+        "advisory_precision_desc": "Các chỉ số đánh giá bất động sản của bạn được tính toán bởi Advisory Engine trong thời gian thực. Hãy đảm bảo hồ sơ chiến lược luôn cập nhật.",
         "update_profile_cta": "Cập nhật Hồ sơ",
         "account_required_title": "Yêu cầu Tài khoản Cố vấn",
-        "account_required_desc": "Vui lòng tham vấn cố vấn để kích hoạt bảng điều khiển chiến lược của bạn."
+        "account_required_desc": "Vui lòng tham vấn cố vấn hoặc tự hoàn thành khảo sát để kích hoạt bảng điều khiển chiến lược của bạn.",
+        "start_assessment_cta": "Bắt đầu Khảo sát Hồ sơ"
     },
     "ReportsOverview": {
-        "title": "Trung tâm Báo cáo Tổ chức",
-        "subtitle": "Giám sát cấp cao đối với danh mục tài sản khách hàng, thị trường và hiệu suất cố vấn.",
-        "collections_title": "Danh mục Tư vấn",
+        "title": "Trung tâm Báo cáo Hệ thống",
+        "subtitle": "Giám sát cấp cao đối với danh mục bất động sản khách hàng, vị trí thị trường và hiệu suất tư vấn.",
+        "collections_title": "Danh mục Bất động sản",
         "market_title": "Tư vấn Vị trí Thị trường",
         "engagement_title": "Phân tích Tương tác",
         "workspace_activity_title": "Hoạt động Workspace Khách hàng",
         "total_active": "Tổng hoạt động",
         "client": "Khách hàng",
         "managed_budget": "Ngân sách Quản lý",
-        "property_count": "Số lượng Tài sản",
+        "property_count": "Số lượng Dự án",
         "avg_rental_return": "Lợi suất cho thuê TB",
         "advisory_progress": "Tiến độ Tư vấn",
         "col_capital_range": "Khoảng vốn",
@@ -247,7 +274,7 @@
         "appreciation": "Tăng giá",
         "demand_level": "Mức độ Nhu cầu",
         "market_risk": "Rủi ro Thị trường",
-        "empty_activity": "Chưa có hoạt động workspace nào",
+        "empty_activity": "Chưa có hoạt động nào",
         "empty_activity_desc": "Khi khách hàng thêm dự án vào workspace, dữ liệu sẽ hiển thị tại đây.",
         "projects_under_consideration": "Dự án đang xem xét",
         "grade": "Cấp độ",
@@ -264,7 +291,7 @@
         "status_rejected": "Từ chối",
         "status_converted": "Đã chuyển đổi",
         "col_name": "Khách hàng",
-        "col_capital": "Vốn đầu tư",
+        "col_capital": "Ngân sách dự kiến",
         "col_score": "Điểm tiềm năng",
         "col_status": "Trạng thái",
         "col_date": "Ngày gửi",

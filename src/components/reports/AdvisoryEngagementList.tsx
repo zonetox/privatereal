@@ -28,7 +28,7 @@ export default function AdvisoryEngagementList({ data }: { data: EngagementData[
                                 </span>
                                 <span className="flex items-center gap-1 text-[9px] md:text-[10px] text-yellow-500/80 uppercase font-black whitespace-nowrap">
                                     <TrendingUp size={10} />
-                                    {item.note_count} Notes
+                                    {item.note_count} Ghi chú
                                 </span>
                             </div>
                         </div>
@@ -36,17 +36,17 @@ export default function AdvisoryEngagementList({ data }: { data: EngagementData[
 
                     <div className="flex items-center justify-between sm:justify-end gap-6 border-t sm:border-0 border-white/5 pt-4 sm:pt-0">
                         <div className="text-left sm:text-right">
-                            <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mb-1">Actions</p>
+                            <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mb-1">Chỉ thị</p>
                             <div className="flex items-center gap-1.5 text-slate-200">
                                 <CheckSquare size={14} className={item.pending_actions > 0 ? 'text-yellow-500' : 'text-slate-500'} />
-                                <span className="text-[11px] md:text-sm font-bold truncate max-w-[80px] xs:max-w-none">{item.pending_actions} Pending</span>
+                                <span className="text-[11px] md:text-sm font-bold truncate max-w-[80px] xs:max-w-none">{item.pending_actions} Đang chờ</span>
                             </div>
                         </div>
                         <a 
                             href={`/dashboard/clients/${item.client_id}/profile`}
                             className="px-4 py-2 bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/20 text-yellow-500 rounded-lg text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap"
                         >
-                            Profile
+                            Hồ sơ
                         </a>
                     </div>
                 </div>
@@ -55,7 +55,7 @@ export default function AdvisoryEngagementList({ data }: { data: EngagementData[
             {data.length === 0 && (
                 <div className="text-center py-12 glass rounded-xl border border-white/5">
                     <MessageSquare size={48} className="mx-auto text-slate-600 mb-4" />
-                    <p className="text-slate-400">No engagement data found.</p>
+                    <p className="text-slate-400">Không tìm thấy dữ liệu tương tác.</p>
                 </div>
             )}
         </div>
