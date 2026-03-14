@@ -8,7 +8,8 @@ import { validateEnv } from './lib/env'
 const intlMiddleware = createMiddleware({
     locales,
     defaultLocale: 'vi',
-    localePrefix
+    localePrefix,
+    localeDetection: false
 })
 
 export default async function middleware(request: NextRequest) {
