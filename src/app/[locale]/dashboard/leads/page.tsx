@@ -10,6 +10,7 @@ import {
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import ConvertLeadButton from '@/components/dashboard/ConvertLeadButton';
+import LeadScoreBadge from '@/components/dashboard/LeadScoreBadge';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -123,10 +124,11 @@ export default async function LeadsPage({ searchParams, params }: LeadsPageProps
                     {t(`LeadForm.${lead.capital_range || 'capital_1_3'}`)}
                   </span>
                 </td>
+import LeadScoreBadge from '@/components/dashboard/LeadScoreBadge';
+
+// ... inside the map loop ...
                 <td className="p-4 text-center">
-                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-primary/20 bg-primary/5">
-                    <span className="text-sm font-bold text-primary">{lead.lead_score}</span>
-                  </div>
+                  <LeadScoreBadge score={lead.lead_score} />
                 </td>
                 <td className="p-4 text-center">
                   <span className={cn(

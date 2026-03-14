@@ -12,8 +12,13 @@ export default function PortfolioPage() {
         Strategic overview of your acquired properties and advisory growth milestones.
       </p>
       <div className="glass p-8 md:p-12 rounded-[1.5rem] md:rounded-[2rem] border border-white/5 text-center">
-        <p className="text-[10px] md:text-xs text-slate-500 font-black uppercase tracking-[0.2em] mb-4">Detailed Analytics Coming Soon</p>
-        <div className="w-16 h-1 w-full bg-yellow-500/20 rounded-full mx-auto"></div>
+        <p className="text-[10px] md:text-xs text-slate-500 font-black uppercase tracking-[0.2em] mb-4">
+          No recorded client properties yet.
+        </p>
+        <p className="text-[10px] md:text-xs text-slate-400/60 uppercase tracking-widest max-w-xs mx-auto mb-8 font-medium">
+          Properties will appear after acquisition tracking begins.
+        </p>
+        <div className="w-16 h-1 bg-yellow-500/20 rounded-full mx-auto"></div>
       </div>
     </div>
   );

@@ -250,5 +250,22 @@
         "grade": "Cấp độ",
         "status": "Trạng thái",
         "date_added": "Ngày thêm"
+    },
+    "Leads": {
+        "title": "Quản lý Lead Bất động sản",
+        "subtitle": "Thẩm định hồ sơ khách hàng mới và định hướng tư vấn ban đầu.",
+        "total_leads": "Tổng số Lead",
+        "status_all": "Tất cả",
+        "status_qualified": "Đủ tiêu chuẩn",
+        "status_new": "Mới",
+        "status_rejected": "Từ chối",
+        "status_converted": "Đã chuyển đổi",
+        "col_name": "Khách hàng",
+        "col_capital": "Vốn đầu tư",
+        "col_score": "Điểm tiềm năng",
+        "col_status": "Trạng thái",
+        "col_date": "Ngày gửi",
+        "col_action": "Thao tác",
+        "no_leads": "Chưa có lead nào trong hệ thống."
     }
 }

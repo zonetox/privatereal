@@ -250,5 +250,22 @@
     "grade": "Grade",
     "status": "Status",
     "date_added": "Date Added"
+  },
+  "Leads": {
+    "title": "Real Estate Lead Management",
+    "subtitle": "Evaluate new client profiles and initial advisory direction.",
+    "total_leads": "Total Leads",
+    "status_all": "All",
+    "status_qualified": "Qualified",
+    "status_new": "New",
+    "status_rejected": "Rejected",
+    "status_converted": "Converted",
+    "col_name": "Client",
+    "col_capital": "Investment Capital",
+    "col_score": "Potential Score",
+    "col_status": "Status",
+    "col_date": "Date Submitted",
+    "col_action": "Action",
+    "no_leads": "No leads found in the system."
   }
 }

@@ -51,17 +51,17 @@ export default function AdvisoryCollectionTable({ data }: { data: AdvisoryCollec
                                 </div>
                             </td>
                             <td className="px-3 md:px-4 py-3 md:py-4 font-medium text-slate-300 whitespace-nowrap">
-                                {formatCurrency(item.total_property_investment)}
+                                {item.total_property_investment ? formatCurrency(item.total_property_investment) : "—"}
                             </td>
                             <td className="px-3 md:px-4 py-3 md:py-4">
                                 <div className="flex items-center gap-1.5 md:gap-2 text-slate-400">
                                     <Building2 size={12} className="md:w-3.5 md:h-3.5 text-slate-500" />
-                                    {item.asset_count}
+                                    {item.asset_count ?? 0}
                                 </div>
                             </td>
                             <td className="px-3 md:px-4 py-3 md:py-4">
                                 <span className="text-emerald-500 font-bold">
-                                    {item.avg_expected_roi?.toFixed(1)}%
+                                    {(item.avg_expected_roi || 0).toFixed(1)}%
                                 </span>
                             </td>
                             <td className="px-3 md:px-4 py-3 md:py-4">
