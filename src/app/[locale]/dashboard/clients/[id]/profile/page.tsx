@@ -4,6 +4,7 @@ import { redirect, Link } from '@/navigation';
 import ClientProfileForm from '@/components/forms/ClientProfileForm';
 import ClientNotesTimeline from '@/components/projects/ClientNotesTimeline';
 import { ChevronRight, User } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
 interface ClientProfilePageProps {
     params: {
@@ -65,25 +66,29 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
         .eq('client_id', params.id)
         .order('created_at', { ascending: false });
 
+    // 3. i18n setup
+    const t = await getTranslations('AdvisoryProfile');
+
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Breadcrumbs */}
             <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Link href="/dashboard/clients" className="hover:text-primary transition-colors">Clients</Link>
+                <Link href="/dashboard/clients" className="hover:text-primary transition-colors">{t('breadcrumb_clients')}</Link>
                 <ChevronRight size={14} />
                 <span className="text-foreground font-medium">{client.full_name}</span>
                 <ChevronRight size={14} />
-                <span className="text-primary font-semibold">Advisory Profile</span>
+                <span className="text-primary font-semibold">{t('breadcrumb_profile')}</span>
             </nav>
 
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div className="space-y-2">
                     <h1 className="text-4xl font-black tracking-tighter">
-                        Client Advisory <span className="gold-text-gradient">Profiling</span>
+                        {t('title')} <span className="gold-text-gradient">{t('title_highlight')}</span>
                     </h1>
                     <p className="text-slate-400 max-w-2xl">
-                        Strategic assessment and risk parameters for <strong className="text-white">{client.full_name}</strong>.
-                        Data entered here fuels the portfolio allocation engine.
+                        {t('description', { name: <strong className="text-white" key="name">{client.full_name}</strong> })}
+                        <br />
+                        {t('engine_note')}
                     </p>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import {
     Save,
     ShieldAlert,
@@ -38,6 +39,8 @@ interface ClientProfileFormProps {
 }
 
 export default function ClientProfileForm({ clientId, initialData }: ClientProfileFormProps) {
+    const t = useTranslations('AdvisoryProfile');
+    const authT = useTranslations('Auth');
     const [isSaving, setIsSaving] = useState(false);
     const [status, setStatus] = useState<{ risk_score?: number, risk_profile?: string } | null>(
         initialData.risk_score ? { risk_score: initialData.risk_score, risk_profile: initialData.risk_profile } : null
@@ -107,17 +110,17 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                 <div className="glass p-6 rounded-xl border border-primary/20 flex items-center justify-between sticky top-20 z-10 bg-background/80 backdrop-blur-md">
                     <div className="flex items-center gap-6">
                         <div className="flex flex-col">
-                            <span className="text-xs text-muted-foreground uppercase tracking-wider font-bold">Current Risk Score</span>
+                            <span className="text-xs text-muted-foreground uppercase tracking-wider font-bold">{t('current_risk_score')}</span>
                             <span className="text-4xl font-black gold-text-gradient">{status.risk_score}</span>
                         </div>
                         <div className="h-10 w-[1px] bg-border mx-2" />
                         <div className="flex flex-col">
-                            <span className="text-xs text-muted-foreground uppercase tracking-wider font-bold">Category</span>
+                            <span className="text-xs text-muted-foreground uppercase tracking-wider font-bold">{t('category')}</span>
                             <span className={clsx(
                                 "px-3 py-1 rounded-full text-sm font-bold border uppercase tracking-tighter mt-1",
                                 getBadgeStyles(status.risk_profile)
                             )}>
-                                {status.risk_profile || 'Unknown'}
+                                {status.risk_profile ? t(`risk_${status.risk_profile}`) : authT('unknown')}
                             </span>
                         </div>
                     </div>
@@ -128,7 +131,7 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                         className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-lg font-bold flex items-center gap-2 shadow-lg transition-all hover:scale-105 disabled:opacity-50"
                     >
                         {isSaving ? <Zap size={18} className="animate-pulse" /> : <Save size={18} />}
-                        Save Profiling
+                        {t('save_profiling')}
                     </button>
                 </div>
             )}
@@ -140,38 +143,38 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                         <div className="p-2 bg-primary/10 rounded-lg">
                             <Zap className="text-primary" size={20} />
                         </div>
-                        <h2 className="text-xl font-bold">Advisory Intent</h2>
+                        <h2 className="text-xl font-bold">{t('advisory_intent')}</h2>
                     </div>
 
                     <div className="space-y-4">
                         <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Primary Purchase Goal</label>
+                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('primary_goal')}</label>
                             <select
                                 name="purchase_goal"
                                 value={formData.purchase_goal}
                                 onChange={handleChange}
                                 className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
                             >
-                                <option value="living">End-User / Living</option>
-                                <option value="investment">Capital Growth</option>
-                                <option value="rental">Rental Yield / Passive Income</option>
+                                <option value="living">{t('goal_living')}</option>
+                                <option value="investment">{t('goal_investment')}</option>
+                                <option value="rental">{t('goal_rental')}</option>
                             </select>
                         </div>
                         <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Target Holding Period</label>
+                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('holding_period')}</label>
                             <select
                                 name="holding_period"
                                 value={formData.holding_period}
                                 onChange={handleChange}
                                 className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
                             >
-                                <option value="under_3_years">Short Term ({"<"} 3 years)</option>
-                                <option value="3_7_years">Medium Term (3 - 7 years)</option>
-                                <option value="7_years_plus">Long Term ({">"} 7 years)</option>
+                                <option value="under_3_years">{t('period_short')}</option>
+                                <option value="3_7_years">{t('period_medium')}</option>
+                                <option value="7_years_plus">{t('period_long')}</option>
                             </select>
                         </div>
                         <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Preferred Locations</label>
+                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('preferred_locations')}</label>
                             <input
                                 name="preferred_locations_input"
                                 type="text"
@@ -215,49 +218,49 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                         <div className="p-2 bg-emerald-500/10 rounded-lg">
                             <Scale className="text-emerald-500" size={20} />
                         </div>
-                        <h2 className="text-xl font-bold">Purchase Parameters</h2>
+                        <h2 className="text-xl font-bold">{t('purchase_parameters')}</h2>
                     </div>
 
                     <div className="space-y-4">
                         <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Allocated Budget Range</label>
+                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('budget_range')}</label>
                             <select
                                 name="budget_range"
                                 value={formData.budget_range}
                                 onChange={handleChange}
                                 className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
                             >
-                                <option value="1_3_billion">1 - 3 Billion VND</option>
-                                <option value="3_5_billion">3 - 5 Billion VND</option>
-                                <option value="5_10_billion">5 - 10 Billion VND</option>
-                                <option value="10_20_billion">10 - 20 Billion VND</option>
-                                <option value="20_billion_plus">Above 20 Billion VND</option>
+                                <option value="1_3_billion">{t('budget_1_3')}</option>
+                                <option value="3_5_billion">{t('budget_3_5')}</option>
+                                <option value="5_10_billion">{t('budget_5_10')}</option>
+                                <option value="10_20_billion">{t('budget_10_20')}</option>
+                                <option value="20_billion_plus">{t('budget_20_plus')}</option>
                             </select>
                         </div>
                         <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Leverage Preference</label>
+                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('leverage_preference')}</label>
                             <select
                                 name="leverage_preference"
                                 value={formData.leverage_preference}
                                 onChange={handleChange}
                                 className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
                             >
-                                <option value="none">Zero Leverage (All Cash)</option>
-                                <option value="moderate">Moderate (30% - 50% LTV)</option>
-                                <option value="high">High Leverage ({">"} 50% LTV)</option>
+                                <option value="none">{t('leverage_none')}</option>
+                                <option value="moderate">{t('leverage_moderate')}</option>
+                                <option value="high">{t('leverage_high')}</option>
                             </select>
                         </div>
                         <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Liquidity Requirement</label>
+                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('liquidity_requirement')}</label>
                             <select
                                 name="liquidity_preference"
                                 value={formData.liquidity_preference}
                                 onChange={handleChange}
                                 className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
                             >
-                                <option value="low">Low (Long-term preservation)</option>
-                                <option value="medium">Medium (Standard real estate exit)</option>
-                                <option value="high">High (Quick secondary market exit)</option>
+                                <option value="low">{t('liquidity_low')}</option>
+                                <option value="medium">{t('liquidity_medium')}</option>
+                                <option value="high">{t('liquidity_high')}</option>
                             </select>
                         </div>
                     </div>
@@ -269,26 +272,26 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                         <div className="p-2 bg-amber-500/10 rounded-lg">
                             <ShieldAlert className="text-amber-500" size={20} />
                         </div>
-                        <h2 className="text-xl font-bold">Advisory Strategy</h2>
+                        <h2 className="text-xl font-bold">{t('advisory_strategy')}</h2>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-4">
                             <div>
-                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Risk Tolerance Grade</label>
+                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('risk_tolerance')}</label>
                                 <select
                                     name="risk_tolerance"
                                     value={formData.risk_tolerance}
                                     onChange={handleChange}
                                     className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
                                 >
-                                    <option value="conservative">Conservative (Capital focus)</option>
-                                    <option value="balanced">Balanced (Growth & Safety)</option>
-                                    <option value="aggressive">Aggressive (Maximum upside)</option>
+                                    <option value="conservative">{t('risk_conservative')}</option>
+                                    <option value="balanced">{t('risk_balanced')}</option>
+                                    <option value="aggressive">{t('risk_aggressive')}</option>
                                 </select>
                             </div>
                             <div>
-                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Target Rental Return (%)</label>
+                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('target_return')}</label>
                                 <input
                                     name="target_annual_return"
                                     type="number"
@@ -299,24 +302,24 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                                 />
                             </div>
                             <div>
-                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Decision Style</label>
+                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('decision_style')}</label>
                                 <select
                                     name="decision_style"
                                     value={formData.decision_style}
                                     onChange={handleChange}
                                     className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
                                 >
-                                    <option value="data_driven">Data Driven Audit</option>
-                                    <option value="emotional">Intuitive / Personal Fit</option>
-                                    <option value="delegative">Delegated to Office</option>
-                                    <option value="control_oriented">Active Oversight</option>
+                                    <option value="data_driven">{t('style_data')}</option>
+                                    <option value="emotional">{t('style_emotional')}</option>
+                                    <option value="delegative">{t('style_delegated')}</option>
+                                    <option value="control_oriented">{t('style_control')}</option>
                                 </select>
                             </div>
                         </div>
 
                         <div className="space-y-6 pt-4">
                             <div>
-                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">Legacy Objectives</label>
+                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('legacy_objectives')}</label>
                                 <div className="space-y-3">
                                     <label className="flex items-center gap-4 cursor-pointer group">
                                         <input
@@ -327,8 +330,8 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                                             className="w-5 h-5 rounded border-white/10 bg-slate-900/50 accent-primary"
                                         />
                                         <div className="flex flex-col">
-                                            <span className="text-sm font-bold group-hover:text-primary transition-colors">Inheritance & Succession</span>
-                                            <span className="text-xs text-muted-foreground">Focus on cross-generational property transfer</span>
+                                            <span className="text-sm font-bold group-hover:text-primary transition-colors">{t('inheritance_title')}</span>
+                                            <span className="text-xs text-muted-foreground">{t('inheritance_desc')}</span>
                                         </div>
                                     </label>
 
@@ -341,8 +344,8 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                                             className="w-5 h-5 rounded border-white/10 bg-slate-900/50 accent-primary"
                                         />
                                         <div className="flex flex-col">
-                                            <span className="text-sm font-bold group-hover:text-primary transition-colors">Cross-Border Interest</span>
-                                            <span className="text-xs text-muted-foreground">Open to international property opportunities</span>
+                                            <span className="text-sm font-bold group-hover:text-primary transition-colors">{t('international_title')}</span>
+                                            <span className="text-xs text-muted-foreground">{t('international_desc')}</span>
                                         </div>
                                     </label>
                                 </div>
@@ -350,14 +353,14 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                             
                             {/* Hidden technical fields for backward compatibility/migrated data storage */}
                             <div className="opacity-40 border-t border-white/5 pt-4">
-                                <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">Institutional Metadata (Audit only)</h3>
+                                <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">{t('metadata_title')}</h3>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="text-[9px] font-bold text-muted-foreground uppercase block mb-1">Annual Revenue (B)</label>
+                                        <label className="text-[9px] font-bold text-muted-foreground uppercase block mb-1">{t('annual_revenue')}</label>
                                         <input name="annual_business_revenue" type="number" value={formData.annual_business_revenue} onChange={handleChange} className="w-full bg-slate-900/80 border border-white/10 rounded p-1 text-xs outline-none" />
                                     </div>
                                     <div>
-                                        <label className="text-[9px] font-bold text-muted-foreground uppercase block mb-1">Debt Index (B)</label>
+                                        <label className="text-[9px] font-bold text-muted-foreground uppercase block mb-1">{t('debt_index')}</label>
                                         <input name="debt_obligations" type="number" value={formData.debt_obligations} onChange={handleChange} className="w-full bg-slate-900/80 border border-white/10 rounded p-1 text-xs outline-none" />
                                     </div>
                                 </div>
@@ -382,7 +385,7 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                         className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-xl font-bold flex items-center gap-2 shadow-xl transition-all hover:scale-105 disabled:opacity-50"
                     >
                         {isSaving ? <Zap size={20} className="animate-pulse" /> : <Save size={20} />}
-                        Save Advisory Profile
+                        {t('save_profiling')}
                     </button>
                 </div>
             )}
