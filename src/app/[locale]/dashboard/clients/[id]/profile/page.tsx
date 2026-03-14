@@ -86,7 +86,7 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
                         {t('title')} <span className="gold-text-gradient">{t('title_highlight')}</span>
                     </h1>
                     <p className="text-slate-400 max-w-2xl">
-                        {t('description', { name: <strong className="text-white" key="name">{client.full_name}</strong> })}
+                        {t('description', { name: client.full_name })}
                         <br />
                         {t('engine_note')}
                     </p>
