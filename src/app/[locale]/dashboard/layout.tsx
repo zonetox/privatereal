@@ -22,13 +22,31 @@ export default async function DashboardLayoutWrapper({
   }
 
   // Fetch role from profiles table
-  const { data: profile } = await supabase
+  let { data: profile } = await supabase
     .from('profiles')
     .select('role')
     .eq('id', user.id)
     .single();
 
-  if (!profile || (profile.role !== 'admin' && profile.role !== 'client')) {
+  // HEAL: If profile doesn't exist yet (DB trigger delay), create one immediately
+  if (!profile) {
+    const { data: newProfile, error: upsertError } = await supabase
+        .from('profiles')
+        .upsert({ 
+            id: user.id, 
+            email: user.email, 
+            role: 'client' 
+        })
+        .select('role')
+        .single();
+    
+    if (!upsertError) {
+        profile = newProfile;
+    }
+  }
+
+  // Final check: if still no profile (serious error), only THEN redirect
+  if (!profile) {
     redirect({ href: '/login', locale });
     return null;
   }
