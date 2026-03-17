@@ -57,6 +57,15 @@ const RISK_BADGE_STYLE: Record<string, string> = {
   aggressive: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
 };
 
+function formatDate(dateStr: string | null, locale: string): string {
+    if (!dateStr) return '—';
+    return new Date(dateStr).toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+    });
+}
+
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage({ params }: DashboardPageProps) {
@@ -173,7 +182,9 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                 <span className={`inline-flex items-center px-2.5 py-0.5 md:px-3 md:py-1 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest border ${RISK_BADGE_STYLE[client.risk_tolerance || 'balanced']}`}>
                   {client.risk_tolerance ? (locale === 'vi' ? t(`AdvisoryProfile.risk_${client.risk_tolerance}`) : client.risk_tolerance) : t('DashboardOverview.risk_analyzing')}
                 </span>
-                <p className="text-[11px] md:text-xs text-slate-500 font-medium italic">{t('DashboardOverview.risk_subtitle')}</p>
+                <p className="text-[11px] md:text-xs text-slate-500 font-medium italic">
+                    {t('DashboardOverview.risk_subtitle', { risk: client.risk_tolerance ? (locale === 'vi' ? t(`AdvisoryProfile.risk_${client.risk_tolerance}`) : client.risk_tolerance) : t('DashboardOverview.risk_analyzing') })}
+                </p>
               </div>
             </div>
             <div className="p-2.5 md:p-3 rounded-xl bg-slate-800/50 text-yellow-600/80 group-hover:text-yellow-500 transition-colors flex-shrink-0">
@@ -182,9 +193,8 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
           </div>
         </div>
 
-        {/* 2. Completeness */}
         <MetricCard
-          title={t('DashboardOverview.completeness_title')}
+          title={completeness < 100 ? t('DashboardOverview.completeness_title') : t('DashboardOverview.advisory_precision_title')}
           value={`${completeness}%`}
           subtitle={completeness < 100 ? t('DashboardOverview.completeness_subtitle_low') : t('DashboardOverview.completeness_subtitle_high')}
           icon={UserCheck}
@@ -194,7 +204,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
         <MetricCard
           title={t('DashboardOverview.active_recommendations_title')}
           value={activeProjectsCount}
-          subtitle={t('DashboardOverview.active_recommendations_subtitle')}
+          subtitle={t('DashboardOverview.active_recommendations_subtitle', { count: activeProjectsCount })}
           icon={Sparkles}
         />
 
@@ -217,8 +227,8 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
         {/* 6. Latest Acquisition */}
         <MetricCard
           title={t('DashboardOverview.latest_acquisition_title')}
-          value={latestPurchase ? new Date(latestPurchase).toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
-          subtitle={t('DashboardOverview.latest_acquisition_subtitle')}
+          value={latestPurchase ? formatDate(latestPurchase, locale) : '—'}
+          subtitle={latestPurchase ? t('DashboardOverview.latest_acquisition_subtitle_exists') : t('DashboardOverview.latest_acquisition_subtitle_none')}
           icon={TrendingUp}
         />
       </div>
