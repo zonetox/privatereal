@@ -169,91 +169,75 @@ export default async function ProjectComparison({ searchParams, params }: Compar
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
-                            {/* Project Overview Group */}
-                            <ComparisonRow 
-                                label={t('overview')} 
-                                icon={Building2} 
-                                projects={projects}
-                                render={p => (
-                                    <div className="space-y-4">
-                                        <MetricValue label={t('price_from')} value={p.min_unit_price ? formatter.format(p.min_unit_price) : commonT('contact')} color="text-emerald-400" />
-                                        <MetricValue label={t('developer')} value={p.developer || '—'} />
-                                        <MetricValue label={t('location')} value={p.location} />
-                                    </div>
-                                )}
-                            />
-
-                            {/* Strategic Fit Group */}
-                            <tr>
-                                <td className="sticky left-0 bg-slate-950/95 backdrop-blur-md z-20 py-6 md:py-8 px-4 md:px-6 font-black text-[8px] md:text-[11px] uppercase tracking-widest text-slate-400 flex items-center gap-2">
-                                    <Activity size={10} className="md:w-3.5 md:h-3.5 text-yellow-600" /> {t('strategic_fit')}
+                            {/* 1. Core Metadata Row Group */}
+                            <tr className="bg-white/[0.02]">
+                                <td className="sticky left-0 bg-slate-950/95 backdrop-blur-md z-20 py-4 px-6 border-b border-white/5">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{t('overview')}</span>
                                 </td>
                                 {projects.map(p => (
-                                    <td key={p.id} className="py-6 md:py-8 px-4 md:px-6 bg-white/[0.01]">
-                                        <div className="scale-90 md:scale-100 origin-center">
-                                            <StrategicFitGauge 
-                                                fitScore={p.fit_score} 
-                                                fitLabel={p.fit_label}
-                                                budgetAlignment={p.budget_alignment}
-                                                riskAlignment={p.risk_alignment}
-                                                horizonAlignment={p.horizon_alignment}
-                                                locationAlignment={p.location_alignment}
-                                                goalAlignment={p.goal_alignment}
-                                            />
-                                        </div>
-                                    </td>
+                                    <td key={p.id} className="p-0 border-b border-white/5 bg-transparent" />
+                                ))}
+                            </tr>
+                            
+                            <MetricRow label={t('developer')} projects={projects} value={p => p.developer || '—'} />
+                            <MetricRow label={t('location')} projects={projects} value={p => p.location} />
+                            <MetricRow 
+                                label={t('price_from')} 
+                                projects={projects} 
+                                value={p => p.min_unit_price ? formatter.format(p.min_unit_price) : commonT('contact')}
+                                color="text-emerald-400"
+                            />
+
+                            {/* 2. Fit & Scores Group */}
+                            <tr className="bg-white/[0.02]">
+                                <td className="sticky left-0 bg-slate-950/95 backdrop-blur-md z-20 py-4 px-6 border-b border-white/5">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-yellow-600">{t('strategic_fit')}</span>
+                                </td>
+                                {projects.map(p => (
+                                    <td key={p.id} className="p-0 border-b border-white/5 bg-transparent" />
                                 ))}
                             </tr>
 
-                            {/* Expert Analysis Group */}
-                            <ComparisonRow 
-                                label={t('expert_analysis')} 
-                                icon={Target} 
-                                projects={projects}
+                            <MetricRow 
+                                label={t('metric_alignment')} 
+                                projects={projects} 
                                 render={p => (
-                                    <div className="space-y-4">
-                                        <MetricValue label={t('location_score')} value={p.location_score ? `${p.location_score} / 100` : '—'} />
-                                        <MetricValue label={t('liquidity_score')} value={p.liquidity_score ? `${p.liquidity_score} / 100` : '—'} />
-                                        <MetricValue label={t('growth_score')} value={p.growth_score ? `${p.growth_score} / 100` : '—'} />
-                                        <MetricValue label={t('legal_score')} value={p.legal_score ? `${p.legal_score} / 100` : '—'} />
-                                    </div>
-                                )}
-                            />
-
-                            {/* Market Dynamics Group */}
-                            <ComparisonRow 
-                                label={t('market_context')} 
-                                icon={Coins} 
-                                projects={projects}
-                                render={p => (
-                                    <div className="space-y-4">
-                                        <MetricValue label={t('price_per_m2')} value={p.price_per_m2 ? formatter.format(p.price_per_m2) : '—'} />
-                                        <MetricValue label={t('yield')} value={p.avg_rental_yield ? `${p.avg_rental_yield}%` : '—'} />
-                                        <MetricValue label={t('expected_growth')} value={p.expected_growth_rate ? `${p.expected_growth_rate}%` : '—'} color="text-emerald-400" />
-                                    </div>
-                                )}
-                            />
-
-                            {/* Risk Review Group */}
-                            <ComparisonRow 
-                                label={t('risk_review')} 
-                                icon={ShieldCheck} 
-                                projects={projects}
-                                render={p => (
-                                    <div className="space-y-4">
-                                        <MetricValue label={t('risk_score')} value={p.risk_score ? `${p.risk_score} / 100` : '—'} />
-                                        <div className="pt-2">
-                                            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                                                <div 
-                                                    className={`h-full transition-all duration-1000 ${
-                                                        (p.risk_score || 0) < 30 ? 'bg-emerald-500' : (p.risk_score || 0) < 60 ? 'bg-yellow-500' : 'bg-rose-500'
-                                                    }`}
-                                                    style={{ width: `${p.risk_score}%` }}
-                                                />
-                                            </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center text-[10px] font-black ${
+                                            (p.fit_score || 0) > 75 ? 'border-emerald-500 text-emerald-500 bg-emerald-500/10' : 
+                                            (p.fit_score || 0) > 50 ? 'border-yellow-500 text-yellow-500 bg-yellow-500/10' : 'border-slate-700 text-slate-500 bg-slate-900'
+                                        }`}>
+                                            {p.fit_score}%
                                         </div>
+                                        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-300">{p.fit_label}</span>
                                     </div>
-                                )}
+                                )} 
+                            />
+
+                            <MetricRow 
+                                label={t('location_score')} 
+                                projects={projects} 
+                                render={p => <ScoreBar value={p.location_score} />} 
+                            />
+                            <MetricRow 
+                                label={t('liquidity_score')} 
+                                projects={projects} 
+                                render={p => <ScoreBar value={p.liquidity_score} />} 
+                            />
+                            <MetricRow 
+                                label={t('growth_score')} 
+                                projects={projects} 
+                                render={p => <ScoreBar value={p.growth_score} color="emerald" />} 
+                            />
+                            <MetricRow 
+                                label={t('legal_score')} 
+                                projects={projects} 
+                                render={p => <ScoreBar value={p.legal_score} color="sky" />} 
+                            />
+                            <MetricRow 
+                                label={t('risk_score')} 
+                                projects={projects} 
+                                render={p => <ScoreBar value={p.risk_score} color="rose" inverse />} 
                             />
                         </tbody>
                     </table>
@@ -263,36 +247,56 @@ export default async function ProjectComparison({ searchParams, params }: Compar
     );
 }
 
-function ComparisonRow({ label, icon: Icon, projects, render }: { 
+function MetricRow({ label, projects, value, render, color = "text-slate-100" }: { 
     label: string, 
-    icon: React.ElementType, 
     projects: ProjectComparisonData[], 
-    render: (p: ProjectComparisonData) => React.ReactNode 
+    value?: (p: ProjectComparisonData) => string | number,
+    render?: (p: ProjectComparisonData) => React.ReactNode,
+    color?: string
 }) {
     return (
-        <tr className="group hover:bg-white/[0.02] transition-all">
-            <td className="sticky left-0 bg-slate-950/90 backdrop-blur-md z-20 py-8 md:py-10 px-4 md:px-6 align-top">
-                <div className="flex items-center gap-2 md:gap-3">
-                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 flex-shrink-0">
-                        <Icon size={12} className="md:w-3.5 md:h-3.5" />
-                    </div>
-                    <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-slate-300 transition-colors">{label}</span>
-                </div>
+        <tr className="group hover:bg-white/[0.01] transition-all">
+            <td className="sticky left-0 bg-slate-950/95 backdrop-blur-md z-20 py-4 px-6 align-top">
+                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-600 group-hover:text-slate-400 transition-colors">{label}</span>
             </td>
             {projects.map(p => (
-                <td key={p.id} className="py-10 px-6 border-l border-white/5">
-                    {render(p)}
+                <td key={p.id} className="py-4 px-6 border-l border-white/5">
+                    {render ? render(p) : (
+                        <span className={`text-xs font-black italic ${color}`}>{value ? value(p) : '—'}</span>
+                    )}
                 </td>
             ))}
         </tr>
     );
 }
 
-function MetricValue({ label, value, color = "text-slate-300" }: { label: string, value: string | number, color?: string }) {
+function ScoreBar({ value, color = "yellow", inverse = false }: { value: number | null, color?: string, inverse?: boolean }) {
+    if (value === null) return <span className="text-slate-700 text-[10px] font-bold">N/A</span>;
+    
+    const colors: Record<string, string> = {
+        yellow: 'bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.3)]',
+        emerald: 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]',
+        sky: 'bg-sky-500 shadow-[0_0_10px_rgba(14,165,233,0.3)]',
+        rose: 'bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.3)]'
+    };
+
+    // For risk, higher is worse (unless we consider risk score as safety)
+    // PREIO Risk Score standard: higher is MORE risk. 
+    const displayColor = inverse 
+        ? (value > 70 ? colors.rose : value > 40 ? colors.yellow : colors.emerald)
+        : (value > 70 ? colors.emerald : value > 40 ? colors.yellow : colors.rose);
+
     return (
-        <div className="flex items-center justify-between">
-            <span className="text-[9px] font-bold uppercase tracking-widest text-slate-600">{label}</span>
-            <span className={`text-xs font-black italic ${color}`}>{value}</span>
+        <div className="space-y-2">
+            <div className="flex items-center justify-between gap-4">
+                <span className="text-[11px] font-black italic text-slate-300">{value}</span>
+                <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden max-w-[80px]">
+                    <div 
+                        className={`h-full transition-all duration-1000 ${displayColor}`}
+                        style={{ width: `${value}%` }}
+                    />
+                </div>
+            </div>
         </div>
     );
 }
