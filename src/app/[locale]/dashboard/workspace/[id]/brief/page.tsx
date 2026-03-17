@@ -30,9 +30,12 @@ export default async function ProjectBriefPage({ params }: BriefPageProps) {
 
     // 1. Auth & Client Identification
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect({ href: '/login', locale });
+    if (!user) {
+        redirect({ href: '/login', locale });
+        return null;
+    }
 
-    const { data: clientRecord } = await supabase.from('clients').select('*').eq('user_id', user.id).single();
+    const { data: clientRecord } = await supabase.from('clients').select('*').eq('user_id', (user as any).id).single();
     if (!clientRecord) return null;
     const clientId = clientRecord.id;
 
