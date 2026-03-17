@@ -4,21 +4,24 @@ import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 
 interface ClientProfileData {
+    full_name?: string;
+    phone?: string;
+    email?: string;
     liquid_capital?: number;
     annual_business_revenue?: number;
     debt_obligations?: number;
     real_estate_allocation_percent?: number;
     budget_range?: string;
     
-    max_drawdown_percent: string | number;
-    liquidity_preference: string;
-    crash_reaction: string;
-    leverage_preference: string;
+    max_drawdown_percent?: string | number;
+    liquidity_preference?: string;
+    crash_reaction?: string;
+    leverage_preference?: string;
     investment_horizon?: string;
     target_annual_return?: number;
     succession_planning?: boolean;
     international_exposure_interest?: boolean;
-    decision_style: string;
+    decision_style?: string;
     
     purchase_goal?: string;
     preferred_locations?: string[];
@@ -71,6 +74,8 @@ export async function updateClientProfileAction(clientId: string, data: ClientPr
     if (isAdmin) {
         // Admins can update everything
         updateData = {
+            full_name: data.full_name,
+            phone: data.phone,
             liquid_capital: data.liquid_capital || 0,
             annual_business_revenue: data.annual_business_revenue || 0,
             debt_obligations: data.debt_obligations || 0,
@@ -96,8 +101,10 @@ export async function updateClientProfileAction(clientId: string, data: ClientPr
             internal_tags: data.internal_tags
         };
     } else {
-        // Clients can only update specific advisory fields as requested
+        // Clients can update their own personal info and specific advisory fields
         updateData = {
+            full_name: data.full_name,
+            phone: data.phone,
             purchase_goal: data.purchase_goal,
             budget_range: data.budget_range,
             preferred_locations: data.preferred_locations,

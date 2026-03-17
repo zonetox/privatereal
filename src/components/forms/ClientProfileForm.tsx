@@ -6,7 +6,10 @@ import {
     Save,
     ShieldAlert,
     Zap,
-    Scale
+    Scale,
+    Target,
+    MapPin,
+    Clock
 } from 'lucide-react';
 import { updateClientProfileAction } from '@/app/actions/client-profile';
 import { clsx } from 'clsx';
@@ -14,6 +17,9 @@ import { clsx } from 'clsx';
 interface ClientProfileFormProps {
     clientId: string;
     initialData: {
+        full_name?: string;
+        phone?: string;
+        email?: string;
         risk_score?: number;
         risk_profile?: string;
         liquid_capital?: number;
@@ -48,6 +54,10 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
     const [error, setError] = useState<string | null>(null);
 
     const [formData, setFormData] = useState({
+        full_name: initialData.full_name || '',
+        phone: initialData.phone || '',
+        email: initialData.email || '',
+        
         liquid_capital: initialData.liquid_capital || 0,
         annual_business_revenue: initialData.annual_business_revenue || 0,
         debt_obligations: initialData.debt_obligations || 0,
@@ -89,96 +99,158 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
         setIsSaving(false);
         if (result.success) {
             setStatus({ risk_score: result.risk_score, risk_profile: result.risk_profile });
+            // In a real app, you might want to show a success toast here
         } else {
             setError(result.error || 'Failed to save');
         }
     };
 
-    const getBadgeStyles = (profile?: string) => {
-        switch (profile) {
-            case 'conservative': return 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20';
-            case 'balanced': return 'bg-amber-500/10 text-amber-500 border-amber-500/20';
-            case 'aggressive': return 'bg-rose-500/10 text-rose-500 border-rose-500/20';
-            default: return 'bg-slate-500/10 text-slate-500 border-slate-500/20';
-        }
-    };
-
     return (
-        <form onSubmit={handleSubmit} className="space-y-8 pb-20">
-            {/* Header / Score Display */}
-            {status && (
-                <div className="glass p-6 rounded-xl border border-primary/20 flex items-center justify-between sticky top-20 z-10 bg-background/80 backdrop-blur-md">
-                    <div className="flex items-center gap-6">
-                        <div className="flex flex-col">
-                            <span className="text-xs text-muted-foreground uppercase tracking-wider font-bold">{t('current_risk_score')}</span>
-                            <span className="text-4xl font-black gold-text-gradient">{status.risk_score}</span>
+        <form onSubmit={handleSubmit} className="space-y-12 pb-32 max-w-5xl mx-auto">
+            
+            {/* STICKY HEADER — ACTIONS & SUMMARY */}
+            <div className="sticky top-20 z-30 bg-background/60 backdrop-blur-xl border-b border-white/5 py-4 -mx-4 px-4 flex items-center justify-between">
+                <div className="flex items-center gap-8">
+                    {status && (
+                        <div className="flex items-center gap-6">
+                            <div className="flex flex-col">
+                                <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest">{t('current_risk_score')}</span>
+                                <span className="text-3xl font-black text-slate-100 tabular-nums">{status.risk_score}</span>
+                            </div>
+                            <div className="h-8 w-px bg-white/10" />
+                            <div className="flex flex-col">
+                                <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest">{t('category')}</span>
+                                <span className="text-sm font-bold text-yellow-500 uppercase tracking-tighter">
+                                    {status.risk_profile ? t(`risk_${status.risk_profile}`) : authT('unknown')}
+                                </span>
+                            </div>
                         </div>
-                        <div className="h-10 w-[1px] bg-border mx-2" />
-                        <div className="flex flex-col">
-                            <span className="text-xs text-muted-foreground uppercase tracking-wider font-bold">{t('category')}</span>
-                            <span className={clsx(
-                                "px-3 py-1 rounded-full text-sm font-bold border uppercase tracking-tighter mt-1",
-                                getBadgeStyles(status.risk_profile)
-                            )}>
-                                {status.risk_profile ? t(`risk_${status.risk_profile}`) : authT('unknown')}
-                            </span>
-                        </div>
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={isSaving}
-                        className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-lg font-bold flex items-center gap-2 shadow-lg transition-all hover:scale-105 disabled:opacity-50"
-                    >
-                        {isSaving ? <Zap size={18} className="animate-pulse" /> : <Save size={18} />}
-                        {t('save_profiling')}
-                    </button>
+                    )}
                 </div>
-            )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Section 1: Advisory Intent */}
-                <div className="glass p-8 rounded-2xl border border-white/5 space-y-6">
-                    <div className="flex items-center gap-3 mb-2">
-                        <div className="p-2 bg-primary/10 rounded-lg">
-                            <Zap className="text-primary" size={20} />
+                <button
+                    type="submit"
+                    disabled={isSaving}
+                    className="bg-slate-100 hover:bg-white text-slate-900 px-8 py-3 rounded-full font-black text-xs uppercase tracking-widest flex items-center gap-3 transition-all active:scale-95 disabled:opacity-50 shadow-2xl shadow-white/5"
+                >
+                    {isSaving ? <Zap size={14} className="animate-pulse" /> : <Save size={14} />}
+                    {t('save_profiling')}
+                </button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-12">
+                
+                {/* 1. PERSONAL INFO SECTION */}
+                <div className="space-y-6">
+                    <div className="flex items-center gap-4">
+                        <div className="h-px flex-1 bg-white/5" />
+                        <h2 className="text-[11px] font-black uppercase tracking-[0.4em] text-slate-600">{t('personal_info')}</h2>
+                        <div className="h-px flex-1 bg-white/5" />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="space-y-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block">{t('full_name')}</label>
+                            <input
+                                name="full_name"
+                                value={formData.full_name}
+                                onChange={handleChange}
+                                placeholder="e.g. Nguyễn Văn A"
+                                className="w-full bg-slate-950/50 border border-white/5 rounded-xl p-4 text-sm font-medium outline-none focus:border-white/20 transition-all text-slate-200"
+                            />
                         </div>
-                        <h2 className="text-xl font-bold">{t('advisory_intent')}</h2>
+                        <div className="space-y-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block">{t('email')}</label>
+                            <input
+                                name="email"
+                                value={formData.email}
+                                readOnly
+                                className="w-full bg-slate-950/20 border border-white/5 rounded-xl p-4 text-sm font-medium outline-none text-slate-500 cursor-not-allowed"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block">{t('phone')}</label>
+                            <input
+                                name="phone"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                placeholder="e.g. 0901234567"
+                                className="w-full bg-slate-950/50 border border-white/5 rounded-xl p-4 text-sm font-medium outline-none focus:border-white/20 transition-all text-slate-200"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* ADVISORY CORE GRID (2x2) */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    
+                    {/* 2. PURCHASE GOAL */}
+                    <div className="bg-slate-950/20 p-8 rounded-[2rem] border border-white/5 space-y-6">
+                        <div className="flex items-center gap-3">
+                            <Target size={18} className="text-sky-500" />
+                            <h3 className="text-sm font-black uppercase tracking-widest text-slate-200">{t('primary_goal')}</h3>
+                        </div>
+                        <div className="grid grid-cols-1 gap-3">
+                            {['living', 'investment', 'rental'].map((goal) => (
+                                <label 
+                                    key={goal}
+                                    className={clsx(
+                                        "flex items-center justify-between p-4 rounded-2xl border transition-all cursor-pointer group",
+                                        formData.purchase_goal === goal 
+                                            ? "bg-sky-500/10 border-sky-500/30 text-sky-400" 
+                                            : "bg-slate-900/40 border-white/5 text-slate-500 hover:border-white/10"
+                                    )}
+                                >
+                                    <span className="text-xs font-bold uppercase tracking-widest">{t(`goal_${goal}`)}</span>
+                                    <input
+                                        type="radio"
+                                        name="purchase_goal"
+                                        value={goal}
+                                        checked={formData.purchase_goal === goal}
+                                        onChange={handleChange}
+                                        className="hidden"
+                                    />
+                                    {formData.purchase_goal === goal && <div className="w-2 h-2 rounded-full bg-sky-500 shadow-[0_0_10px_rgba(14,165,233,0.5)]" />}
+                                </label>
+                            ))}
+                        </div>
                     </div>
 
-                    <div className="space-y-4">
-                        <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('primary_goal')}</label>
-                            <select
-                                name="purchase_goal"
-                                value={formData.purchase_goal}
-                                onChange={handleChange}
-                                className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
-                            >
-                                <option value="living">{t('goal_living')}</option>
-                                <option value="investment">{t('goal_investment')}</option>
-                                <option value="rental">{t('goal_rental')}</option>
-                            </select>
+                    {/* 3. BUDGET RANGE */}
+                    <div className="bg-slate-950/20 p-8 rounded-[2rem] border border-white/5 space-y-6">
+                        <div className="flex items-center gap-3">
+                            <Scale size={18} className="text-emerald-500" />
+                            <h3 className="text-sm font-black uppercase tracking-widest text-slate-200">{t('budget_range')}</h3>
                         </div>
-                        <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('holding_period')}</label>
+                        <div className="space-y-4">
                             <select
-                                name="holding_period"
-                                value={formData.holding_period}
+                                name="budget_range"
+                                value={formData.budget_range}
                                 onChange={handleChange}
-                                className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
+                                className="w-full bg-slate-900/60 border border-white/10 rounded-2xl p-4 outline-none focus:border-emerald-500/50 transition-all text-slate-300 font-bold uppercase tracking-widest text-[10px]"
                             >
-                                <option value="under_3_years">{t('period_short')}</option>
-                                <option value="3_7_years">{t('period_medium')}</option>
-                                <option value="7_years_plus">{t('period_long')}</option>
+                                <option value="1_3_billion">{t('budget_1_3')}</option>
+                                <option value="3_5_billion">{t('budget_3_5')}</option>
+                                <option value="5_10_billion">{t('budget_5_10')}</option>
+                                <option value="10_20_billion">{t('budget_10_20')}</option>
+                                <option value="20_billion_plus">{t('budget_20_plus')}</option>
                             </select>
+                            <p className="text-[10px] text-slate-500 leading-relaxed font-medium uppercase tracking-[0.1em]">
+                                Hạn mức ngân sách ảnh hưởng trực tiếp đến bộ lọc dự án và khả năng khớp lệnh tổ chức (Strategic Alignment).
+                            </p>
                         </div>
-                        <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('preferred_locations')}</label>
+                    </div>
+
+                    {/* 4. PREFERRED LOCATION */}
+                    <div className="bg-slate-950/20 p-8 rounded-[2rem] border border-white/5 space-y-6">
+                        <div className="flex items-center gap-3">
+                            <MapPin size={18} className="text-yellow-500" />
+                            <h3 className="text-sm font-black uppercase tracking-widest text-slate-200">{t('preferred_locations')}</h3>
+                        </div>
+                        <div className="space-y-4">
                             <input
-                                name="preferred_locations_input"
+                                name="location_input"
                                 type="text"
-                                placeholder="e.g. District 1, District 2, Thao Dien"
+                                placeholder="Nhập Quận/Khu vực và nhấn Enter..."
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') {
                                         e.preventDefault();
@@ -192,201 +264,118 @@ export default function ClientProfileForm({ clientId, initialData }: ClientProfi
                                         }
                                     }
                                 }}
-                                className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
+                                className="w-full bg-slate-900/60 border border-white/10 rounded-2xl p-4 text-xs font-medium outline-none focus:border-yellow-500/50 transition-all text-slate-300"
                             />
-                            <div className="flex flex-wrap gap-2 mt-3">
+                            <div className="flex flex-wrap gap-2">
                                 {formData.preferred_locations.map(loc => (
-                                    <span key={loc} className="bg-primary/20 text-primary-foreground text-[10px] font-bold px-2 py-1 rounded-md flex items-center gap-1 group">
+                                    <span key={loc} className="bg-yellow-500/10 text-yellow-500 text-[10px] font-black px-4 py-2 rounded-full flex items-center gap-2 border border-yellow-500/20 group">
                                         {loc}
                                         <button 
                                             type="button"
                                             onClick={() => setFormData(prev => ({ ...prev, preferred_locations: prev.preferred_locations.filter(l => l !== loc) }))}
-                                            className="hover:text-white"
+                                            className="hover:text-white transition-colors"
                                         >
                                             ×
                                         </button>
                                     </span>
                                 ))}
+                                {formData.preferred_locations.length === 0 && (
+                                    <p className="text-[10px] text-slate-600 font-medium italic">Chưa chọn khu vực ưu tiên...</p>
+                                )}
                             </div>
                         </div>
                     </div>
-                </div>
 
-                {/* Section 2: Purchase Parameters */}
-                <div className="glass p-8 rounded-2xl border border-white/5 space-y-6">
-                    <div className="flex items-center gap-3 mb-2">
-                        <div className="p-2 bg-emerald-500/10 rounded-lg">
-                            <Scale className="text-emerald-500" size={20} />
+                    {/* 5. HOLDING PERIOD */}
+                    <div className="bg-slate-950/20 p-8 rounded-[2rem] border border-white/5 space-y-6">
+                        <div className="flex items-center gap-3">
+                            <Clock size={18} className="text-indigo-500" />
+                            <h3 className="text-sm font-black uppercase tracking-widest text-slate-200">{t('holding_period')}</h3>
                         </div>
-                        <h2 className="text-xl font-bold">{t('purchase_parameters')}</h2>
-                    </div>
-
-                    <div className="space-y-4">
-                        <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('budget_range')}</label>
-                            <select
-                                name="budget_range"
-                                value={formData.budget_range}
-                                onChange={handleChange}
-                                className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
-                            >
-                                <option value="1_3_billion">{t('budget_1_3')}</option>
-                                <option value="3_5_billion">{t('budget_3_5')}</option>
-                                <option value="5_10_billion">{t('budget_5_10')}</option>
-                                <option value="10_20_billion">{t('budget_10_20')}</option>
-                                <option value="20_billion_plus">{t('budget_20_plus')}</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('leverage_preference')}</label>
-                            <select
-                                name="leverage_preference"
-                                value={formData.leverage_preference}
-                                onChange={handleChange}
-                                className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
-                            >
-                                <option value="none">{t('leverage_none')}</option>
-                                <option value="moderate">{t('leverage_moderate')}</option>
-                                <option value="high">{t('leverage_high')}</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('liquidity_requirement')}</label>
-                            <select
-                                name="liquidity_preference"
-                                value={formData.liquidity_preference}
-                                onChange={handleChange}
-                                className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
-                            >
-                                <option value="low">{t('liquidity_low')}</option>
-                                <option value="medium">{t('liquidity_medium')}</option>
-                                <option value="high">{t('liquidity_high')}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Section 3: Advisory Strategy */}
-                <div className="glass p-8 rounded-2xl border border-white/5 space-y-6 md:col-span-2">
-                    <div className="flex items-center gap-3 mb-2">
-                        <div className="p-2 bg-amber-500/10 rounded-lg">
-                            <ShieldAlert className="text-amber-500" size={20} />
-                        </div>
-                        <h2 className="text-xl font-bold">{t('advisory_strategy')}</h2>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="space-y-4">
-                            <div>
-                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('risk_tolerance')}</label>
-                                <select
-                                    name="risk_tolerance"
-                                    value={formData.risk_tolerance}
-                                    onChange={handleChange}
-                                    className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
+                        <div className="grid grid-cols-1 gap-3">
+                            {['under_3_years', '3_7_years', '7_years_plus'].map((period) => (
+                                <label 
+                                    key={period}
+                                    className={clsx(
+                                        "flex items-center justify-between p-4 rounded-2xl border transition-all cursor-pointer group",
+                                        formData.holding_period === period 
+                                            ? "bg-indigo-500/10 border-indigo-500/30 text-indigo-400" 
+                                            : "bg-slate-900/40 border-white/5 text-slate-500 hover:border-white/10"
+                                    )}
                                 >
-                                    <option value="conservative">{t('risk_conservative')}</option>
-                                    <option value="balanced">{t('risk_balanced')}</option>
-                                    <option value="aggressive">{t('risk_aggressive')}</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('target_return')}</label>
+                                    <span className="text-xs font-bold uppercase tracking-widest">{t(`period_${period.includes('under') ? 'short' : period.includes('3_7') ? 'medium' : 'long'}`)}</span>
+                                    <input
+                                        type="radio"
+                                        name="holding_period"
+                                        value={period}
+                                        checked={formData.holding_period === period}
+                                        onChange={handleChange}
+                                        className="hidden"
+                                    />
+                                    {formData.holding_period === period && <div className="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]" />}
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+
+                </div>
+
+                {/* 6. RISK TOLERANCE SECTION (Full Width) */}
+                <div className="space-y-8 pt-8 border-t border-white/5">
+                    <div className="flex items-center gap-4">
+                        <ShieldAlert size={18} className="text-rose-500" />
+                        <h3 className="text-sm font-black uppercase tracking-widest text-slate-200">{t('risk_tolerance')}</h3>
+                        <div className="h-px flex-1 bg-white/5" />
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {['conservative', 'balanced', 'aggressive'].map((risk) => (
+                            <label 
+                                key={risk}
+                                className={clsx(
+                                    "relative p-8 rounded-[2rem] border transition-all cursor-pointer group flex flex-col gap-4 overflow-hidden",
+                                    formData.risk_tolerance === risk 
+                                        ? "bg-rose-500/10 border-rose-500/30 ring-1 ring-rose-500/20" 
+                                        : "bg-slate-900/20 border-white/5 hover:border-white/10"
+                                )}
+                            >
+                                <div className="z-10 space-y-2">
+                                    <h4 className={clsx(
+                                        "text-xs font-black uppercase tracking-[0.2em]",
+                                        formData.risk_tolerance === risk ? "text-rose-400" : "text-slate-400"
+                                    )}>
+                                        {t(`risk_${risk}`)}
+                                    </h4>
+                                    <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
+                                        {risk === 'conservative' && "Ưu tiên bảo toàn vốn tuyệt đối, chấp nhận lợi nhuận thấp để đổi lấy an toàn."}
+                                        {risk === 'balanced' && "Cân bằng giữa tăng trưởng và an toàn, sẵn sàng chấp nhận biến động nhẹ."}
+                                        {risk === 'aggressive' && "Tối ưu hóa lợi nhuận, sẵn sàng tiếp cận các dự án rủi ro cao để đột phá."}
+                                    </p>
+                                </div>
                                 <input
-                                    name="target_annual_return"
-                                    type="number"
-                                    step="0.1"
-                                    value={formData.target_annual_return}
+                                    type="radio"
+                                    name="risk_tolerance"
+                                    value={risk}
+                                    checked={formData.risk_tolerance === risk}
                                     onChange={handleChange}
-                                    className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
+                                    className="hidden"
                                 />
-                            </div>
-                            <div>
-                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('decision_style')}</label>
-                                <select
-                                    name="decision_style"
-                                    value={formData.decision_style}
-                                    onChange={handleChange}
-                                    className="w-full bg-slate-900/50 border border-white/10 rounded-lg p-3 outline-none focus:border-primary/50 transition-colors"
-                                >
-                                    <option value="data_driven">{t('style_data')}</option>
-                                    <option value="emotional">{t('style_emotional')}</option>
-                                    <option value="delegative">{t('style_delegated')}</option>
-                                    <option value="control_oriented">{t('style_control')}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="space-y-6 pt-4">
-                            <div>
-                                <label className="text-xs font-bold text-muted-foreground uppercase mb-2 block">{t('legacy_objectives')}</label>
-                                <div className="space-y-3">
-                                    <label className="flex items-center gap-4 cursor-pointer group">
-                                        <input
-                                            name="succession_planning"
-                                            type="checkbox"
-                                            checked={formData.succession_planning}
-                                            onChange={handleChange}
-                                            className="w-5 h-5 rounded border-white/10 bg-slate-900/50 accent-primary"
-                                        />
-                                        <div className="flex flex-col">
-                                            <span className="text-sm font-bold group-hover:text-primary transition-colors">{t('inheritance_title')}</span>
-                                            <span className="text-xs text-muted-foreground">{t('inheritance_desc')}</span>
-                                        </div>
-                                    </label>
-
-                                    <label className="flex items-center gap-4 cursor-pointer group">
-                                        <input
-                                            name="international_exposure_interest"
-                                            type="checkbox"
-                                            checked={formData.international_exposure_interest}
-                                            onChange={handleChange}
-                                            className="w-5 h-5 rounded border-white/10 bg-slate-900/50 accent-primary"
-                                        />
-                                        <div className="flex flex-col">
-                                            <span className="text-sm font-bold group-hover:text-primary transition-colors">{t('international_title')}</span>
-                                            <span className="text-xs text-muted-foreground">{t('international_desc')}</span>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            {/* Hidden technical fields for backward compatibility/migrated data storage */}
-                            <div className="opacity-40 border-t border-white/5 pt-4">
-                                <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">{t('metadata_title')}</h3>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="text-[9px] font-bold text-muted-foreground uppercase block mb-1">{t('annual_revenue')}</label>
-                                        <input name="annual_business_revenue" type="number" value={formData.annual_business_revenue} onChange={handleChange} className="w-full bg-slate-900/80 border border-white/10 rounded p-1 text-xs outline-none" />
+                                {formData.risk_tolerance === risk && (
+                                    <div className="absolute top-4 right-4 text-rose-500">
+                                        <Zap size={16} fill="currentColor" />
                                     </div>
-                                    <div>
-                                        <label className="text-[9px] font-bold text-muted-foreground uppercase block mb-1">{t('debt_index')}</label>
-                                        <input name="debt_obligations" type="number" value={formData.debt_obligations} onChange={handleChange} className="w-full bg-slate-900/80 border border-white/10 rounded p-1 text-xs outline-none" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                )}
+                            </label>
+                        ))}
                     </div>
                 </div>
+
             </div>
 
             {error && (
-                <div className="p-4 bg-destructive/10 border border-destructive/20 text-destructive rounded-lg flex items-center gap-3">
+                <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-500 rounded-2xl flex items-center gap-3 animate-in fade-in zoom-in duration-300">
                     <ShieldAlert size={18} />
-                    <span className="text-sm font-semibold">{error}</span>
-                </div>
-            )}
-
-            {!status && (
-                <div className="flex justify-end">
-                    <button
-                        type="submit"
-                        disabled={isSaving}
-                        className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-xl font-bold flex items-center gap-2 shadow-xl transition-all hover:scale-105 disabled:opacity-50"
-                    >
-                        {isSaving ? <Zap size={20} className="animate-pulse" /> : <Save size={20} />}
-                        {t('save_profiling')}
-                    </button>
+                    <span className="text-xs font-black uppercase tracking-widest">{error}</span>
                 </div>
             )}
         </form>

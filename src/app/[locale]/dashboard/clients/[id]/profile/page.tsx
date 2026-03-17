@@ -39,7 +39,7 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
     // 2. Fetch Client Data (Aggregated from Domain Tables)
     const { data: clientBase, error } = await supabase
         .from('clients')
-        .select('*')
+        .select('*, profiles(email)')
         .eq('id', params.id)
         .single();
 
@@ -54,6 +54,7 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
     // Reconstruct full client object for the form
     const client = {
         ...clientBase,
+        email: (clientBase as any)?.profiles?.email || '',
         ...financials,
         ...preferences,
         ...priorities
