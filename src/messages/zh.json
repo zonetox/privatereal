@@ -72,8 +72,18 @@
     "Auth": {
         "welcome": "欢迎回来",
         "signIn": "登录",
+        "signUp": "注册档案",
         "email": "邮箱",
-        "password": "密码"
+        "password": "密码",
+        "confirmPassword": "确认密码",
+        "fullName": "姓名",
+        "noAccount": "还没有账号？",
+        "hasAccount": "已有账号？",
+        "registerTitle": "创建合伙人档案",
+        "registerSubtitle": "加入精英定制房地产咨询网络。",
+        "creatingAccount": "正在创建档案...",
+        "successRegister": "注册成功。请验证您的电子邮箱。",
+        "backToLogin": "返回登录"
     },
     "HomePage": {
         "hero": {
