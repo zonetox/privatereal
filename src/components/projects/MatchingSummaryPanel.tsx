@@ -35,7 +35,7 @@ export default function MatchingSummaryPanel({ bestFit, totalProjects }: Matchin
         <div className="sticky top-24 space-y-8 animate-in fade-in slide-in-from-right-4 duration-700">
             {/* Summary Header */}
             <div className="space-y-2">
-                <p className="text-[10px] uppercase tracking-[0.4em] text-yellow-600 font-bold">Intelligence Feed</p>
+                <p className="text-[10px] uppercase tracking-[0.4em] text-yellow-600 font-bold">{t('intelligence_feed')}</p>
                 <h2 className="text-2xl font-black text-slate-100 tracking-tighter">
                    {t('matching_summary')}
                 </h2>
@@ -44,10 +44,10 @@ export default function MatchingSummaryPanel({ bestFit, totalProjects }: Matchin
             {/* Stats Card */}
             <div className="bg-slate-950/40 border border-white/5 rounded-3xl p-8 space-y-6">
                 <div>
-                    <p className="text-[11px] font-black text-yellow-500 uppercase tracking-[0.2em] mb-4">Highest Match Strategy</p>
+                    <p className="text-[11px] font-black text-yellow-500 uppercase tracking-[0.2em] mb-4">{t('match_strategy')}</p>
                     <div className="flex items-baseline gap-2">
-                         <span className="text-5xl font-black text-slate-100 tracking-tighter">{bestFit.fit_score}%</span>
-                         <span className="text-xs font-bold text-slate-500 uppercase tracking-widest italic">{totalProjects} Available Options</span>
+                         <span className="text-xl font-black text-emerald-400 tracking-tighter italic uppercase">{tb(`fit_${bestFit.fit_label?.toLowerCase().replace(' ', '_')}`)}</span>
+                         <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest italic">({bestFit.fit_score}%)</span>
                     </div>
                 </div>
 

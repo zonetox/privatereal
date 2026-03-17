@@ -85,29 +85,51 @@ export default function AdvisoryFlashcard({ project, clientId, locale }: Advisor
                 </div>
             </div>
 
-            {/* Strategic Fit Gauge - Optimized for Card Height */}
-            <div className="px-8 py-6 bg-white/[0.01] transform scale-90 -my-4 origin-center">
-                <StrategicFitGauge 
-                    fitScore={project.fit_score} 
-                    fitLabel={project.fit_label}
-                    budgetAlignment={project.budget_alignment ?? null}
-                    riskAlignment={project.risk_alignment}
-                    horizonAlignment={project.horizon_alignment}
-                    locationAlignment={project.location_alignment ?? null}
-                    goalAlignment={project.goal_alignment ?? null}
-                    advisoryConfidence={project.analyst_confidence_level}
-                />
+            {/* Advisory Explanation Layer */}
+            <div className="px-8 py-6 bg-yellow-500/[0.03] border-y border-white/5 space-y-4">
+                <div className="flex items-center gap-2">
+                    <ShieldCheck size={14} className="text-yellow-500" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-100">{t('why_it_fits')}</span>
+                </div>
+                <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                        <div className="w-1 h-1 rounded-full bg-yellow-500/50 mt-1.5 flex-shrink-0" />
+                        <p className="text-[11px] text-slate-300 font-medium italic">
+                            {project.budget_alignment >= 90 ? "Phù hợp hoàn hảo với hạn mức ngân sách của bạn." : "Cấu trúc tài chính tối ưu cho kế hoạch đầu tư."}
+                        </p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                        <div className="w-1 h-1 rounded-full bg-yellow-500/50 mt-1.5 flex-shrink-0" />
+                        <p className="text-[11px] text-slate-300 font-medium italic">
+                            {project.location_alignment >= 80 ? `Nằm trong khu vực trọng điểm (${project.location}) bạn quan tâm.` : "Vị trí chiến lược có tính cộng hưởng cao."}
+                        </p>
+                    </div>
+                    {project.growth_score >= 70 && (
+                        <div className="flex items-start gap-3">
+                            <div className="w-1 h-1 rounded-full bg-yellow-500/50 mt-1.5 flex-shrink-0" />
+                            <p className="text-[11px] text-slate-300 font-medium italic">
+                                Có dư địa tăng trưởng và thặng dư vốn tốt trong dài hạn.
+                            </p>
+                        </div>
+                    )}
+                </div>
             </div>
 
-            {/* Key Advantage */}
-            <div className="px-8 py-6 border-t border-white/5 space-y-2">
-                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">
-                    {t('key_advantage')}
-                </span>
-                <p className="text-xs text-slate-300 font-medium leading-relaxed line-clamp-2">
-                    • {keyAdvantage}
-                </p>
+            {/* Strategic Fit Badge - Replacing Raw Gauge prominent display */}
+            <div className="px-8 py-4 flex items-center justify-between bg-slate-950/20">
+                <div className="space-y-0.5">
+                    <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Đánh giá độ tương hợp</p>
+                    <p className="text-sm font-black text-emerald-400 uppercase italic tracking-tight">
+                        {tb(`fit_${project.fit_label?.toLowerCase().replace(' ', '_')}`)}
+                    </p>
+                </div>
+                <div className="text-right">
+                    <p className="text-xl font-black text-slate-100 italic">{project.fit_score}%</p>
+                </div>
             </div>
+
+            {/* Hidden Strategic Fit Gauge (Available in Analysis View) */}
+            {/* Kept minimal for background logic or small visual if needed, but the primary is now text-based labels */}
 
             {/* Footer Action */}
             <Link 

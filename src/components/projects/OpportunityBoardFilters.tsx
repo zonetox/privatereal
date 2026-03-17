@@ -17,23 +17,23 @@ export default function OpportunityBoardFilters() {
             </div>
 
             <div className="flex items-center gap-2 px-5 py-2.5 bg-slate-900/40 border border-white/5 rounded-full hover:border-white/10 transition-colors cursor-pointer group">
-                <span className="text-[11px] font-black uppercase text-slate-400 group-hover:text-slate-200 tracking-wider">Location</span>
+                <span className="text-[11px] font-black uppercase text-slate-400 group-hover:text-slate-200 tracking-wider">Khu vực</span>
                 <ChevronDown size={14} className="text-slate-600" />
             </div>
 
             <div className="flex items-center gap-2 px-5 py-2.5 bg-slate-900/40 border border-white/5 rounded-full hover:border-white/10 transition-colors cursor-pointer group">
-                <span className="text-[11px] font-black uppercase text-slate-400 group-hover:text-slate-200 tracking-wider">Property Type</span>
+                <span className="text-[11px] font-black uppercase text-slate-400 group-hover:text-slate-200 tracking-wider">Loại hình</span>
                 <ChevronDown size={14} className="text-slate-600" />
             </div>
 
             <div className="flex items-center gap-2 px-5 py-2.5 bg-slate-900/40 border border-white/5 rounded-full hover:border-white/10 transition-colors cursor-pointer group">
-                <span className="text-[11px] font-black uppercase text-slate-400 group-hover:text-slate-200 tracking-wider">Budget Range</span>
+                <span className="text-[11px] font-black uppercase text-slate-400 group-hover:text-slate-200 tracking-wider">Ngân sách</span>
                 <ChevronDown size={14} className="text-slate-600" />
             </div>
 
             <div className="ml-auto flex items-center gap-2 text-slate-500 hover:text-slate-300 transition-colors cursor-pointer">
                 <Settings2 size={16} />
-                <span className="text-[10px] font-black uppercase tracking-widest">Advanced Audit</span>
+                <span className="text-[10px] font-black uppercase tracking-widest">{t('advanced_audit')}</span>
             </div>
         </div>
     );
