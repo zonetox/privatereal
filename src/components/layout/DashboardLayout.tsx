@@ -53,7 +53,6 @@ const adminNavItems = [
     { href: '/dashboard/projects', label: 'projects', icon: Briefcase },
     { href: '/dashboard/recommendations', label: 'recommendations', icon: Sparkles },
     { href: '/dashboard/workspace', label: 'workspace', icon: CheckSquare },
-    { href: '/dashboard/portfolio', label: 'advisoryCollection', icon: Building2 },
     { href: '/dashboard/reports', label: 'reports', icon: FileText },
 ];
 
@@ -62,7 +61,6 @@ const clientNavItems = [
     { href: '/dashboard/workspace', label: 'workspaceClient', icon: CheckSquare },
     { href: '/dashboard/compare', label: 'compare', icon: Scale },
     { href: '/dashboard/my-properties', label: 'myProperties', icon: Building2 },
-    { href: '/dashboard/settings', label: 'profile', icon: UserSquare2 },
 ];
 
 export default function DashboardLayout({ children, user }: DashboardLayoutProps) {

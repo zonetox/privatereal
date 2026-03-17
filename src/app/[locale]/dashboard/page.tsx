@@ -152,7 +152,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/recommendations"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-yellow-600/10 border border-yellow-600/20 text-yellow-500 text-xs font-bold uppercase tracking-widest hover:bg-yellow-600/20 transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-yellow-500 text-slate-950 text-xs font-black uppercase tracking-widest hover:bg-yellow-400 transition-all shadow-xl shadow-yellow-500/10"
           >
             {t('DashboardOverview.view_recommendations')}
             <ArrowUpRight size={14} />
@@ -171,9 +171,9 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
               </p>
               <div className="space-y-1.5 md:space-y-2">
                 <span className={`inline-flex items-center px-2.5 py-0.5 md:px-3 md:py-1 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest border ${RISK_BADGE_STYLE[client.risk_tolerance || 'balanced']}`}>
-                  {client.risk_tolerance || t('DashboardOverview.risk_analyzing')}
+                  {client.risk_tolerance ? (locale === 'vi' ? t(`AdvisoryProfile.risk_${client.risk_tolerance}`) : client.risk_tolerance) : t('DashboardOverview.risk_analyzing')}
                 </span>
-                <p className="text-[11px] md:text-xs text-slate-500 font-medium">{t('DashboardOverview.risk_subtitle')}</p>
+                <p className="text-[11px] md:text-xs text-slate-500 font-medium italic">{t('DashboardOverview.risk_subtitle')}</p>
               </div>
             </div>
             <div className="p-2.5 md:p-3 rounded-xl bg-slate-800/50 text-yellow-600/80 group-hover:text-yellow-500 transition-colors flex-shrink-0">
