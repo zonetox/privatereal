@@ -232,7 +232,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
           </p>
         </div>
         <Link
-          href="/dashboard/profile"
+          href={`/dashboard/clients/${client.id}/profile`}
           className="w-full md:w-auto text-center px-6 md:px-10 py-3 md:py-4 rounded-xl bg-slate-100 text-slate-950 text-[11px] md:text-xs font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-xl shadow-black/20"
         >
           {t('DashboardOverview.update_profile_cta')}
