@@ -94,11 +94,11 @@ export default function StrategicFitGauge({
 
     if (fitScore === null) {
         return (
-            <div className="rounded-2xl border border-yellow-800/40 bg-slate-900/60 backdrop-blur-sm p-6 flex flex-col items-center gap-3 text-center">
-                <p className="text-xs uppercase tracking-[0.2em] text-yellow-600/70 font-medium">Fit Score</p>
-                <p className="text-lg font-bold text-slate-100">Insufficient Data</p>
-                <p className="text-xs text-slate-500 max-w-[220px] leading-relaxed">
-                    Complete advisory profile to enable 5-pillar suitability analysis.
+            <div className="rounded-[2rem] border border-yellow-800/20 bg-slate-900/40 p-8 flex flex-col items-center gap-4 text-center">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-yellow-600/50 font-black">Khớp lệnh Chiến lược</p>
+                <p className="text-sm font-bold text-slate-400 italic">Dữ liệu hồ sơ chưa đủ để phân tích độ khớp</p>
+                <p className="text-[10px] text-slate-500 max-w-[220px] leading-relaxed uppercase tracking-widest font-medium">
+                    Vui lòng hoàn thiện hồ sơ tư vấn để kích hoạt phân tích 5 trụ cột
                 </p>
             </div>
         );
@@ -139,13 +139,13 @@ export default function StrategicFitGauge({
 
             {/* 5-Pillar Breakdown */}
             {hasPillarData && (
-                <div className="w-full border-t border-slate-700/50 pt-3 md:pt-4 flex flex-col gap-2.5 md:gap-3">
-                    <p className="text-[8px] md:text-[9px] uppercase tracking-widest text-slate-600 font-bold text-center">Advisory 5-Pillar Analysis</p>
-                    <PillarBar label="Budget Compatibility" value={budgetAlignment} icon={DollarSign} />
-                    <PillarBar label="Location Preference" value={locationAlignment} icon={MapPin} />
-                    <PillarBar label="Goal Alignment" value={goalAlignment} icon={Target} />
-                    <PillarBar label="Risk Tolerance" value={riskAlignment} icon={ShieldAlert} />
-                    <PillarBar label="Holding Strategy" value={horizonAlignment} icon={Clock} />
+                <div className="w-full border-t border-white/5 pt-6 flex flex-col gap-4">
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-slate-600 font-black text-center mb-2">Phân tích 5 Trụ cột Khớp lệnh</p>
+                    <PillarBar label="Khả năng Tài chính" value={budgetAlignment} icon={DollarSign} />
+                    <PillarBar label="Kỳ vọng Vị trí" value={locationAlignment} icon={MapPin} />
+                    <PillarBar label="Mục tiêu Đầu tư" value={goalAlignment} icon={Target} />
+                    <PillarBar label="Khẩu vị Rủi ro" value={riskAlignment} icon={ShieldAlert} />
+                    <PillarBar label="Chiến lược Giữ tài sản" value={horizonAlignment} icon={Clock} />
                 </div>
             )}
 

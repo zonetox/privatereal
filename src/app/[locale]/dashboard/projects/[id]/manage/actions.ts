@@ -53,6 +53,9 @@ export async function updateProjectAction(projectId: string, formData: FormData)
         distance_to_cbd: formData.get('distance_to_cbd') ? parseFloat(formData.get('distance_to_cbd') as string) : null,
         rental_demand: formData.get('rental_demand') as string,
         supply_level: formData.get('supply_level') as string,
+        regional_avg_price: formData.get('regional_avg_price') ? parseFloat(formData.get('regional_avg_price') as string) : null,
+        amenities: formData.get('amenities') as string,
+        future_supply_notes: formData.get('future_supply_notes') as string,
     };
 
     // 4. Validation: If publishing, check data completeness

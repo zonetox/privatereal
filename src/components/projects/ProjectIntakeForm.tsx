@@ -17,11 +17,11 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
     const router = useRouter();
 
     const sections = [
-        { id: 1, title: 'Định danh Dự án', icon: <BadgeCheck size={18} /> },
-        { id: 2, title: 'Vị trí & Khu vực', icon: <MapPin size={18} /> },
-        { id: 3, title: 'Bối cảnh Thị trường', icon: <BarChart3 size={18} /> },
-        { id: 4, title: 'Kiểm soát Rủi ro', icon: <ShieldAlert size={18} /> },
-        { id: 5, title: 'Luận điểm Tư vấn', icon: <BookOpen size={18} /> },
+        { id: 1, title: 'Thông tin cơ bản', icon: <BadgeCheck size={18} /> },
+        { id: 2, title: 'Phân tích vị trí', icon: <MapPin size={18} /> },
+        { id: 3, title: 'Bối cảnh thị trường', icon: <BarChart3 size={18} /> },
+        { id: 4, title: 'Rủi ro', icon: <ShieldAlert size={18} /> },
+        { id: 5, title: 'Nhận xét tư vấn', icon: <BookOpen size={18} /> },
     ];
 
     async function handleSubmit(formData: FormData) {
@@ -101,16 +101,16 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
             )}
 
             <form action={handleSubmit} className="space-y-8 pb-24">
-                {/* STEP 1 — IDENTITY */}
+                {/* BƯỚC 1 — THÔNG TIN DỰ ÁN */}
                 {step === 1 && (
                     <div className="glass p-5 md:p-8 rounded-2xl md:rounded-3xl border border-white/5 space-y-5 md:space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-white/5 pb-4">
-                            <h1 className="text-2xl md:text-4xl font-black gold-text-gradient uppercase tracking-tighter">Nhập liệu Tư vấn Dự án</h1>
-                        <p className="text-[11px] md:text-sm text-slate-500 font-medium tracking-widest mt-1">DỮ LIỆU TƯ VẤN CÁ NHÂN HÓA — PREIO ELITE</p>
+                            <h1 className="text-2xl md:text-3xl font-black gold-text-gradient uppercase tracking-tighter">Bước 1 — Thông tin dự án</h1>
+                            <p className="text-[11px] md:text-sm text-slate-500 font-medium tracking-widest mt-1">ĐỊNH DANH DỰ ÁN — PREIO ELITE</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="md:col-span-2">
-                                <FormLabel label="Tên Dự án" />
+                                <FormLabel label="Tên dự án" />
                                 <input name="name" defaultValue={project.name} className="form-input" placeholder="VD: Grand Marina Saigon" />
                             </div>
                             <div>
@@ -118,7 +118,7 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                                 <input name="developer" defaultValue={project.developer} className="form-input" />
                             </div>
                             <div>
-                                <FormLabel label="Loại hình BĐS" />
+                                <FormLabel label="Loại hình dự án" />
                                 <select name="property_type" defaultValue={project.property_type || ''} className="form-input">
                                     <option value="apartment">Căn hộ Hạng sang</option>
                                     <option value="mid_apartment">Căn hộ Cao cấp</option>
@@ -130,7 +130,7 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                                 </select>
                             </div>
                             <div>
-                                <FormLabel label="Phân khúc Mục tiêu" />
+                                <FormLabel label="Phân khúc / Nhóm khách phù hợp" />
                                 <select name="target_segment" defaultValue={project.target_segment || ''} className="form-input">
                                     <option value="mass">Đại chúng (Mass)</option>
                                     <option value="mid">Trung cấp</option>
@@ -139,11 +139,11 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                                 </select>
                             </div>
                             <div>
-                                <FormLabel label="Năm Khởi công/Bàn giao" />
-                                <input name="launch_year" type="number" defaultValue={project.launch_year} className="form-input" />
+                                <FormLabel label="Năm bàn giao / Giai đoạn" />
+                                <input name="launch_year" type="number" defaultValue={project.launch_year} className="form-input" placeholder="VD: 2026" />
                             </div>
                             <div>
-                                <FormLabel label="Trạng thái Hệ thống" />
+                                <FormLabel label="Trạng thái" />
                                 <select name="status" defaultValue={project.status || 'draft'} className="form-input">
                                     <option value="draft">Bản nháp (Internal)</option>
                                     <option value="active">Đang hoạt động</option>
@@ -154,174 +154,162 @@ export default function ProjectIntakeForm({ project, locale }: ProjectIntakeForm
                     </div>
                 )}
 
-                {/* STEP 2 — LOCATION */}
+                {/* BƯỚC 2 — VỊ TRÍ & KHU VỰC */}
                 {step === 2 && (
                     <div className="glass p-8 rounded-3xl border border-white/5 space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-white/5 pb-4">
-                            <h2 className="text-xl font-bold text-slate-200">Bước 2 — Phân tích Vị trí & Khu vực</h2>
+                            <h2 className="text-xl font-bold text-slate-200">Bước 2 — Vị trí & Khu vực</h2>
                             <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest">Đánh giá chiến lược địa lý</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="md:col-span-2">
-                                <FormLabel label="Địa chỉ Chính của Dự án" />
-                                <input name="location" defaultValue={project.location} className="form-input" />
+                                <FormLabel label="Khu vực / Địa điểm" />
+                                <input name="location" defaultValue={project.location} className="form-input" placeholder="VD: Quận 1, TP. HCM" />
                             </div>
                             <div>
-                                <FormLabel label="Khoảng cách tới trung tâm (km)" />
+                                <FormLabel label="Khoảng cách trung tâm (km)" />
                                 <input name="distance_to_cbd" type="number" step="0.1" defaultValue={project.distance_to_cbd} className="form-input" />
                             </div>
-                            <div>
-                                <FormLabel label="Điểm Hạ tầng Tuyến tính (0-100) *" />
-                                <input name="infrastructure_score" type="number" min="0" max="100" defaultValue={project.infrastructure_score} className="form-input" required />
-                            </div>
-                            <div>
-                                <FormLabel label="Điểm Vị trí Chiến lược (0-100) *" />
-                                <input name="location_score" type="number" min="0" max="100" defaultValue={project.location_score} className="form-input" required />
+                            <div className="md:col-span-2">
+                                <FormLabel label="Hạ tầng giao thông" />
+                                <textarea name="market_trend_notes" defaultValue={project.market_trend_notes} rows={3} className="form-input" placeholder="Kết nối cao tốc, metro, các tuyến đường chính..." />
                             </div>
                             <div className="md:col-span-2">
-                                <FormLabel label="Điểm nhấn Phát triển Khu vực" />
-                                <textarea name="market_trend_notes" defaultValue={project.market_trend_notes} rows={4} className="form-input" placeholder="Hạ tầng lân cận, kết nối giao thông, tiện ích ngoại khu..." />
+                                <FormLabel label="Tiện ích xung quanh" />
+                                <textarea name="amenities" defaultValue={project.amenities} rows={3} className="form-input" placeholder="Trường học, bệnh viện, TTTM, công viên..." />
+                            </div>
+                            <div className="border-t border-white/5 pt-4 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <FormLabel label="infrastructure_score (0-100)" />
+                                    <input name="infrastructure_score" type="number" min="0" max="100" defaultValue={project.infrastructure_score} className="form-input" required />
+                                </div>
+                                <div>
+                                    <FormLabel label="location_score (0-100)" />
+                                    <input name="location_score" type="number" min="0" max="100" defaultValue={project.location_score} className="form-input" required />
+                                </div>
                             </div>
                         </div>
                     </div>
                 )}
 
-                {/* STEP 3 — MARKET */}
+                {/* BƯỚC 3 — BỐI CẢNH THỊ TRƯỜNG */}
                 {step === 3 && (
                     <div className="glass p-8 rounded-3xl border border-white/5 space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-white/5 pb-4">
-                            <h2 className="text-xl font-bold text-slate-200">Bước 3 — Bối cảnh Thị trường Tư vấn</h2>
-                            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest">Giá trị so sánh và các chỉ số phù hợp</p>
+                            <h2 className="text-xl font-bold text-slate-200">Bước 3 — Bối cảnh thị trường</h2>
+                            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest">Giá trị so sánh và nguồn cung khu vực</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <FormLabel label="Giá trung bình trên m² (VNĐ/USD)" />
-                                <input name="price_per_m2" type="number" defaultValue={project.price_per_m2} className="form-input" />
+                                <FormLabel label="Giá tham chiếu / Giá khu vực (m²/VND)" />
+                                <input name="regional_avg_price" type="number" defaultValue={project.regional_avg_price} className="form-input" placeholder="VD: 85000000" />
                             </div>
                             <div>
-                                <FormLabel label="Giá dự án tối thiểu (VND) ★" />
-                                <input name="min_unit_price" type="number" defaultValue={project.min_unit_price} className="form-input" placeholder="VD: 3000000000" />
-                                <p className="text-[9px] text-yellow-600/70 mt-1 uppercase tracking-widest font-bold">★ Dùng cho tính toán Ngân sách (Budget Alignment)</p>
+                                <FormLabel label="Giá dự án tối thiểu (VND)" />
+                                <input name="min_unit_price" type="number" defaultValue={project.min_unit_price} className="form-input" placeholder="VD: 5000000000" />
                             </div>
                             <div>
-                                <FormLabel label="Tỷ suất cho thuê mục tiêu (%)" />
-                                <input name="avg_rental_yield" type="number" step="0.1" defaultValue={project.avg_rental_yield} className="form-input" />
-                            </div>
-                            <div>
-                                <FormLabel label="Dư địa tăng giá kỳ vọng (% năm)" />
-                                <input name="expected_growth_rate" type="number" step="0.1" defaultValue={project.expected_growth_rate} className="form-input" />
-                            </div>
-                            <div>
-                                <FormLabel label="Thời gian nắm giữ khuyến nghị (Năm)" />
-                                <input name="holding_period_recommendation" type="number" defaultValue={project.holding_period_recommendation} className="form-input" />
-                            </div>
-                            <div>
-                                <FormLabel label="Thanh khoản Thị trường Dự kiến (0-100) *" />
-                                <input name="liquidity_score" type="number" min="0" max="100" defaultValue={project.liquidity_score} className="form-input" required />
-                            </div>
-                            <div>
-                                <FormLabel label="Điểm Dư địa Tăng giá (0-100) *" />
-                                <input name="growth_score" type="number" min="0" max="100" defaultValue={project.growth_score} className="form-input" required />
-                            </div>
-                            <div>
-                                <FormLabel label="Mức độ Nhu cầu Thuê" />
+                                <FormLabel label="Nhu cầu thuê" />
                                 <select name="rental_demand" defaultValue={project.rental_demand || 'medium'} className="form-input">
                                     <option value="low">Thấp</option>
-                                    <option value="medium">Bình thường</option>
+                                    <option value="medium">Trung bình</option>
                                     <option value="high">Cao</option>
                                 </select>
                             </div>
                             <div>
-                                <FormLabel label="Mức độ Cung trong Khu vực" />
+                                <FormLabel label="Thanh khoản / Nguồn cung" />
                                 <select name="supply_level" defaultValue={project.supply_level || 'medium'} className="form-input">
-                                    <option value="low">Cân bằng / Thấp</option>
+                                    <option value="low">Thấp / Cân bằng</option>
                                     <option value="medium">Trung bình</option>
-                                    <option value="high">Rủi ro Thừa cung</option>
+                                    <option value="high">Dư thừa / Cạnh tranh cao</option>
                                 </select>
+                            </div>
+                            <div>
+                                <FormLabel label="Tiềm năng tăng trưởng (%)" />
+                                <input name="expected_growth_rate" type="number" step="0.1" defaultValue={project.expected_growth_rate} className="form-input" />
+                            </div>
+                            <div className="border-t border-white/5 pt-4 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <FormLabel label="liquidity_score (0-100)" />
+                                    <input name="liquidity_score" type="number" min="0" max="100" defaultValue={project.liquidity_score} className="form-input" required />
+                                </div>
+                                <div>
+                                    <FormLabel label="growth_score (0-100)" />
+                                    <input name="growth_score" type="number" min="0" max="100" defaultValue={project.growth_score} className="form-input" required />
+                                </div>
                             </div>
                         </div>
                     </div>
                 )}
 
-                {/* STEP 4 — RISK */}
+                {/* BƯỚC 4 — RỦI RO & PHÁP LÝ */}
                 {step === 4 && (
                     <div className="glass p-8 rounded-3xl border border-white/5 space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-white/5 pb-4">
-                            <h2 className="text-xl font-bold text-slate-200">Bước 4 — Kiểm soát Rủi ro Chiến lược</h2>
-                            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest">Sự minh bạch và các lưu ý tư vấn quan trọng</p>
+                            <h2 className="text-xl font-bold text-slate-200">Bước 4 — Rủi ro & Pháp lý</h2>
+                            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest">Kiểm soát rủi ro và minh bạch pháp lý</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <FormLabel label="Điểm Khung Pháp lý (0-100) *" />
-                                <input name="legal_score" type="number" min="0" max="100" defaultValue={project.legal_score} className="form-input" required />
-                            </div>
-                            <div>
-                                <FormLabel label="Chỉ số Rủi ro Tổng thể (0-100) *" />
-                                <input name="risk_score" type="number" min="0" max="100" defaultValue={project.risk_score} className="form-input" required />
-                            </div>
-                            <div>
-                                <FormLabel label="Xác suất Rủi ro Giảm giá (%) *" />
-                                <input name="downside_risk_percent" type="number" step="0.1" min="0" max="100" defaultValue={project.downside_risk_percent} className="form-input" required />
-                            </div>
-                            <div>
-                                <FormLabel label="Trạng thái Xây dựng" />
-                                <input name="construction_status" defaultValue={project.construction_status} className="form-input" placeholder="Tình trạng giấy phép, số tầng hiện tại..." />
+                            <div className="md:col-span-2">
+                                <FormLabel label="legal_notes (Pháp lý chi tiết)" />
+                                <textarea name="legal_notes" defaultValue={project.legal_notes} rows={2} className="form-input" placeholder="Phê duyệt 1/500, Giấy phép xây dựng..." />
                             </div>
                             <div className="md:col-span-2">
-                                <FormLabel label="Ghi chú Pháp lý Chi tiết" />
-                                <textarea name="legal_notes" defaultValue={project.legal_notes} rows={2} className="form-input" placeholder="Phê duyệt 1/500, Giấy phép xây dựng, Hợp đồng mua bán..." />
+                                <FormLabel label="risk_notes (Tiến độ & Rủi ro nguồn cung)" />
+                                <textarea name="risk_notes" defaultValue={project.risk_notes} rows={2} className="form-input" placeholder="Rủi ro nguồn cung tương lai, Lãi suất, Tiến độ..." />
                             </div>
-                            <div className="md:col-span-2">
-                                <FormLabel label="Rủi ro Thị trường & Cảnh báo" />
-                                <textarea name="key_concerns" defaultValue={project.key_concerns} rows={3} className="form-input" placeholder="Rủi ro nguồn cung, lãi suất, hoặc lịch sử chủ đầu tư..." />
+                            <div>
+                                <FormLabel label="Tiến độ xây dựng thực tế" />
+                                <input name="construction_status" defaultValue={project.construction_status} className="form-input" placeholder="VD: Đang làm móng" />
                             </div>
-                            <div className="md:col-span-2">
-                                <FormLabel label="Chiến lược Giảm thiểu Rủi ro" />
-                                <textarea name="risk_notes" defaultValue={project.risk_notes} rows={2} className="form-input" placeholder="Các giải pháp bảo vệ nhà đầu tư..." />
+                            <div>
+                                <FormLabel label="downside_risk_percent (%)" />
+                                <input name="downside_risk_percent" type="number" step="0.1" defaultValue={project.downside_risk_percent} className="form-input" required />
+                            </div>
+                            <div className="border-t border-white/5 pt-4 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <FormLabel label="legal_score (0-100)" />
+                                    <input name="legal_score" type="number" min="0" max="100" defaultValue={project.legal_score} className="form-input" required />
+                                </div>
+                                <div>
+                                    <FormLabel label="risk_score (0-100)" />
+                                    <input name="risk_score" type="number" min="0" max="100" defaultValue={project.risk_score} className="form-input" required />
+                                </div>
                             </div>
                         </div>
                     </div>
                 )}
 
-                {/* STEP 5 — ADVISORY */}
+                {/* BƯỚC 5 — GHI CHÚ TƯ VẤN */}
                 {step === 5 && (
                     <div className="glass p-8 rounded-3xl border border-yellow-500/10 border-yellow-500/20 bg-yellow-500/5 space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="border-b border-yellow-500/10 pb-4">
-                            <h2 className="text-xl font-bold text-yellow-500">Bước 5 — Luận điểm Tư vấn Cá nhân hóa</h2>
-                            <p className="text-xs text-yellow-600/70 mt-1 uppercase tracking-widest">The Advisory Edge — Thông tin tư vấn chuyên biệt</p>
+                            <h2 className="text-xl font-bold text-yellow-500">Bước 5 — Ghi chú tư vấn</h2>
+                            <p className="text-xs text-yellow-600/70 mt-1 uppercase tracking-widest">Advisory Insights & Publication</p>
                         </div>
                         <div className="space-y-6">
                             <div>
-                                <FormLabel label="Đối tượng Phù hợp Chiến lược (Khách hàng mục tiêu là ai?)" />
+                                <FormLabel label="evaluation_notes (Vì sao đáng quan tâm?)" />
+                                <textarea name="evaluation_notes" defaultValue={project.evaluation_notes} rows={4} className="form-input !bg-slate-900" placeholder="Lý do đầu tư cốt lõi..." />
+                            </div>
+                            <div>
+                                <FormLabel label="buyer_suitability (Phù hợp với ai?)" />
                                 <textarea name="buyer_suitability" defaultValue={project.buyer_suitability} rows={3} className="form-input !bg-slate-900" />
                             </div>
                             <div>
-                                <FormLabel label="Dự án này KHÔNG phù hợp với ai?" />
+                                <FormLabel label="not_suitable_for (KHÔNG phù hợp với ai?)" />
                                 <textarea name="not_suitable_for" defaultValue={project.not_suitable_for} rows={2} className="form-input !bg-slate-900" />
-                            </div>
-                            <div>
-                                <FormLabel label="Ưu điểm Vượt trội (Key Advantages)" />
-                                <textarea 
-                                    name="key_advantages" 
-                                    defaultValue={Array.isArray(project.key_advantages) ? project.key_advantages.join('\n') : (project.key_advantages || '')} 
-                                    rows={3} 
-                                    className="form-input !bg-slate-900" 
-                                />
-                            </div>
-                            <div>
-                                <FormLabel label="Luận điểm Tư vấn chính (Advisory Thesis)" />
-                                <textarea name="evaluation_notes" defaultValue={project.evaluation_notes} rows={4} className="form-input !bg-slate-900" placeholder="Tổng hợp phân tích từ hệ thống tư vấn cho dự án này..." />
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <FormLabel label="Mức độ Tự tin của Chuyên gia (0-100) *" />
-                                    <input name="analyst_confidence_level" type="number" min="0" max="100" defaultValue={project.analyst_confidence_level} className="form-input !bg-slate-900" required />
+                                    <FormLabel label="analyst_confidence_level (0-100)" />
+                                    <input name="analyst_confidence_level" type="number" min="0" max="100" defaultValue={project.analyst_confidence_level} className="form-input !bg-slate-900" />
                                 </div>
                                 <div>
-                                    <FormLabel label="Trạng thái Hiển thị trên Cổng Thông tin" />
+                                    <FormLabel label="visible_to_clients (Trạng thái xuất bản)" />
                                     <select name="visible_to_clients" defaultValue={project.visible_to_clients ? 'true' : 'false'} className="form-input !bg-slate-900 font-bold">
-                                        <option value="false">🔒 Ẩn (Nội bộ)</option>
-                                        <option value="true">🌐 Xuất bản cho Khách hàng</option>
+                                        <option value="false">🔒 Nội bộ</option>
+                                        <option value="true">🌐 Xuất bản cho khách</option>
                                     </select>
                                 </div>
                             </div>
