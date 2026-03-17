@@ -175,7 +175,14 @@
         "decision_items": "Hạng mục Quyết định",
         "legal_audit": "Kiểm toán Pháp lý",
         "financial_verification": "Thẩm định Tài chính",
-        "site_inspection": "Kiểm tra Thực địa"
+        "site_inspection": "Kiểm tra Thực địa",
+        "opportunity_board": "Bảng Cơ hội Đầu tư",
+        "suitable_projects_count": "{count} dự án phù hợp",
+        "matching_summary": "Tổng kết Khớp lệnh Chiến lược",
+        "filter_fit_score": "Điểm Phù hợp > {score}",
+        "view_analysis": "Xem Phân tích",
+        "add_to_workspace": "Thêm vào Workspace",
+        "key_advantage": "Lợi thế Chiến lược"
     },
     "AdvisoryProfile": {
         "breadcrumb_clients": "Khách hàng",
