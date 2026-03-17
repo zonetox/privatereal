@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useId } from 'react';
 import { DollarSign, ShieldAlert, Clock, MapPin, Target } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 type StrategicFitGaugeProps = {
     fitScore: number | null;
@@ -63,6 +64,7 @@ export default function StrategicFitGauge({
     goalAlignment,
     advisoryConfidence,
 }: StrategicFitGaugeProps) {
+    const t = useTranslations('AdvisoryBrief');
     const uniqueId = useId();
     const gradientId = `goldGradient-${uniqueId.replace(/:/g, '')}`;
 
@@ -132,7 +134,10 @@ export default function StrategicFitGauge({
                         {animatedScore}%
                     </span>
                     <span className="text-[10px] md:text-xs text-yellow-400 font-medium tracking-wide text-center px-2 leading-snug">
-                        {fitLabel}
+                        {fitLabel === 'Highly Suitable' ? t('fit_highly_suitable') : 
+                         fitLabel === 'Suitable' ? t('fit_suitable') : 
+                         fitLabel === 'Conditional' ? t('fit_conditional') : 
+                         fitLabel === 'Not Recommended' ? t('fit_not_recommended') : fitLabel}
                     </span>
                 </div>
             </div>
@@ -140,12 +145,12 @@ export default function StrategicFitGauge({
             {/* 5-Pillar Breakdown */}
             {hasPillarData && (
                 <div className="w-full border-t border-white/5 pt-6 flex flex-col gap-4">
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-slate-600 font-black text-center mb-2">Phân tích 5 Trụ cột Khớp lệnh</p>
-                    <PillarBar label="Khả năng Tài chính" value={budgetAlignment} icon={DollarSign} />
-                    <PillarBar label="Kỳ vọng Vị trí" value={locationAlignment} icon={MapPin} />
-                    <PillarBar label="Mục tiêu Đầu tư" value={goalAlignment} icon={Target} />
-                    <PillarBar label="Khẩu vị Rủi ro" value={riskAlignment} icon={ShieldAlert} />
-                    <PillarBar label="Chiến lược Giữ tài sản" value={horizonAlignment} icon={Clock} />
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-slate-600 font-black text-center mb-2">{t('pillar_analysis_title', { defaultValue: 'Phân tích 5 Trụ cột Khớp lệnh' })}</p>
+                    <PillarBar label={t('pillar_budget')} value={budgetAlignment} icon={DollarSign} />
+                    <PillarBar label={t('pillar_location')} value={locationAlignment} icon={MapPin} />
+                    <PillarBar label={t('pillar_goal')} value={goalAlignment} icon={Target} />
+                    <PillarBar label={t('pillar_risk')} value={riskAlignment} icon={ShieldAlert} />
+                    <PillarBar label={t('pillar_horizon')} value={horizonAlignment} icon={Clock} />
                 </div>
             )}
 
