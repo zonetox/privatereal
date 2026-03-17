@@ -1,22 +1,25 @@
 'use client';
 
 import { Check, Circle, Clock } from 'lucide-react';
-
-const STAGES = [
-    { id: 'research', label: 'Investment Research', desc: 'Detailed asset analysis & strategic fit' },
-    { id: 'site_visit', label: 'Site Inspection', desc: 'Direct on-site infrastructure verification' },
-    { id: 'reservation', label: 'Reservation Secured', desc: 'Official project unit selection' },
-    { id: 'deposit', label: 'Commitment Deposit', desc: 'Financial transaction initiated' },
-    { id: 'contract', label: 'Legal Execution', desc: 'Contractual agreement finalized' },
-    { id: 'payment', label: 'Final Settlement', desc: 'Full ownership transfer complete' },
-    { id: 'portfolio', label: 'Asset Management', desc: 'Integration into property holdings' }
-];
+import { useTranslations } from 'next-intl';
 
 interface LifecycleTimelineProps {
     currentStage: string;
 }
 
 export default function LifecycleTimeline({ currentStage }: LifecycleTimelineProps) {
+    const t = useTranslations('Workspace');
+    
+    const STAGES = [
+        { id: 'exploring', label: t('lifecycle_stage_exploring'), desc: 'Phân tích chi tiết & đánh giá mức độ phù hợp' },
+        { id: 'site_visit', label: t('lifecycle_stage_site_visit'), desc: 'Trực tiếp kiểm tra hạ tầng và thực địa dự án' },
+        { id: 'reservation', label: t('lifecycle_stage_reservation'), desc: 'Lựa chọn và giữ chỗ vị trí căn hộ ưu tiên' },
+        { id: 'deposit', label: t('lifecycle_stage_deposit'), desc: 'Kích hoạt giao dịch thông qua đặt cọc cam kết' },
+        { id: 'spa_signing', label: t('lifecycle_stage_spa_signing'), desc: 'Hoàn tất thủ tục ký kết Hợp đồng Mua bán' },
+        { id: 'payment', label: t('lifecycle_stage_payment'), desc: 'Thanh toán theo tiến độ và nhận bàn giao' },
+        { id: 'portfolio', label: t('lifecycle_stage_portfolio'), desc: 'Tích hợp tài sản vào danh mục quản lý đầu tư' }
+    ];
+
     const currentIndex = STAGES.findIndex(s => s.id === currentStage);
 
     return (
