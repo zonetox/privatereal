@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect, Link } from '@/navigation';
+import { getTranslations } from 'next-intl/server';
 import { logActivityAction } from '@/app/actions/activity-logger';
 import { notFound } from 'next/navigation';
 import { 
@@ -68,6 +69,7 @@ const TARGET_SEGMENT_LABELS: Record<string, string> = {
 
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
     const { locale, id } = params;
+    const t = await getTranslations();
     const supabase = createClient();
 
     // 1. Auth & Role Check
@@ -147,28 +149,31 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     }
 
     // 3. Fetch Client Record, Fit Score, and Workspace State (Client Only)
-    let fitData = null;
+    let fitData: any = null;
     let clientId: string | null = null;
     let isInWorkspace = false;
+    let clientRecord: any = null;
+    
     if (!isAdmin) {
-        const { data: clientRecord } = await supabase
+        const { data: record } = await supabase
             .from('clients')
             .select('id, budget_range, preferred_locations, primary_goal, holding_period')
             .eq('user_id', user.id)
             .single();
 
-        if (clientRecord) {
-            clientId = clientRecord.id;
+        if (record) {
+            clientRecord = record;
+            clientId = record.id;
 
             const [rpcResult, wsResult] = await Promise.all([
                 supabase.rpc('calculate_project_fit', {
-                    p_client_id: clientRecord.id,
+                    p_client_id: record.id,
                     p_project_id: id
                 }),
                 supabase
                     .from('client_workspace_selections')
                     .select('id')
-                    .eq('client_id', clientRecord.id)
+                    .eq('client_id', record.id)
                     .eq('project_id', id)
                     .maybeSingle()
             ]);
@@ -179,6 +184,16 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             isInWorkspace = !!wsResult.data;
         }
     }
+
+    // Currency formatter
+    const formatter = new Intl.NumberFormat(
+        locale === 'vi' ? 'vi-VN' : 'en-US',
+        {
+            style: 'currency',
+            currency: locale === 'vi' ? 'VND' : 'USD',
+            maximumFractionDigits: 0
+        }
+    );
 
     // Log project view activity (Client Only)
     if (!isAdmin) {
@@ -239,8 +254,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                                     projectId={id}
                                     clientId={clientId}
                                     initialState={isInWorkspace}
-                                    label={t('ProjectDetailClient.cta_save_project')}
-                                    className="w-full justify-center px-8 py-4 bg-slate-800/50 hover:bg-slate-800"
                                 />
                             )}
                         </div>
