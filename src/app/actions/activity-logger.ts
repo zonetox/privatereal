@@ -9,7 +9,10 @@ export type ActivityType =
     | 'workspace_remove'
     | 'compare_projects' 
     | 'brief_generated'
-    | 'search_performed';
+    | 'search_performed'
+    | 'visit_booked'
+    | 'site_visit_done'
+    | 'follow_up_call';
 
 export async function logActivityAction(
     type: ActivityType, 
